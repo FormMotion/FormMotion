@@ -14,6 +14,7 @@ export default class Game extends Phaser.Scene {
     this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
     this.load.image("platform", "/assets/temp_platform.png");
     this.load.image("playerRight", "assets/temp_char_facing_right_run.png");
+    this.load.image("playerLeft", "assets/temp_char_facing_left_run.png");
   }
 
   create() {
@@ -54,6 +55,7 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
+      //Player Movement
     const touchingDown = this.player.body.touching.down;
     if (touchingDown) {
       this.player.setVelocityY(-300);
@@ -69,5 +71,15 @@ export default class Game extends Phaser.Scene {
     } else {
       this.player.setVelocityX(0);
     }
+
+    //Platform Infinite Scrolling 
+    this.platforms.children.iterate(child => {
+        const platform = child
+        const scrollX = this.cameras.main.scrollX
+        if (platform.x >= scrollX + 1000) {
+            platform.x = scrollX + Phaser.Math.Between(50, 100)
+            platform.body.updateFromGameObject()
+        }
+    })
   }
 }

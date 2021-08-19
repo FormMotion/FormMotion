@@ -1,10 +1,11 @@
 import React from 'react'
-//import TestPhaser from './components/game_components/index.js'
+import TestPhaser from './game_components/index.js'
 
 export default function Home() {
     return (
         <div>
-           Hello I'm the home!!!!!!!!!!! YAY
+            <TestPhaser />
+            {/* <h1>hello</h1> */}
         </div>
     )
 }

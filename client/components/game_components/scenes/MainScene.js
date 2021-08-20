@@ -1,6 +1,12 @@
 import Phaser from "phaser";
 
-let base64bg = "";
+//Parallax Mountains
+let bg5 = 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png'
+let bg4 = 'assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png'
+let bg3 = 'assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png'
+let bg2 = 'assets/backgrounds/parallax_mountains/parallax-mountain-trees.png'
+let bg1 = 'assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png'
+let bgscale = 3
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -11,14 +17,14 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('bg-5', 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png')
-    this.load.image('bg-4', 'assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png')
-    this.load.image('bg-3', 'assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png')
-    this.load.image('bg-2', 'assets/backgrounds/parallax_mountains/parallax-mountain-trees.png')
-    this.load.image('bg-1', 'assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png')
+    this.load.image('bg-5', bg5)
+    this.load.image('bg-4', bg4)
+    this.load.image('bg-3', bg3)
+    this.load.image('bg-2', bg2)
+    this.load.image('bg-1', bg1)
     //this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
     this.load.image("platform", "assets/temp_platform.png");
-    this.load.image("playerRight", "assets/temp_char_facing_right_run.png");
+    //this.load.image("playerRight", "assets/temp_char_facing_right_run.png");
     this.load.image("playerLeft", "assets/temp_char_facing_left_run.png");
   }
 
@@ -28,20 +34,38 @@ export default class Game extends Phaser.Scene {
     const height = this.scale.height
     const totalWidth = width*10
 
-    //let assetLoader = 0
-    //this.textures.add('key', value)
-    //assetLoader++
+    const playerDrawnCharacter = localStorage
+  .getItem('playerDrawnCharacter')
+  .slice(21);
+
+  let arrayBuffer = Phaser.Utils.Base64.Base64ToArrayBuffer(playerDrawnCharacter);
+
+  console.log(arrayBuffer)
+
+  const makeImage = async () => {
+    const playerDrawnCharacter = localStorage.getItem('playerDrawnCharacter');
+    const base64 = await fetch(playerDrawnCharacter);
+    const blob = await base64.blob();
+    console.log(blob)
+    return blob
+  };
+
+  makeImage()
+
+    let assetLoader = 0
+    this.textures.addBase64('playerRight', arrayBuffer) 
+    assetLoader++
 
 
-    //if (assetLoader >= 1) {
+    if (assetLoader >= 1) {
       //Background
       
 
       this.add.image(width * 0.5, height * 0.5, 'bg-5').setScrollFactor(0).setScale(5)
-      createAligned(this, totalWidth, 'bg-4', 0.25)
-      createAligned(this, totalWidth, 'bg-3', 0.5)
-      createAligned(this, totalWidth, 'bg-2', 1)
-      createAligned(this, totalWidth, 'bg-1', 1.25)
+      createAligned(this, totalWidth, 'bg-4', 0.25, bgscale)
+      createAligned(this, totalWidth, 'bg-3', 0.5, bgscale)
+      createAligned(this, totalWidth, 'bg-2', 1, bgscale), 
+      createAligned(this, totalWidth, 'bg-1', 1.25, bgscale)
 
       //Platforms
       this.platforms = this.physics.add.staticGroup();
@@ -74,7 +98,7 @@ export default class Game extends Phaser.Scene {
 
       //Camera
       this.cameras.main.startFollow(this.player);
-   // }
+    }
   }
 
   update() {

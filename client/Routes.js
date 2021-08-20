@@ -9,7 +9,6 @@ import Welcome from './components/Welcome'
 class Routes extends Component {
     constructor() {
         super()
-        this.saveCartToLocalStorage = this.saveCartToLocalStorage.bind(this)
     }
 
     render() {
@@ -25,4 +24,6 @@ class Routes extends Component {
     }
 }
 
+const mapState = () => ({})
+const mapDispatch = () => ({})
 export default withRouter(connect(mapState, mapDispatch)(Routes))

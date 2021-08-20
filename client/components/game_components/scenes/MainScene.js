@@ -76,8 +76,8 @@ export default class Game extends Phaser.Scene {
     this.platforms.children.iterate(child => {
         const platform = child
         const scrollX = this.cameras.main.scrollX
-        if (platform.x <= scrollX - 50) {
-            platform.x = this.player.x + 300
+        if (platform.x <= scrollX - 100) {
+            platform.x = this.player.x + 500
             platform.body.updateFromGameObject()
         }
     })

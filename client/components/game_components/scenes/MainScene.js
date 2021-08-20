@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-//My theory is that we can pull in the images and then run them through the preload
+let base64bg = "";
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -11,76 +11,111 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
-    this.load.image("platform", "/assets/temp_platform.png");
+    this.load.image('bg-5', 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png')
+    this.load.image('bg-4', 'assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png')
+    this.load.image('bg-3', 'assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png')
+    this.load.image('bg-2', 'assets/backgrounds/parallax_mountains/parallax-mountain-trees.png')
+    this.load.image('bg-1', 'assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png')
+    //this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
+    this.load.image("platform", "assets/temp_platform.png");
     this.load.image("playerRight", "assets/temp_char_facing_right_run.png");
     this.load.image("playerLeft", "assets/temp_char_facing_left_run.png");
   }
 
   create() {
-    //Background
-    this.add.image(500, 360, "background").setScrollFactor(0, 0).setScale(2);
 
-    //Platforms
-    this.platforms = this.physics.add.staticGroup();
+    const width = this.scale.width
+    const height = this.scale.height
+    const totalWidth = width*10
 
-    for (let i = 0; i < 5; i++) {
-      const x = 250 * i;
-      const y = Phaser.Math.Between(400, 550);
+    //let assetLoader = 0
+    //this.textures.add('key', value)
+    //assetLoader++
 
-      const platform = this.platforms.create(x, y, "platform");
-      platform.scale = 0.2;
 
-      const body = platform.body;
-      body.updateFromGameObject();
-    }
+    //if (assetLoader >= 1) {
+      //Background
+      
 
-    //Avatar / Player Character
-    this.player = this.physics.add
-      .sprite(240, 320, "playerRight")
-      .setScale(0.2);
+      this.add.image(width * 0.5, height * 0.5, 'bg-5').setScrollFactor(0).setScale(5)
+      createAligned(this, totalWidth, 'bg-4', 0.25)
+      createAligned(this, totalWidth, 'bg-3', 0.5)
+      createAligned(this, totalWidth, 'bg-2', 1)
+      createAligned(this, totalWidth, 'bg-1', 1.25)
 
-    //Colliders
-    this.physics.add.collider(this.platforms, this.player);
+      //Platforms
+      this.platforms = this.physics.add.staticGroup();
 
-    this.player.body.checkCollision.up = false;
-    this.player.body.checkCollision.left = false;
-    this.player.body.checkCollision.right = false;
+      for (let i = 0; i < 5; i++) {
+        const x = 250 * i;
+        const y = Phaser.Math.Between(400, 550);
 
-    //Cursors
-    this.cursors = this.input.keyboard.createCursorKeys();
+        const platform = this.platforms.create(x, y, "platform");
+        platform.scale = 0.2;
 
-    //Camera
-    this.cameras.main.startFollow(this.player);
+        const body = platform.body;
+        body.updateFromGameObject();
+      }
+
+      //Avatar / Player Character
+      this.player = this.physics.add
+        .sprite(240, 320, "playerRight")
+        .setScale(0.2);
+
+      //Colliders
+      this.physics.add.collider(this.platforms, this.player);
+
+      this.player.body.checkCollision.up = false;
+      this.player.body.checkCollision.left = false;
+      this.player.body.checkCollision.right = false;
+
+      //Cursors
+      this.cursors = this.input.keyboard.createCursorKeys();
+
+      //Camera
+      this.cameras.main.startFollow(this.player);
+   // }
   }
 
   update() {
-      //Player Movement
+    //Player Movement
     const touchingDown = this.player.body.touching.down;
     if (touchingDown) {
       this.player.setVelocityY(-300);
     }
 
     if (this.cursors.left.isDown && !touchingDown) {
-      this.player.setVelocityX(-400);
+      this.player.setVelocityX(-300);
     } else if (this.cursors.right.isDown && !touchingDown) {
-      this.player.setVelocityX(400);
+      this.player.setVelocityX(300);
     } else if (this.cursors.up.isDown && !touchingDown) {
-        //Need to fix this so we can't fly into space!!!
+      //Need to fix this so we can't fly into space!!!
       this.player.setVelocityY(-400);
     } else {
       this.player.setVelocityX(0);
     }
 
-    //Platform Infinite Scrolling 
+    //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {
-        const platform = child
-        const scrollX = this.cameras.main.scrollX
-        if (platform.x <= scrollX - 50) {
-            platform.x = this.player.x + 625
-            platform.body.updateFromGameObject()
-        }
-    })
-
+      const platform = child;
+      const scrollX = this.cameras.main.scrollX;
+      if (platform.x <= scrollX - 50) {
+        platform.x = this.player.x + 625;
+        platform.body.updateFromGameObject();
+      }
+    });
   }
+}
+
+//this will allow us to have an infinite background
+const createAligned = (scene, totalWidth, texture, scrollFactor) => {
+  const w = scene.textures.get(texture).getSourceImage().width 
+  const count = Math.ceil(totalWidth / w) * scrollFactor
+
+  let x = 0
+  for (let i = 0; i < count; i++) {
+    const m = scene.add.image(x, scene.scale.height, texture).setOrigin(1,1).setScrollFactor(scrollFactor).setScale(4)
+    x += m.width
+  }
+
 }

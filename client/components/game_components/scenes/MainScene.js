@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-let base64bg = "";
+let bgscale = 3
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -38,17 +38,17 @@ export default class Game extends Phaser.Scene {
       
 
       this.add.image(width * 0.5, height * 0.5, 'bg-5').setScrollFactor(0).setScale(5)
-      createAligned(this, totalWidth, 'bg-4', 0.25)
-      createAligned(this, totalWidth, 'bg-3', 0.5)
-      createAligned(this, totalWidth, 'bg-2', 1)
-      createAligned(this, totalWidth, 'bg-1', 1.25)
+      createAligned(this, totalWidth, 'bg-4', 0.25, bgscale)
+      createAligned(this, totalWidth, 'bg-3', 0.5, bgscale)
+      createAligned(this, totalWidth, 'bg-2', 1, bgscale)
+      createAligned(this, totalWidth, 'bg-1', 1.25, bgscale)
 
       //Platforms
       this.platforms = this.physics.add.staticGroup();
 
       for (let i = 0; i < 5; i++) {
         const x = 250 * i;
-        const y = Phaser.Math.Between(400, 550);
+        const y = Phaser.Math.Between(300, 450);
 
         const platform = this.platforms.create(x, y, "platform");
         platform.scale = 0.2;
@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
 
       //Avatar / Player Character
       this.player = this.physics.add
-        .sprite(240, 320, "playerRight")
+        .sprite(140, 320, "playerRight")
         .setScale(0.2);
 
       //Colliders
@@ -108,13 +108,13 @@ export default class Game extends Phaser.Scene {
 }
 
 //this will allow us to have an infinite background
-const createAligned = (scene, totalWidth, texture, scrollFactor) => {
+const createAligned = (scene, totalWidth, texture, scrollFactor, scale) => {
   const w = scene.textures.get(texture).getSourceImage().width 
   const count = Math.ceil(totalWidth / w) * scrollFactor
 
   let x = 0
   for (let i = 0; i < count; i++) {
-    const m = scene.add.image(x, scene.scale.height, texture).setOrigin(1,1).setScrollFactor(scrollFactor).setScale(4)
+    const m = scene.add.image(x, scene.scale.height, texture).setOrigin(1,1).setScrollFactor(scrollFactor).setScale(scale)
     x += m.width
   }
 

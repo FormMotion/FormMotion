@@ -50,4 +50,7 @@ const Navbar = () => {
   )
 }
 
+const mapState = () => {return {}}
+const mapDispatch = () => {return {}}
+
 export default connect(mapState, mapDispatch)(Navbar)

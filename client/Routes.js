@@ -9,7 +9,6 @@ import Welcome from './components/Welcome'
 class Routes extends Component {
     constructor() {
         super()
-        this.saveCartToLocalStorage = this.saveCartToLocalStorage.bind(this)
     }
 
     render() {
@@ -17,12 +16,15 @@ class Routes extends Component {
             <div>
                 <Switch>
                     <Route path='/' exact component={Welcome} />
-                    {/* <Route path='/home' exact component={Home} /> */}
+                    <Route path='/home' exact component={Home} />
                     <Route path='/about' component={About} />
                 </Switch>
             </div>
         )
     }
 }
+
+const mapState = () => ({})
+const mapDispatch = () => ({})
 
 export default withRouter(connect(mapState, mapDispatch)(Routes))

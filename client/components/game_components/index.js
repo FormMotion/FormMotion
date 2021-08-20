@@ -6,12 +6,12 @@ export default class Game extends React.Component {
     componentDidMount() {
         const config = {
             type: Phaser.AUTO,
-            width: 800,
-            height: 600,
+            width: 1200,
+            height: 800,
             physics: {
                 default: 'arcade',
                 arcade: {
-                    gravity: { y: 500 },
+                    gravity: { y: 400 },
                     debug: true,
                 },
             },

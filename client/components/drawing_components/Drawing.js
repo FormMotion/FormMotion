@@ -6,11 +6,6 @@ import { toPng, toBlob } from 'html-to-image';
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 
-// first, we need to set up the canvas
-// const canvas = document.querySelector('#sketchpad');
-
-// instantiate Atrament
-
 const Drawing = (props) => {
   const isDrawing = React.useRef(false);
 
@@ -82,9 +77,10 @@ const Drawing = (props) => {
     setPosition(next);
   };
 
-  function downloadDrawing(uri, name) {
+  function downloadDrawing() {
+    const uri = stageRef.current.toDataURL();
     const link = document.createElement('a');
-    link.download = name;
+    link.download = 'myCharacter.png';
     link.href = uri;
     console.log(link, 'link');
     document.body.appendChild(link);
@@ -93,81 +89,23 @@ const Drawing = (props) => {
   }
 
   const stageRef = React.useRef(null);
-  // const secondRef = React.useRef(null);
 
-  const handleExport = () => {
-    // const image = stageRef.current.toImage({
-    //   function(img) {
-    //     console.log('found image');
-    //     console.log('image, first', img);
-    //   },
-    // });
-    // console.log(image, 'again');
-    const uri = stageRef.current.toDataURL();
-    localStorage.setItem('playerDrawnCharacter', uri);
-    // const image = stageRef.current.toImage((img) => {
+  // const handleExport = () => {
+  //   const uri = stageRef.current.toDataURL();
+  //   localStorage.setItem('playerDrawnCharacter', uri);
+  // };
 
-    // });
-    // downloadDrawing(uri, 'playerDrawnCharacter.png');
-  };
-
-  const getDrawing = async () => {
-    const playerDrawnCharacter = localStorage.getItem('playerDrawnCharacter');
-
-    // const playerDrawnDecoded = ImageDataURI.decode(playerDrawnCharacter);
-    // const result = playerDrawnDecoded.databuffer;
-    // const notSure = playerDrawnDecoded.imageType ?? 'image/png';
-    // const blob = b64toBlob(playerDrawnCharacter);
-    // console.log('try', blob);
-    // const formData = await new FormData();
-    // await formData.append('cancel.jpeg', blob);
-    // console.log(formData);
-    // return playerDrawnCharacter;
-
+  const saveToGame = async () => {
+    const playerDrawnCharacter = stageRef.current.toDataURL();
     await props.saveImage(playerDrawnCharacter);
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     console.log(image);
-  //   }
-  //   fetchData();
-  // }, [hasImage]);
-
-  const makeImage = async (playerDrawnCharacter) => {
-    // const playerDrawnCharacter = localStorage.getItem('playerDrawnCharacter');
-    // const base64 = await fetch(playerDrawnCharacter);
-    // console.log(base64, '64');
-    // const blob = await base64.blob();
-    // console.log(blob, 'blob');
-    // var imageUrl = await URL.createObjectURL(blob);
-    // console.log(imageUrl, 'this one');
-    // // document.querySelector('#image').src = imageUrl;
-    // console.log(imageUrl);
-  };
-  function b64toBlob(dataURI) {
-    const byteString = atob(dataURI.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: 'image/png' });
-  }
-
-  // Konva.Util._urlToImage = (url, callback) => {
-  //   const imageObj = Konva.Util.createImageElement();
-  //   imageObj.onload = function () {
-  //     callback(imageObj);
-  //   };
-  //   imageObj.src = url
-  // };
-
   return (
     <Fragment>
-      <button onClick={handleExport}>Save picture</button>
-      <button onClick={getDrawing}>Get Drawing</button>
+      <button onClick={downloadDrawing}>
+        Download image to my local computer
+      </button>
+      <button onClick={saveToGame}>Save character to game</button>
       <select
         value={tool}
         onChange={(e) => {

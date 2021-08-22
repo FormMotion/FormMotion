@@ -25,7 +25,7 @@ export default class Game extends Phaser.Scene {
     //this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
     this.load.image("platform", "assets/temp_platform.png");
 
-    let dataURI = 'BASE 64 STRING GOES HERE'
+    let dataURI = localStorage.getItem('playerDrawnCharacter')
 
     let data = new Image();
     data.src = dataURI
@@ -65,7 +65,7 @@ export default class Game extends Phaser.Scene {
 
       //Avatar / Player Character
       this.player = this.physics.add
-        .sprite(240, 150, 'playerFacingRight')
+        .sprite(240, 150, 'playerFacingRight').setScale(0.5)
 
       //Colliders
       this.physics.add.collider(this.platforms, this.player);

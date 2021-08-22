@@ -3,6 +3,10 @@ import { Stage, Layer, Line, Text } from 'react-konva';
 import Konva from 'konva';
 import * as htmlToImage from 'html-to-image';
 import { toPng, toBlob } from 'html-to-image';
+import { Link } from 'react-router-dom';
+
+
+
 // first, we need to set up the canvas
 // const canvas = document.querySelector('#sketchpad');
 // instantiate Atrament
@@ -124,6 +128,7 @@ const Drawing = () => {
     <Fragment>
       <button onClick={handleExport}>Save picture</button>
       <button onClick={getDrawing}>Get Drawing</button>
+      <Link to="game">Play Game!!</Link>
       <select
         value={tool}
         onChange={(e) => {

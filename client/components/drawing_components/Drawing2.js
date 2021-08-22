@@ -1,105 +1,192 @@
-import React, { useState, useEffect } from 'react';
-const Atrament = require('atrament');
-import { connect } from 'react-redux';
-import { saveImageThunk } from '../../redux/actions';
-import { HexColorPicker } from 'react-colorful';
+// import React, { useState, useEffect, Fragment } from 'react';
+// import { Stage, Layer, Line, Text } from 'react-konva';
+// import Konva from 'konva';
+// import * as htmlToImage from 'html-to-image';
+// import { toPng, toBlob } from 'html-to-image';
+// import { connect } from 'react-redux';
+// import { saveImageThunk } from '../../redux/actions';
 
-const canvas = document.querySelector('#sketchpad');
-const sketchpad = new Atrament(canvas);
+// const Drawing = (props) => {
+//   const isDrawing = React.useRef(false);
 
-const Drawing2 = (props) => {
-  const [color, setColor] = useState('#aabbcc');
+//   let history = [
+//     {
+//       x: 20,
+//       y: 20,
+//     },
+//   ];
+//   let historyStep = 0;
 
-  useEffect(() => {
-    sketchpad.color = color;
-  }, [color]);
+//   const [drawing, setDrawing] = useState(null);
+//   const [color, setColor] = useState('black');
+//   const [strokeWidth, setStrokeWidth] = useState(5);
+//   const [isPaint, setIsPaint] = useState(false);
+//   const [mode, setMode] = useState('brush');
+//   const [tool, setTool] = React.useState('pen');
+//   const [lines, setLines] = React.useState([]);
+//   const [position, setPosition] = useState(history[0]);
+//   const [hasImage, setHasImage] = useState(false);
+//   const [image, setImage] = useState({});
 
-  function clear(e) {
-    e.preventDefault();
-    sketchpad.clear();
-  }
+//   const handleMouseDown = (e) => {
+//     isDrawing.current = true;
+//     const pos = e.target.getStage().getPointerPosition();
+//     setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+//   };
 
-  function setThickness(e) {
-    sketchpad.weight = parseFloat(e.target.value);
-  }
+//   const handleMouseMove = (e) => {
+//     // no drawing - skipping
+//     if (!isDrawing.current) {
+//       return;
+//     }
+//     const stage = e.target.getStage();
+//     const point = stage.getPointerPosition();
+//     let lastLine = lines[lines.length - 1];
+//     // add point
+//     lastLine.points = lastLine.points.concat([point.x, point.y]);
 
-  function chooseMode(e) {
-    sketchpad.mode = e.target.value;
-  }
+//     // replace last
+//     lines.splice(lines.length - 1, 1, lastLine);
+//     setLines(lines.concat());
+//   };
 
-  function downloadDrawing(e) {
-    e.preventDefault();
-    const uri = sketchpad.toImage();
-    const link = document.createElement('a');
-    link.download = 'myCharacter.png';
-    link.href = uri;
-    console.log(link, 'link');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+//   const handleMouseUp = (e) => {
+//     isDrawing.current = false;
+//     history = history.slice(0, historyStep + 1);
+//     const pos = e.target.getStage().getPointerPosition();
+//     history = history.concat([pos]);
+//     historyStep += 1;
+//   };
 
-  // const handleExport = () => {
-  //   const uri = stageRef.current.toDataURL();
-  //   localStorage.setItem('playerDrawnCharacter', uri);
-  // };
+//   const handleUndo = () => {
+//     console.log('i got to undo, and historyStep is', historyStep);
+//     if (historyStep === 0) {
+//       return;
+//     }
+//     historyStep -= 1;
+//     const previous = history[historyStep];
+//     setPosition(previous);
+//   };
 
-  const saveToGame = async (e) => {
-    e.preventDefault(0);
-    const playerDrawnCharacter = sketchpad.toImage();
-    await props.saveImage(playerDrawnCharacter);
-  };
+//   const handleRedo = () => {
+//     if (historyStep === history.length - 1) {
+//       return;
+//     }
+//     historyStep += 1;
+//     const next = history[historyStep];
+//     setPosition(next);
+//   };
 
-  return (
-    <div>
-      <form>
-        <button onClick={downloadDrawing}>
-          Download image to my local computer
-        </button>
-        <button onClick={saveToGame}>Save character to game</button>
-        <button onClick={clear}>clear</button>
-        <br />
-        <label>Thickness</label>
-        <br />
-        <input
-          type="range"
-          min={1}
-          max={40}
-          onInput={setThickness}
-          // value={2}
-          step={0.1}
-        />
-        <br />
-        {/* <input
-          id="adaptive"
-          type="checkbox"
-          onchange="atrament.adaptiveStroke = event.target.checked;"
-          checked
-          autocomplete="off"
-        />
-        <label for="adaptive">Adaptive stroke</label>
-        <br /> */}
-        <label>Mode</label>
+//   function downloadDrawing() {
+//     const uri = stageRef.current.toDataURL();
+//     const link = document.createElement('a');
+//     link.download = 'myCharacter.png';
+//     link.href = uri;
+//     console.log(link, 'link');
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//   }
 
-        <select onChange={chooseMode}>
-          <option value="draw">Draw</option>
-          <option value="fill">Fill</option>
-          <option value="erase">Erase</option>
-          <option value="disabled">Disabled</option>
-        </select>
-        <br />
-        <label>Color</label>
-        <HexColorPicker color={color} onChange={setColor} />
-        <br />
-      </form>
-    </div>
-  );
-};
+//   const stageRef = React.useRef(null);
 
-const mapDispatch = (dispatch) => {
-  return {
-    saveImage: (dataUrl) => dispatch(saveImageThunk(dataUrl)),
-  };
-};
+//   // const handleExport = () => {
+//   //   const uri = stageRef.current.toDataURL();
+//   //   localStorage.setItem('playerDrawnCharacter', uri);
+//   // };
 
-export default connect(null, mapDispatch)(Drawing2);
+//   const saveToGame = async () => {
+//     const playerDrawnCharacter = stageRef.current.toDataURL();
+//     await props.saveImage(playerDrawnCharacter);
+//   };
+
+//   return (
+//     <Fragment>
+//       <button onClick={downloadDrawing}>
+//         Download image to my local computer
+//       </button>
+//       <button onClick={saveToGame}>Save character to game</button>
+//       <select
+//         value={tool}
+//         onChange={(e) => {
+//           setTool(e.target.value);
+//         }}
+//       >
+//         <option value="pen">Pen</option>
+//         <option value="eraser">Eraser</option>
+//       </select>
+
+//       <select
+//         value={color}
+//         onChange={(e) => {
+//           setColor(e.target.value);
+//         }}
+//       >
+//         <option value="black">Black</option>
+//         <option value="purple">Purple</option>
+//         <option value="red">Red</option>
+//         <option value="blue">Blue</option>
+//         <option value="blue">Blue</option>
+//         <option value="seagreen">Sea green</option>
+//         <option value="indigo">Indigo</option>
+//       </select>
+
+//       <select
+//         value={strokeWidth}
+//         onChange={(e) => {
+//           setStrokeWidth(e.target.value);
+//         }}
+//       >
+//         <option value={0.5}>Very thin line</option>
+//         <option value={2}>Thin line</option>
+//         <option value={3}>Medium line</option>
+//         <option value={7}>Think line</option>
+//         <option value={10}>Very thick line</option>
+//       </select>
+
+//       <Stage
+//         width={window.innerWidth}
+//         height={window.innerHeight}
+//         onMouseDown={handleMouseDown}
+//         onMousemove={handleMouseMove}
+//         onMouseup={handleMouseUp}
+//         ref={stageRef}
+//       >
+//         <Layer>
+//           {/* <Text text="undo" onClick={handleUndo} />
+//           <Text text="redo" x={40} onClick={handleRedo} /> */}
+//           {lines.map((line, i) => (
+//             <Line
+//               key={i}
+//               points={line.points}
+//               stroke={color}
+//               strokeWidth={Number(strokeWidth)}
+//               tension={0.5}
+//               lineCap="round"
+//               globalCompositeOperation={
+//                 line.tool === 'eraser' ? 'destination-out' : 'source-over'
+//               }
+//             />
+//           ))}
+//         </Layer>
+//       </Stage>
+//       {image && <div>I have the image</div>}
+//     </Fragment>
+//   );
+// };
+
+// // const mapState = (state) => {
+// //   return {
+// //     product: state.product,
+// //     userId: state.auth.id,
+// //     cart: state.cart,
+// //   };
+// // };
+
+// const mapDispatch = (dispatch) => {
+//   return {
+//     saveImage: (dataUrl) => dispatch(saveImageThunk(dataUrl)),
+//   };
+// };
+
+// export default connect(null, mapDispatch)(Drawing);

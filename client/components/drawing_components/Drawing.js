@@ -1,84 +1,110 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Stage, Layer, Line, Text } from 'react-konva';
-import Konva from 'konva';
-import * as htmlToImage from 'html-to-image';
-import { toPng, toBlob } from 'html-to-image';
+import React, { useState, useEffect } from 'react';
+const Atrament = require('atrament');
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
+import { HexColorPicker } from 'react-colorful';
+
+const canvas = document.querySelector('#sketchpad');
+const sketchpad = new Atrament(canvas);
 
 const Drawing = (props) => {
-  const isDrawing = React.useRef(false);
+  const [color, setColor] = useState('#aabbcc');
+  const [lines, updateLines] = useState([]);
+  const [undoneLines, updateUndoneLines] = useState([]);
+  const alines = [];
+  const aundoneLines = [];
 
-  let history = [
-    {
-      x: 20,
-      y: 20,
-    },
-  ];
-  let historyStep = 0;
+  sketchpad.recordStrokes = true;
+  sketchpad.addEventListener('strokerecorded', ({ stroke }) => {
+    console.log(stroke, 'STROKE');
+    // await updateLines([...lines, stroke]);
+    alines.push(stroke);
+    console.log(alines, 'alines');
+    // console.log('lines', lines);
+    console.log('this is the length of alines', alines.length);
+  });
 
-  const [drawing, setDrawing] = useState(null);
-  const [color, setColor] = useState('black');
-  const [strokeWidth, setStrokeWidth] = useState(5);
-  const [isPaint, setIsPaint] = useState(false);
-  const [mode, setMode] = useState('brush');
-  const [tool, setTool] = React.useState('pen');
-  const [lines, setLines] = React.useState([]);
-  const [position, setPosition] = useState(history[0]);
-  const [hasImage, setHasImage] = useState(false);
-  const [image, setImage] = useState({});
+  useEffect(() => {
+    sketchpad.color = color;
+  }, [color]);
 
-  const handleMouseDown = (e) => {
-    isDrawing.current = true;
-    const pos = e.target.getStage().getPointerPosition();
-    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
-  };
+  function clear(e) {
+    e.preventDefault();
+    sketchpad.clear();
+  }
 
-  const handleMouseMove = (e) => {
-    // no drawing - skipping
-    if (!isDrawing.current) {
-      return;
+  function undo(e) {
+    e.preventDefault();
+    console.log('this is the length of alines', alines.length);
+    if (alines.length !== 0) {
+      // const line = lines[lines.length - 1];
+      aundoneLines.push(alines.pop());
+      // updateLines(lines.filter((line, index) => index !== lines.length - 1));
+      // updateUndoneLines([...undoneLines, line]);
+      redraw();
     }
-    const stage = e.target.getStage();
-    const point = stage.getPointerPosition();
-    let lastLine = lines[lines.length - 1];
-    // add point
-    lastLine.points = lastLine.points.concat([point.x, point.y]);
+  }
 
-    // replace last
-    lines.splice(lines.length - 1, 1, lastLine);
-    setLines(lines.concat());
-  };
-
-  const handleMouseUp = (e) => {
-    isDrawing.current = false;
-    history = history.slice(0, historyStep + 1);
-    const pos = e.target.getStage().getPointerPosition();
-    history = history.concat([pos]);
-    historyStep += 1;
-  };
-
-  const handleUndo = () => {
-    console.log('i got to undo, and historyStep is', historyStep);
-    if (historyStep === 0) {
-      return;
+  function redo(e) {
+    e.preventDefault();
+    if (aundoneLines.length !== 0) {
+      alines.push(aundoneLines.pop());
+      // const line = undoneLines[undoneLines.length - 1];
+      // updateUndoneLines(
+      //   undoneLines.filter((line, index) => index !== undoneLines.length - 1)
+      // );
+      // updateLines([...lines, line]);
+      redraw();
     }
-    historyStep -= 1;
-    const previous = history[historyStep];
-    setPosition(previous);
+  }
+
+  const redraw = () => {
+    console.log('i got here');
+    sketchpad.clear();
+    alines.forEach((i) => drawLine(i));
   };
 
-  const handleRedo = () => {
-    if (historyStep === history.length - 1) {
-      return;
+  const drawLine = function (stroke) {
+    sketchpad.mode = stroke.mode;
+    sketchpad.weight = stroke.weight;
+    sketchpad.color = stroke.color;
+    // don't want to modify original data
+    const points = stroke.points.slice();
+    const firstPoint = points.shift();
+    // beginStroke moves the "pen" to the given position and starts the path
+    sketchpad.beginStroke(firstPoint.x, firstPoint.y);
+    let prevPoint = firstPoint;
+    while (points.length > 0) {
+      const point = points.shift();
+
+      // the `draw` method accepts the current real coordinates
+      // (i. e. actual cursor position), and the previous processed (filtered)
+      // position. It returns an object with the current processed position.
+      const { x, y } = sketchpad.draw(
+        point.x,
+        point.y,
+        prevPoint.x,
+        prevPoint.y
+      );
+      // the processed position is the one where the line is actually drawn to
+      // so we have to store it and pass it to `draw` in the next step
+      prevPoint = { x, y };
     }
-    historyStep += 1;
-    const next = history[historyStep];
-    setPosition(next);
+    // endStroke closes the path
+    sketchpad.endStroke(prevPoint.x, prevPoint.y);
   };
 
-  function downloadDrawing() {
-    const uri = stageRef.current.toDataURL();
+  function setThickness(e) {
+    sketchpad.weight = parseFloat(e.target.value);
+  }
+
+  function chooseMode(e) {
+    sketchpad.mode = e.target.value;
+  }
+
+  function downloadDrawing(e) {
+    e.preventDefault();
+    const uri = sketchpad.toImage();
     const link = document.createElement('a');
     link.download = 'myCharacter.png';
     link.href = uri;
@@ -88,100 +114,63 @@ const Drawing = (props) => {
     document.body.removeChild(link);
   }
 
-  const stageRef = React.useRef(null);
-
   // const handleExport = () => {
   //   const uri = stageRef.current.toDataURL();
   //   localStorage.setItem('playerDrawnCharacter', uri);
   // };
 
-  const saveToGame = async () => {
-    const playerDrawnCharacter = stageRef.current.toDataURL();
+  const saveToGame = async (e) => {
+    e.preventDefault(0);
+    const playerDrawnCharacter = sketchpad.toImage();
     await props.saveImage(playerDrawnCharacter);
   };
 
   return (
-    <Fragment>
-      <button onClick={downloadDrawing}>
-        Download image to my local computer
-      </button>
-      <button onClick={saveToGame}>Save character to game</button>
-      <select
-        value={tool}
-        onChange={(e) => {
-          setTool(e.target.value);
-        }}
-      >
-        <option value="pen">Pen</option>
-        <option value="eraser">Eraser</option>
-      </select>
+    <div>
+      <form>
+        <button onClick={downloadDrawing}>
+          Download image to my local computer
+        </button>
+        <button onClick={undo}>Undo</button>
+        <button onClick={redo}>Redo</button>
+        <button onClick={saveToGame}>Save character to game</button>
+        <button onClick={clear}>clear</button>
+        <br />
+        <label>Thickness</label>
+        <br />
+        <input
+          type="range"
+          min={1}
+          max={40}
+          onInput={setThickness}
+          step={0.1}
+        />
+        <br />
+        {/* <input
+          id="adaptive"
+          type="checkbox"
+          onchange="atrament.adaptiveStroke = event.target.checked;"
+          checked
+          autocomplete="off"
+        />
+        <label for="adaptive">Adaptive stroke</label>
+        <br /> */}
+        <label>Mode</label>
 
-      <select
-        value={color}
-        onChange={(e) => {
-          setColor(e.target.value);
-        }}
-      >
-        <option value="black">Black</option>
-        <option value="purple">Purple</option>
-        <option value="red">Red</option>
-        <option value="blue">Blue</option>
-        <option value="blue">Blue</option>
-        <option value="seagreen">Sea green</option>
-        <option value="indigo">Indigo</option>
-      </select>
-
-      <select
-        value={strokeWidth}
-        onChange={(e) => {
-          setStrokeWidth(e.target.value);
-        }}
-      >
-        <option value={0.5}>Very thin line</option>
-        <option value={2}>Thin line</option>
-        <option value={3}>Medium line</option>
-        <option value={7}>Think line</option>
-        <option value={10}>Very thick line</option>
-      </select>
-
-      <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
-        onMouseDown={handleMouseDown}
-        onMousemove={handleMouseMove}
-        onMouseup={handleMouseUp}
-        ref={stageRef}
-      >
-        <Layer>
-          {/* <Text text="undo" onClick={handleUndo} />
-          <Text text="redo" x={40} onClick={handleRedo} /> */}
-          {lines.map((line, i) => (
-            <Line
-              key={i}
-              points={line.points}
-              stroke={color}
-              strokeWidth={Number(strokeWidth)}
-              tension={0.5}
-              lineCap="round"
-              globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
-              }
-            />
-          ))}
-        </Layer>
-      </Stage>
-      {image && <div>I have the image</div>}
-    </Fragment>
+        <select onChange={chooseMode}>
+          <option value="draw">Draw</option>
+          <option value="fill">Fill</option>
+          <option value="erase">Erase</option>
+          <option value="disabled">Disabled</option>
+        </select>
+        <br />
+        <label>Color</label>
+        <HexColorPicker color={color} onChange={setColor} />
+        <br />
+      </form>
+    </div>
   );
 };
-
-// const mapState = (state) => {
-//   return {
-//     product: state.product,
-//     userId: state.auth.id,
-//     cart: state.cart,
-//   };
-// };
 
 const mapDispatch = (dispatch) => {
   return {

@@ -26,6 +26,7 @@ export default class Game extends Phaser.Scene {
     this.prizes;
     this.prizesCollected = 0;
     this.prizesText = 'Grace Hopping Along!';
+    this.pickupPrize;
   }
 
   preload() {
@@ -37,6 +38,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-1', bg1)
     this.load.image("platform", "assets/temp_platform.png")
     this.load.image("prize", 'assets/temp_coin.png')
+
+    this.load.audio('pickup', 'assets/Pickup_005.wav')
 
     //Loaded from localStorage - user drawn images
     let dataURI = localStorage.getItem('playerDrawnCharacter')
@@ -111,6 +114,9 @@ export default class Game extends Phaser.Scene {
 
       //Camera
       this.cameras.main.startFollow(this.player);
+
+      //Sounds
+      this.pickupPrize = this.sound.add('pickup', {volume: 0.5, loop: false})
     
   }
 
@@ -160,6 +166,8 @@ export default class Game extends Phaser.Scene {
   }
 
   handleCollectPrize(player, prize){
+    //Bleep noise when we pick up a prize! 
+    this.pickupPrize.play()
     //this hides the prize from display and disables the physics
     this.prizes.killAndHide(prize)
     this.physics.world.disableBody(prize.body)

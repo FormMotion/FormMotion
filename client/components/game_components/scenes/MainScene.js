@@ -24,8 +24,14 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-1', bg1)
     //this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
     this.load.image("platform", "assets/temp_platform.png");
-    //this.load.image("playerRight", "assets/temp_char_facing_right_run.png");
-    this.load.image("playerLeft", "assets/temp_char_facing_left_run.png");
+
+    let dataURI = 'BASE 64 STRING GOES HERE'
+
+    let data = new Image();
+    data.src = dataURI
+    this.textures.addBase64('playerFacingRight', dataURI, data)
+
+
   }
 
   create() {
@@ -34,32 +40,7 @@ export default class Game extends Phaser.Scene {
     const height = this.scale.height
     const totalWidth = width*10
 
-    const playerDrawnCharacter = localStorage
-  .getItem('playerDrawnCharacter')
-  .slice(21);
-
-  let arrayBuffer = Phaser.Utils.Base64.Base64ToArrayBuffer(playerDrawnCharacter);
-
-  console.log(arrayBuffer)
-
-  const makeImage = async () => {
-    const playerDrawnCharacter = localStorage.getItem('playerDrawnCharacter');
-    const base64 = await fetch(playerDrawnCharacter);
-    const blob = await base64.blob();
-    console.log(blob)
-    return blob
-  };
-
-  makeImage()
-
-    let assetLoader = 0
-    this.textures.addBase64('playerRight', arrayBuffer) 
-    assetLoader++
-
-
-    if (assetLoader >= 1) {
       //Background
-      
 
       this.add.image(width * 0.5, height * 0.5, 'bg-5').setScrollFactor(0).setScale(5)
       createAligned(this, totalWidth, 'bg-4', 0.25, bgscale)
@@ -72,7 +53,8 @@ export default class Game extends Phaser.Scene {
 
       for (let i = 0; i < 5; i++) {
         const x = 250 * i;
-        const y = Phaser.Math.Between(400, 550);
+        const y = Phaser.Math.Between(200, 450);
+        //shouldn't go higher than 450 for y-axis or the botton of the background shows
 
         const platform = this.platforms.create(x, y, "platform");
         platform.scale = 0.2;
@@ -83,8 +65,7 @@ export default class Game extends Phaser.Scene {
 
       //Avatar / Player Character
       this.player = this.physics.add
-        .sprite(240, 320, "playerRight")
-        .setScale(0.2);
+        .sprite(240, 150, 'playerFacingRight')
 
       //Colliders
       this.physics.add.collider(this.platforms, this.player);
@@ -98,7 +79,7 @@ export default class Game extends Phaser.Scene {
 
       //Camera
       this.cameras.main.startFollow(this.player);
-    }
+    
   }
 
   update() {

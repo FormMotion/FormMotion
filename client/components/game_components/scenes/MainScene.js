@@ -8,33 +8,44 @@ let bg2 = 'assets/backgrounds/parallax_mountains/parallax-mountain-trees.png'
 let bg1 = 'assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png'
 let bgscale = 3
 
+
+//This is a separate class so we can set up internal configuration details for the prize Sprite here
+class Prize extends Phaser.Physics.Arcade.Sprite{
+  constructor(scene, x, y, texture) {
+    super(scene, x, y, texture)
+    this.setScale(0.5)
+  }
+}
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super("game");
     this.player;
     this.cursors;
     this.platforms;
+    this.prizes;
   }
 
   preload() {
+    //Static images hosted within assets folder
     this.load.image('bg-5', bg5)
     this.load.image('bg-4', bg4)
     this.load.image('bg-3', bg3)
     this.load.image('bg-2', bg2)
     this.load.image('bg-1', bg1)
-    //this.load.image("background", "/assets/backgrounds/nightwithmoon.png");
-    this.load.image("platform", "assets/temp_platform.png");
+    this.load.image("platform", "assets/temp_platform.png")
+    this.load.image("prize", 'assets/temp_coin.png')
 
+    //Loaded from localStorage - user drawn images
     let dataURI = localStorage.getItem('playerDrawnCharacter')
 
     let data = new Image();
     data.src = dataURI
     this.textures.addBase64('playerFacingRight', dataURI, data)
 
-
   }
 
-  create() {
+  create() {   
 
     const width = this.scale.width
     const height = this.scale.height
@@ -54,7 +65,7 @@ export default class Game extends Phaser.Scene {
       for (let i = 0; i < 5; i++) {
         const x = 250 * i;
         const y = Phaser.Math.Between(200, 450);
-        //shouldn't go higher than 450 for y-axis or the botton of the background shows
+        //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
         const platform = this.platforms.create(x, y, "platform");
         platform.scale = 0.2;
@@ -65,10 +76,24 @@ export default class Game extends Phaser.Scene {
 
       //Avatar / Player Character
       this.player = this.physics.add
-        .sprite(240, 150, 'playerFacingRight').setScale(0.5)
+        .sprite(240, 150, 'playerFacingRight').setScale(0.1)
+
+      //Prize
+      this.prizes = this.physics.add.group({
+        classType: Prize
+      })
+
 
       //Colliders
       this.physics.add.collider(this.platforms, this.player);
+      this.physics.add.collider(this.platforms, this.prizes)
+      this.physics.add.overlap(
+        this.player,
+        this.prizes,
+        this.handleCollectPrize,
+        undefined, //this is for a process callback that we are not using
+        this
+      )
 
       this.player.body.checkCollision.up = false;
       this.player.body.checkCollision.left = false;
@@ -107,9 +132,32 @@ export default class Game extends Phaser.Scene {
       if (platform.x <= scrollX - 50) {
         platform.x = this.player.x + 625;
         platform.body.updateFromGameObject();
+        this.addPrizeAbove(platform)
       }
     });
   }
+
+  addPrizeAbove(sprite) {
+    //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide
+    const y = sprite.y - sprite.displayHeight*2
+    const prize = this.prizes.get(sprite.x, y, 'prize')
+    //makes active and visible so we can reuse prizes - otherwise they disappear and don't come back after our player collects them
+    prize.setActive(true)
+    prize.setVisible(true)
+    this.add.existing(prize)
+    //sets the physics body size
+    prize.body.setSize(prize.width, prize.height)
+    //Makes sure the physics are enabled 
+    this.physics.world.enable(prize)
+    return prize
+  }
+
+  handleCollectPrize(player, prize){
+    //this hides the prize from display and disables the physics
+    this.prizes.killAndHide(prize)
+    this.physics.world.disableBody(prize.body)
+  }
+
 }
 
 //this will allow us to have an infinite background
@@ -124,3 +172,5 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
   }
 
 }
+
+//this will add the prizes above platforms - may want to make them more random than one on each platform

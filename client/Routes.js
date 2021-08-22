@@ -5,7 +5,7 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import About from './components/About'
 import Welcome from './components/Welcome'
 import Drawing from './components/drawing_components/Drawing.js'
-import Game from './components/game_components/index.js'
+import Game from './components/Game'
 
 class Routes extends Component {
     constructor() {

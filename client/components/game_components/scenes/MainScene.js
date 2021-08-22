@@ -24,6 +24,8 @@ export default class Game extends Phaser.Scene {
     this.cursors;
     this.platforms;
     this.prizes;
+    this.prizesCollected = 0;
+    this.prizesText = 'Grace Hopping Along!';
   }
 
   preload() {
@@ -82,6 +84,11 @@ export default class Game extends Phaser.Scene {
       this.prizes = this.physics.add.group({
         classType: Prize
       })
+
+      const style = {color: '#fff', fontSize: 24 }
+      this.prizesText = this.add.text(
+        600, 10, 'Grace Hopping Along!', style
+      ).setScrollFactor(0).setOrigin(0.5, 0)
 
 
       //Colliders
@@ -156,6 +163,8 @@ export default class Game extends Phaser.Scene {
     //this hides the prize from display and disables the physics
     this.prizes.killAndHide(prize)
     this.physics.world.disableBody(prize.body)
+    this.prizesCollected++
+    this.prizesText.text = `You found ${this.prizesCollected}!`
   }
 
 }

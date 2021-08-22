@@ -68,7 +68,7 @@ export default class Game extends Phaser.Scene {
       this.platforms = this.physics.add.staticGroup();
 
       for (let i = 0; i < 5; i++) {
-        const x = 250 * i;
+        const x = 300 * i;
         const y = Phaser.Math.Between(200, 450);
         //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
@@ -82,6 +82,7 @@ export default class Game extends Phaser.Scene {
       //Avatar / Player Character
       this.player = this.physics.add
         .sprite(240, 150, 'playerFacingRight').setScale(0.1)
+
 
       //Prize
       this.prizes = this.physics.add.group({
@@ -131,25 +132,32 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(-300);
     } else if (this.cursors.right.isDown && !touchingDown) {
       this.player.setVelocityX(300);
-    } else if (this.cursors.up.isDown && !touchingDown) {
-      //Need to fix this so we can't fly into space!!!
-      this.player.setVelocityY(-400);
     } else {
       this.player.setVelocityX(0);
     }
+
+    const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up)
+
+    if (didPressJump && !touchingDown && this.player.y > -75 && this.player.y < 450) {
+      console.log('player.y on jump', this.player.y)
+      this.player.setVelocityY(-300)
+    }
+
+ 
 
     //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {
       const platform = child;
       const scrollX = this.cameras.main.scrollX;
-      if (platform.x <= scrollX - 50) {
-        platform.x = this.player.x + 625;
+      if (platform.x <= scrollX - 100) {
+        platform.x = this.player.x + 675;
         platform.body.updateFromGameObject();
         this.addPrizeAbove(platform)
       }
     });
   }
 
+  //Adds the prizes above the platforms 
   addPrizeAbove(sprite) {
     //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide
     const y = sprite.y - sprite.displayHeight*2
@@ -165,6 +173,7 @@ export default class Game extends Phaser.Scene {
     return prize
   }
 
+  //Handles what happens when the player interacts with a prize sprite
   handleCollectPrize(player, prize){
     //Bleep noise when we pick up a prize! 
     this.pickupPrize.play()
@@ -179,6 +188,8 @@ export default class Game extends Phaser.Scene {
 
 //this will allow us to have an infinite background
 const createAligned = (scene, totalWidth, texture, scrollFactor) => {
+
+  //Let's look at this to figure out why the background disappears
   const w = scene.textures.get(texture).getSourceImage().width 
   const count = Math.ceil(totalWidth / w) * scrollFactor
 

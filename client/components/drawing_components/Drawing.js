@@ -151,6 +151,7 @@ const Drawing = (props) => {
   const handleExport = () => {
     const uri = sketchpad.toDataURL();
     localStorage.setItem('playerDrawnCharacter', uri);
+    history.push('./game');
   };
 
   const saveToGame = async (e) => {

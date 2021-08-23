@@ -85,7 +85,7 @@ export default class Game extends Phaser.Scene {
     //Avatar / Player Character
     this.player = this.physics.add
       .sprite(300, 100, 'playerFacingRight')
-      .setScale(0.1);
+      .setScale(0.25);
 
     //Prize
     this.prizes = this.physics.add.group({

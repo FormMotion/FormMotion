@@ -37,6 +37,7 @@ const Drawing = (props) => {
     const link = document.createElement('a');
     link.download = 'myCharacter.png';
     link.href = uri;
+    console.log(link, 'link');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

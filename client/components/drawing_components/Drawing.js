@@ -83,7 +83,7 @@ const Drawing = (props) => {
         <input
           type="range"
           min={1}
-          max={40}
+          max={80}
           onInput={setThickness}
           step={0.1}
         />

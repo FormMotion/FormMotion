@@ -54,7 +54,7 @@ export default class Game extends Phaser.Scene {
   create() {
     const width = this.scale.width;
     const height = this.scale.height;
-    const totalWidth = width * 10;
+    const totalWidth = width * 1000;
 
     //Background
 

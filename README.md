@@ -16,7 +16,7 @@ Created as a capstone project for the Grace Hopper Program, cohort 2106, Team 04
 *Javascript  
 *Node.js  
 *React/Redux  
-*Konva  
+*Atrament.js  
 *Phaser  
 *MaterialUI  
 *Heroku  

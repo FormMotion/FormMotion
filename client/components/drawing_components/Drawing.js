@@ -3,25 +3,21 @@ const Atrament = require('atrament');
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
-import Draw from './draw';
 
 let sketchpad = null;
 
 const Drawing = (props) => {
-  // const canvasRef = React.useRef(null);
   const [color, setColor] = useState('#aabbcc');
   const [lines, updateLines] = useState([]);
   const [undoneLines, updateUndoneLines] = useState([]);
 
-  // let sketchpad = {}
-
-  // sketchpad = atrament('#mySketcher', 800, 500, 'orange');
   if (sketchpad) {
     sketchpad.recordStrokes = true;
     sketchpad.addEventListener('strokerecorded', ({ stroke }) => {
       updateLines([...lines, stroke]);
     });
 
+    // for future undo of fill:
     // sketchpad.addEventListener('fillstart', ({ x, y }) => {
     //   console.log('fill', x, y);
     // });
@@ -72,6 +68,7 @@ const Drawing = (props) => {
     }
   }
 
+  // may use later:
   // const redraw = () => {
   //   console.log('i got here', alines.length);
   //   sketchpad.clear();
@@ -118,7 +115,8 @@ const Drawing = (props) => {
     document.body.removeChild(link);
   }
 
-  const handleExport = () => {
+  const handleExport = (e) => {
+    e.preventDefault();
     const uri = sketchpad.toDataURL();
     localStorage.setItem('playerDrawnCharacter', uri);
     history.push('./game');
@@ -152,15 +150,6 @@ const Drawing = (props) => {
           step={0.1}
         />
         <br />
-        {/* <input
-          id="adaptive"
-          type="checkbox"
-          onchange="atrament.adaptiveStroke = event.target.checked;"
-          checked
-          autocomplete="off"
-        />
-        <label for="adaptive">Adaptive stroke</label>
-        <br /> */}
         <label>Mode</label>
 
         <select onChange={chooseMode}>

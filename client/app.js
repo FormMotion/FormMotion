@@ -5,10 +5,10 @@ import store from './store';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Router } from 'react-router-dom'
 
-import Home from './components/Home';
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import Routes from './Routes'
+
 class App extends Component {
   render() {
     return (

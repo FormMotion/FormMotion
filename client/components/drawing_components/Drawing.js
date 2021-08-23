@@ -47,7 +47,7 @@ const Drawing = (props) => {
     e.preventDefault();
     const uri = sketchpad.toImage();
     localStorage.setItem('playerDrawnCharacter', uri);
-    props.history.push('./game');
+    props.history.push('./platform');
   };
 
   const saveToGame = async (e) => {
@@ -75,7 +75,7 @@ const Drawing = (props) => {
         <button onClick={downloadDrawing}>
           Download image to my local computer
         </button>
-        <button onClick={handleExport}>Save character to game</button>
+        <button onClick={handleExport} style = {{backgroundColor:'lightpink'}}>Save character and choose platform</button>
         <button onClick={clear}>clear</button>
         <br />
         <label>Thickness</label>

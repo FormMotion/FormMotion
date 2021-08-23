@@ -71,7 +71,7 @@ const Drawing = (props) => {
     e.preventDefault();
     const uri = sketchpad.toImage();
     localStorage.setItem('playerDrawnCharacter', uri);
-    props.history.push('./game');
+    props.history.push('./platform');
   };
 
   const saveToGame = async (e) => {
@@ -100,8 +100,8 @@ const Drawing = (props) => {
       <Button variant="contained" onClick={downloadDrawing}>
         Download image to my local computer
       </Button>
-      <Button variant="contained" onClick={handleExport}>Save character to game</Button>
-      <Button variant="contained" onClick={clear}>clear</Button>
+      <Button variant="contained" onClick={handleExport} >Save character and choose platform</Button>
+      <Button onClick={clear}>clear</Button>
       <br />
       <Typography id="non-linear-slider" gutterBottom>
         Thickness
@@ -129,17 +129,9 @@ const Drawing = (props) => {
         </NativeSelect>
         <FormHelperText>Draw, fill or erase</FormHelperText>
       </FormControl>
-      {/* <select onChange={chooseMode}>
-          <option value="draw">Draw</option>
-          <option value="fill">Fill</option>
-          <option value="erase">Erase</option>
-          <option value="disabled">Disabled</option>
-        </select>
-        <br /> */}
       <Typography>Color</Typography>
       <HexColorPicker color={color} onChange={setColor} />
       <br />
-      {/* </form> */}
     </div >
   );
 };

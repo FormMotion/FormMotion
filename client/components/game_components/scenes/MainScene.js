@@ -15,7 +15,7 @@ let bgscale = 3;
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
-    this.setScale(0.5);
+    this.setScale(0.7);
   }
 }
 
@@ -38,17 +38,34 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-3', bg3);
     this.load.image('bg-2', bg2);
     this.load.image('bg-1', bg1);
-    this.load.image('platform', 'assets/temp_platform.png');
-    this.load.image('prize', 'assets/temp_coin.png');
+    // this.load.image('platform', 'assets/temp_platform.png');
+    // this.load.image('prize', 'assets/temp_coin.png');
 
     this.load.audio('pickup', 'assets/kalimba_chime.mp3');
 
     //Loaded from localStorage - user drawn images
     let dataURI = localStorage.getItem('playerDrawnCharacter');
+    let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
+    let drawnPrize = localStorage.getItem('playerDrawnPrize');
 
+    // CHARACTER DRAWN
     let data = new Image();
     data.src = dataURI;
     this.textures.addBase64('playerFacingRight', dataURI, data);
+
+    // PLATFORM DRAWN
+    if(drawnPlatform) {
+      let platformData = new Image();
+      platformData.src = drawnPlatform;
+      this.textures.addBase64('platform', drawnPlatform, platformData);
+    }
+    
+    // PRIZE DRAWN
+    if(drawnPrize) {
+      let prizeData = new Image();
+      prizeData.src = drawnPrize;
+      this.textures.addBase64('prize', drawnPrize, prizeData);
+    }
   }
 
   create() {
@@ -76,7 +93,7 @@ export default class Game extends Phaser.Scene {
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, 'platform');
-      platform.scale = 0.2;
+      platform.scale = 1;
 
       const body = platform.body;
       body.updateFromGameObject();
@@ -146,7 +163,6 @@ export default class Game extends Phaser.Scene {
       this.player.y > -75 &&
       this.player.y < 400
     ) {
-      console.log('player.y on jump', this.player.y);
       this.player.setVelocityY(-300);
     }
 

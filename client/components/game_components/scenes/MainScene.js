@@ -39,7 +39,7 @@ export default class Game extends Phaser.Scene {
     this.load.image("platform", "assets/temp_platform.png")
     this.load.image("prize", 'assets/temp_coin.png')
 
-    this.load.audio('pickup', 'assets/Pickup_005.wav')
+    this.load.audio('pickup', 'assets/kalimba_chime.mp3')
 
     //Loaded from localStorage - user drawn images
     let dataURI = localStorage.getItem('playerDrawnCharacter')
@@ -67,9 +67,9 @@ export default class Game extends Phaser.Scene {
       //Platforms
       this.platforms = this.physics.add.staticGroup();
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 1; i < 5; i++) {
         const x = 300 * i;
-        const y = Phaser.Math.Between(200, 450);
+        const y = Phaser.Math.Between(150, 450);
         //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
         const platform = this.platforms.create(x, y, "platform");
@@ -81,7 +81,7 @@ export default class Game extends Phaser.Scene {
 
       //Avatar / Player Character
       this.player = this.physics.add
-        .sprite(240, 150, 'playerFacingRight').setScale(0.1)
+        .sprite(300, 100, 'playerFacingRight').setScale(0.1)
 
 
       //Prize
@@ -138,7 +138,7 @@ export default class Game extends Phaser.Scene {
 
     const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up)
 
-    if (didPressJump && !touchingDown && this.player.y > -75 && this.player.y < 450) {
+    if (didPressJump && !touchingDown && this.player.y > -75 && this.player.y < 400) {
       console.log('player.y on jump', this.player.y)
       this.player.setVelocityY(-300)
     }
@@ -150,11 +150,21 @@ export default class Game extends Phaser.Scene {
       const platform = child;
       const scrollX = this.cameras.main.scrollX;
       if (platform.x <= scrollX - 100) {
-        platform.x = this.player.x + 675;
+        platform.x = this.player.x + Phaser.Math.Between(650, 850);
         platform.body.updateFromGameObject();
         this.addPrizeAbove(platform)
       }
     });
+
+    //Ends game if player falls below bottom of screen
+    if (this.player.y > 550){
+      const style = {color: '#fff', fontSize: 80 }
+      this.add.text(
+        600, 400, 'GAME OVER', style
+      ).setScrollFactor(0)
+
+
+    }
   }
 
   //Adds the prizes above the platforms 

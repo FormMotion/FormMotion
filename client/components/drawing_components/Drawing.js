@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
 
+// material-ui
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Box from '@material-ui/core/Box'

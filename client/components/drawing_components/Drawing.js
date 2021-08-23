@@ -1,27 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 const Atrament = require('atrament');
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
-
-const canvas = document.querySelector('#sketchpad');
-const sketchpad = new Atrament(canvas);
+import Draw from './draw';
 
 const Drawing = (props) => {
+  // const canvasRef = React.useRef(null);
   const [color, setColor] = useState('#aabbcc');
   const [lines, updateLines] = useState([]);
   const [undoneLines, updateUndoneLines] = useState([]);
   const alines = [];
   const aundoneLines = [];
 
+  // let sketchpad = {}
+
+  // sketchpad = atrament('#mySketcher', 800, 500, 'orange');
+  const canvas = document.querySelector('#sketchpad');
+  const sketchpad = new Atrament(canvas);
+
   sketchpad.recordStrokes = true;
   sketchpad.addEventListener('strokerecorded', ({ stroke }) => {
+    updateLines([...lines, stroke]);
     console.log(stroke, 'STROKE');
-    // await updateLines([...lines, stroke]);
     alines.push(stroke);
     console.log(alines, 'alines');
-    // console.log('lines', lines);
-    console.log('this is the length of alines', alines.length);
+    console.log('lines', lines);
+  });
+
+  sketchpad.addEventListener('fillstart', ({ x, y }) => {
+    console.log('fill', x, y);
   });
 
   useEffect(() => {
@@ -31,40 +39,62 @@ const Drawing = (props) => {
   function clear(e) {
     e.preventDefault();
     sketchpad.clear();
+    updateLines([]);
+    updateUndoneLines([]);
   }
 
   function undo(e) {
     e.preventDefault();
-    console.log('this is the length of alines', alines.length);
-    if (alines.length !== 0) {
-      // const line = lines[lines.length - 1];
-      aundoneLines.push(alines.pop());
-      // updateLines(lines.filter((line, index) => index !== lines.length - 1));
-      // updateUndoneLines([...undoneLines, line]);
-      redraw();
+    console.log('i got to undo, and lines is', lines);
+    if (lines.length !== 0) {
+      sketchpad.clear();
+      sketchpad.recordStrokes = false;
+      lines
+        .filter((line, index) => index !== lines.length - 1)
+        .forEach((i) => drawLine(i));
+
+      const line = lines[lines.length - 1];
+      console.log('line', line);
+      // aundoneLines.push(alines.pop());
+      // console.log(alines, 'alines in undo');
+      updateLines(lines.filter((line, index) => index !== lines.length - 1));
+
+      updateUndoneLines([...undoneLines, line]);
+      sketchpad.recordStrokes = true;
+
+      // redraw();
     }
   }
 
   function redo(e) {
     e.preventDefault();
-    if (aundoneLines.length !== 0) {
-      alines.push(aundoneLines.pop());
-      // const line = undoneLines[undoneLines.length - 1];
-      // updateUndoneLines(
-      //   undoneLines.filter((line, index) => index !== undoneLines.length - 1)
-      // );
-      // updateLines([...lines, line]);
-      redraw();
+    console.log('i got to redo and lines is', lines);
+    if (undoneLines.length !== 0) {
+      // alines.push(aundoneLines.pop());
+
+      sketchpad.recordStrokes = false;
+      // redraw();
+      sketchpad.clear();
+      lines.forEach((line) => drawLine(line));
+      drawLine(undoneLines[undoneLines.length - 1]);
+
+      const line = undoneLines[undoneLines.length - 1];
+      updateUndoneLines(
+        undoneLines.filter((line, index) => index !== undoneLines.length - 1)
+      );
+      updateLines([...lines, line]);
+      sketchpad.recordStrokes = true;
     }
   }
 
-  const redraw = () => {
-    console.log('i got here');
-    sketchpad.clear();
-    alines.forEach((i) => drawLine(i));
-  };
+  // const redraw = () => {
+  //   console.log('i got here', alines.length);
+  //   sketchpad.clear();
+  //   lines.forEach((i) => drawLine(i));
+  // };
 
   const drawLine = function (stroke) {
+    console.log('here in drawLine', stroke);
     sketchpad.mode = stroke.mode;
     sketchpad.weight = stroke.weight;
     sketchpad.color = stroke.color;
@@ -127,26 +157,28 @@ const Drawing = (props) => {
 
   return (
     <div>
-      <form>
-        <button onClick={downloadDrawing}>
-          Download image to my local computer
-        </button>
-        <button onClick={undo}>Undo</button>
-        <button onClick={redo}>Redo</button>
-        <button onClick={saveToGame}>Save character to game</button>
-        <button onClick={clear}>clear</button>
-        <br />
-        <label>Thickness</label>
-        <br />
-        <input
-          type="range"
-          min={1}
-          max={40}
-          onInput={setThickness}
-          step={0.1}
-        />
-        <br />
-        {/* <input
+      <canvas id="sketchpad" width="500" height="500"></canvas>
+      {sketchpad && (
+        <form>
+          <button onClick={downloadDrawing}>
+            Download image to my local computer
+          </button>
+          <button onClick={undo}>Undo</button>
+          <button onClick={redo}>Redo</button>
+          <button onClick={saveToGame}>Save character to game</button>
+          <button onClick={clear}>clear</button>
+          <br />
+          <label>Thickness</label>
+          <br />
+          <input
+            type="range"
+            min={1}
+            max={40}
+            onInput={setThickness}
+            step={0.1}
+          />
+          <br />
+          {/* <input
           id="adaptive"
           type="checkbox"
           onchange="atrament.adaptiveStroke = event.target.checked;"
@@ -155,19 +187,20 @@ const Drawing = (props) => {
         />
         <label for="adaptive">Adaptive stroke</label>
         <br /> */}
-        <label>Mode</label>
+          <label>Mode</label>
 
-        <select onChange={chooseMode}>
-          <option value="draw">Draw</option>
-          <option value="fill">Fill</option>
-          <option value="erase">Erase</option>
-          <option value="disabled">Disabled</option>
-        </select>
-        <br />
-        <label>Color</label>
-        <HexColorPicker color={color} onChange={setColor} />
-        <br />
-      </form>
+          <select onChange={chooseMode}>
+            <option value="draw">Draw</option>
+            <option value="fill">Fill</option>
+            <option value="erase">Erase</option>
+            <option value="disabled">Disabled</option>
+          </select>
+          <br />
+          <label>Color</label>
+          <HexColorPicker color={color} onChange={setColor} />
+          <br />
+        </form>
+      )}
     </div>
   );
 };

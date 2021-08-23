@@ -5,6 +5,8 @@ import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
 import Draw from './draw';
 
+let sketchpad = null;
+
 const Drawing = (props) => {
   // const canvasRef = React.useRef(null);
   const [color, setColor] = useState('#aabbcc');
@@ -16,23 +18,25 @@ const Drawing = (props) => {
   // let sketchpad = {}
 
   // sketchpad = atrament('#mySketcher', 800, 500, 'orange');
-  const canvas = document.querySelector('#sketchpad');
-  const sketchpad = new Atrament(canvas);
+  if (sketchpad) {
+    sketchpad.recordStrokes = true;
+    sketchpad.addEventListener('strokerecorded', ({ stroke }) => {
+      updateLines([...lines, stroke]);
+      console.log(stroke, 'STROKE');
+      alines.push(stroke);
+      console.log(alines, 'alines');
+      console.log('lines', lines);
+    });
 
-  sketchpad.recordStrokes = true;
-  sketchpad.addEventListener('strokerecorded', ({ stroke }) => {
-    updateLines([...lines, stroke]);
-    console.log(stroke, 'STROKE');
-    alines.push(stroke);
-    console.log(alines, 'alines');
-    console.log('lines', lines);
-  });
-
-  sketchpad.addEventListener('fillstart', ({ x, y }) => {
-    console.log('fill', x, y);
-  });
-
+    sketchpad.addEventListener('fillstart', ({ x, y }) => {
+      console.log('fill', x, y);
+    });
+  }
   useEffect(() => {
+    if (sketchpad === null) {
+      const canvas = document.querySelector('#sketchpad');
+      sketchpad = new Atrament(canvas);
+    }
     sketchpad.color = color;
   }, [color]);
 
@@ -144,10 +148,10 @@ const Drawing = (props) => {
     document.body.removeChild(link);
   }
 
-  // const handleExport = () => {
-  //   const uri = stageRef.current.toDataURL();
-  //   localStorage.setItem('playerDrawnCharacter', uri);
-  // };
+  const handleExport = () => {
+    const uri = sketchpad.toDataURL();
+    localStorage.setItem('playerDrawnCharacter', uri);
+  };
 
   const saveToGame = async (e) => {
     e.preventDefault(0);
@@ -158,27 +162,26 @@ const Drawing = (props) => {
   return (
     <div>
       <canvas id="sketchpad" width="500" height="500"></canvas>
-      {sketchpad && (
-        <form>
-          <button onClick={downloadDrawing}>
-            Download image to my local computer
-          </button>
-          <button onClick={undo}>Undo</button>
-          <button onClick={redo}>Redo</button>
-          <button onClick={saveToGame}>Save character to game</button>
-          <button onClick={clear}>clear</button>
-          <br />
-          <label>Thickness</label>
-          <br />
-          <input
-            type="range"
-            min={1}
-            max={40}
-            onInput={setThickness}
-            step={0.1}
-          />
-          <br />
-          {/* <input
+      <form>
+        <button onClick={downloadDrawing}>
+          Download image to my local computer
+        </button>
+        <button onClick={undo}>Undo</button>
+        <button onClick={redo}>Redo</button>
+        <button onClick={handleExport}>Save character to game</button>
+        <button onClick={clear}>clear</button>
+        <br />
+        <label>Thickness</label>
+        <br />
+        <input
+          type="range"
+          min={1}
+          max={40}
+          onInput={setThickness}
+          step={0.1}
+        />
+        <br />
+        {/* <input
           id="adaptive"
           type="checkbox"
           onchange="atrament.adaptiveStroke = event.target.checked;"
@@ -187,20 +190,19 @@ const Drawing = (props) => {
         />
         <label for="adaptive">Adaptive stroke</label>
         <br /> */}
-          <label>Mode</label>
+        <label>Mode</label>
 
-          <select onChange={chooseMode}>
-            <option value="draw">Draw</option>
-            <option value="fill">Fill</option>
-            <option value="erase">Erase</option>
-            <option value="disabled">Disabled</option>
-          </select>
-          <br />
-          <label>Color</label>
-          <HexColorPicker color={color} onChange={setColor} />
-          <br />
-        </form>
-      )}
+        <select onChange={chooseMode}>
+          <option value="draw">Draw</option>
+          <option value="fill">Fill</option>
+          <option value="erase">Erase</option>
+          <option value="disabled">Disabled</option>
+        </select>
+        <br />
+        <label>Color</label>
+        <HexColorPicker color={color} onChange={setColor} />
+        <br />
+      </form>
     </div>
   );
 };

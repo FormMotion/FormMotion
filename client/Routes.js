@@ -9,10 +9,9 @@ import Game from './components/Game';
 import Platform from './components/drawing_components/Platform.js';
 
 class Routes extends Component {
-  constructor() {
-    super();
-  }
-
+    constructor() {
+        super();
+    }
   render() {
     return (
       <div>

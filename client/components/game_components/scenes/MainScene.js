@@ -178,9 +178,17 @@ export default class Game extends Phaser.Scene {
     });
 
     //Ends game if player falls below bottom of screen
-    if (this.player.y > 550) {
+    if (this.player.y > 900) {
       const style = { color: '#fff', fontSize: 80 };
       this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
+    }
+
+    if (this.player.y > 2500) {
+      this.registry.destroy(); // destroy registry
+      this.events.off(); // disable all active events
+      this.scene.restart(); // restart current scene
+      // this.scene.stop();
+      // this.scene.start();
     }
   }
 

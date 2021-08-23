@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(7),
   },
   title: {
     flexGrow: 1,
@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "#373736",
   },
+  logo: {
+    width: 150,
+  }
 }));
 
 const Navbar = () => {
@@ -36,11 +39,11 @@ const Navbar = () => {
   return (
     <div>
       <nav>
-        <AppBar style={{ background: '#8ea2de' }} position="relative">
+        <AppBar style={{ background: '#DBDFB1' }} position="relative">
           <Toolbar>
-            <Link to="/">< HomeIcon style={{ fill: "#373736" }} /> </Link>
+            <Link to="/">< img src="TransparentLogo.png" alt="logo" className={classes.logo} /> </Link>
             <Typography className={classes.title} variant="h6" noWrap>
-              <Link className={classes.link} to="/play" >Play! </Link>
+              {/* <Link className={classes.link} to="/play" >Play! </Link> */}
             </Typography>
           </Toolbar>
         </AppBar>

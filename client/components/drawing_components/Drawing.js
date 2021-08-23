@@ -4,10 +4,34 @@ import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
 
+// material-ui
+import { makeStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
+import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormHelperText from '@material-ui/core/FormHelperText';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
 let sketchpad = null;
 let graph_paper = 'assets/graph-paper.png';
 
 const Drawing = (props) => {
+  const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
 
   useEffect(() => {
@@ -58,50 +82,57 @@ const Drawing = (props) => {
 
   return (
     <div>
-      <canvas
-        id="sketchpad"
-        width="500"
-        height="800"
-        style={{
-          borderStyle: 'solid',
-          borderColor: 'black',
-          backgroundImage: `url(${graph_paper})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      ></canvas>
-      <form>
-        <button onClick={downloadDrawing}>
-          Download image to my local computer
-        </button>
-        <button onClick={handleExport} style = {{backgroundColor:'lightpink'}}>Save character and choose platform</button>
-        <button onClick={clear}>clear</button>
-        <br />
-        <label>Thickness</label>
-        <br />
-        <input
-          type="range"
-          min={1}
-          max={40}
-          onInput={setThickness}
-          step={0.1}
-        />
-        <br />
-        <label>Mode</label>
-
-        <select onChange={chooseMode}>
-          <option value="draw">Draw</option>
-          <option value="fill">Fill</option>
-          <option value="erase">Erase</option>
-          <option value="disabled">Disabled</option>
-        </select>
-        <br />
-        <label>Color</label>
-        <HexColorPicker color={color} onChange={setColor} />
-        <br />
-      </form>
-    </div>
+      <Box alignItems="center" justifyContent="center">
+        <canvas
+          id="sketchpad"
+          width="500"
+          height="800"
+          style={{
+            borderStyle: 'solid',
+            borderColor: 'black',
+            backgroundImage: `url(${graph_paper})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        ></canvas>
+      </Box>
+      <Button variant="contained" onClick={downloadDrawing}>
+        Download image to my local computer
+      </Button>
+      <Button variant="contained" onClick={handleExport} >Save character and choose platform</Button>
+      <Button onClick={clear}>clear</Button>
+      <br />
+      <Typography id="non-linear-slider" gutterBottom>
+        Thickness
+      </Typography>
+      <br />
+      <Slider
+        min={1}
+        max={40}
+        onChage={setThickness}
+        step={0.1}
+      />
+      <br />
+      <Typography>Mode</Typography>
+      <FormControl className={classes.formControl}>
+        <NativeSelect
+          onChange={chooseMode}
+          name="age"
+          className={classes.selectEmpty}
+        // inputProps={{ 'aria-label': 'age' }}
+        >
+          <option value={"draw"}>Draw</option>
+          <option value={"fill"}>Fill</option>
+          <option value={'erase'}>Erase</option>
+          <option value={"disable"}>Disabled</option>
+        </NativeSelect>
+        <FormHelperText>Draw, fill or erase</FormHelperText>
+      </FormControl>
+      <Typography>Color</Typography>
+      <HexColorPicker color={color} onChange={setColor} />
+      <br />
+    </div >
   );
 };
 

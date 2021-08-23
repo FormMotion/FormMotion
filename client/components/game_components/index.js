@@ -12,7 +12,7 @@ export default class Game extends React.Component {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 400 },
-                    debug: true,
+                    debug: false,
                 },
             },
             scale: {

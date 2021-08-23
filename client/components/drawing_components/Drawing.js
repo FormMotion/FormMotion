@@ -5,6 +5,7 @@ import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
 
 let sketchpad = null;
+let graph_paper = 'assets/graph-paper.png';
 
 const Drawing = (props) => {
   const [color, setColor] = useState('#aabbcc');
@@ -61,7 +62,14 @@ const Drawing = (props) => {
         id="sketchpad"
         width="500"
         height="800"
-        style={{ borderStyle: 'solid', borderColor: 'black' }}
+        style={{
+          borderStyle: 'solid',
+          borderColor: 'black',
+          backgroundImage: `url(${graph_paper})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
       ></canvas>
       <form>
         <button onClick={downloadDrawing}>

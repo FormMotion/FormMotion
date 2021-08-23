@@ -12,8 +12,6 @@ const Drawing = (props) => {
   const [color, setColor] = useState('#aabbcc');
   const [lines, updateLines] = useState([]);
   const [undoneLines, updateUndoneLines] = useState([]);
-  const alines = [];
-  const aundoneLines = [];
 
   // let sketchpad = {}
 
@@ -22,15 +20,11 @@ const Drawing = (props) => {
     sketchpad.recordStrokes = true;
     sketchpad.addEventListener('strokerecorded', ({ stroke }) => {
       updateLines([...lines, stroke]);
-      console.log(stroke, 'STROKE');
-      alines.push(stroke);
-      console.log(alines, 'alines');
-      console.log('lines', lines);
     });
 
-    sketchpad.addEventListener('fillstart', ({ x, y }) => {
-      console.log('fill', x, y);
-    });
+    // sketchpad.addEventListener('fillstart', ({ x, y }) => {
+    //   console.log('fill', x, y);
+    // });
   }
   useEffect(() => {
     if (sketchpad === null) {
@@ -49,39 +43,26 @@ const Drawing = (props) => {
 
   function undo(e) {
     e.preventDefault();
-    console.log('i got to undo, and lines is', lines);
     if (lines.length !== 0) {
       sketchpad.clear();
       sketchpad.recordStrokes = false;
       lines
         .filter((line, index) => index !== lines.length - 1)
         .forEach((i) => drawLine(i));
-
       const line = lines[lines.length - 1];
-      console.log('line', line);
-      // aundoneLines.push(alines.pop());
-      // console.log(alines, 'alines in undo');
       updateLines(lines.filter((line, index) => index !== lines.length - 1));
-
       updateUndoneLines([...undoneLines, line]);
       sketchpad.recordStrokes = true;
-
-      // redraw();
     }
   }
 
   function redo(e) {
     e.preventDefault();
-    console.log('i got to redo and lines is', lines);
     if (undoneLines.length !== 0) {
-      // alines.push(aundoneLines.pop());
-
       sketchpad.recordStrokes = false;
-      // redraw();
       sketchpad.clear();
       lines.forEach((line) => drawLine(line));
       drawLine(undoneLines[undoneLines.length - 1]);
-
       const line = undoneLines[undoneLines.length - 1];
       updateUndoneLines(
         undoneLines.filter((line, index) => index !== undoneLines.length - 1)
@@ -98,33 +79,23 @@ const Drawing = (props) => {
   // };
 
   const drawLine = function (stroke) {
-    console.log('here in drawLine', stroke);
     sketchpad.mode = stroke.mode;
     sketchpad.weight = stroke.weight;
     sketchpad.color = stroke.color;
-    // don't want to modify original data
     const points = stroke.points.slice();
     const firstPoint = points.shift();
-    // beginStroke moves the "pen" to the given position and starts the path
     sketchpad.beginStroke(firstPoint.x, firstPoint.y);
     let prevPoint = firstPoint;
     while (points.length > 0) {
       const point = points.shift();
-
-      // the `draw` method accepts the current real coordinates
-      // (i. e. actual cursor position), and the previous processed (filtered)
-      // position. It returns an object with the current processed position.
       const { x, y } = sketchpad.draw(
         point.x,
         point.y,
         prevPoint.x,
         prevPoint.y
       );
-      // the processed position is the one where the line is actually drawn to
-      // so we have to store it and pass it to `draw` in the next step
       prevPoint = { x, y };
     }
-    // endStroke closes the path
     sketchpad.endStroke(prevPoint.x, prevPoint.y);
   };
 
@@ -142,7 +113,6 @@ const Drawing = (props) => {
     const link = document.createElement('a');
     link.download = 'myCharacter.png';
     link.href = uri;
-    console.log(link, 'link');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

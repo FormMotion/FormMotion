@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import store from './store';
 import { Provider } from 'react-redux';
-import {BrowserRouter, Router} from 'react-router-dom'
+import { BrowserRouter, Router } from 'react-router-dom'
 
 import Home from './components/Home';
 import NavBar from './components/NavBar'
@@ -16,7 +16,6 @@ class App extends Component {
         <NavBar />
         <Routes />
         <Footer />
-        <Home />
       </div>
     )
   }
@@ -24,9 +23,9 @@ class App extends Component {
 
 ReactDOM.render(
   <BrowserRouter>
-  <Provider store={store}>
-    <App />
-  </Provider>,
+    <Provider store={store}>
+      <App />
+    </Provider>,
   </BrowserRouter>,
   document.getElementById('app')
 );

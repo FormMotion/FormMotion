@@ -1,15 +1,5 @@
 //CSS styles for Material UI
 import { withStyles } from '@material-ui/core/styles'
-import Rating from '@material-ui/lab/Rating'
-
-export const StyledRating = withStyles({
-    iconFilled: {
-        color: '#db7093',
-    },
-    iconHover: {
-        color: '#db7093',
-    },
-})(Rating)
 
 const useStyles = (theme) => ({
     specialTypography: {
@@ -27,27 +17,6 @@ const useStyles = (theme) => ({
     },
     heroButtons: {
         marginTop: theme.spacing(4),
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(5),
-        paddingBottom: theme.spacing(5),
-    },
-    cartGrid: {
-        display: 'flex',
-        flexDirection: 'row',
-        paddingTop: theme.spacing(5),
-        paddingBottom: theme.spacing(5),
-    },
-    cartCard: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        paddingTop: theme.spacing(5),
-        paddingBottom: theme.spacing(5),
-    },
-    cartList: {
-        flexDirection: 'column',
-
     },
     card: {
         height: '100%',

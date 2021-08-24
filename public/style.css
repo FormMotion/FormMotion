@@ -1,3 +1,98 @@
 body {
+<<<<<<< HEAD
   color: rgb(255, 145, 163);
+=======
+  color: black;
+}
+
+.container {
+  display: grid;
+  width: 510x;
+  height: 820px;
+  position: relative;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 2px 2px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    '. . head head . .'
+    '. . head head . .'
+    '. leftupperarm torso torso rightupperarm .'
+    '. leftupperarm torso torso rightupperarm .'
+    '. leftlowerarm torso torso rightlowerarm .'
+    '. leftlowerarm leftupperleg rightupperleg rightlowerarm .'
+    '. . leftupperleg rightupperleg . .'
+    '. . leftlowerleg rightlowerleg . .'
+    '. . leftlowerleg rightlowerleg . .';
+}
+
+.head {
+  grid-area: head;
+  width: 250px;
+  height: 150px;
+  position: relative;
+}
+
+.leftupperarm {
+  grid-area: leftupperarm;
+  width: 100px;
+  height: 170px;
+  position: relative;
+}
+
+.rightupperarm {
+  width: 100px;
+  height: 170px;
+  grid-area: rightupperarm;
+  position: relative;
+}
+
+.leftlowerarm {
+  width: 100px;
+  height: 180px;
+  grid-area: leftlowerarm;
+  position: relative;
+}
+
+.rightlowerarm {
+  width: 100px;
+  height: 180px;
+  grid-area: rightlowerarm;
+  position: relative;
+}
+
+.torso {
+  width: 250px;
+  height: 280px;
+  grid-area: torso;
+  position: relative;
+}
+
+.leftupperleg {
+  width: 140px;
+  height: 200px;
+  grid-area: leftupperleg;
+  position: relative;
+}
+
+.rightupperleg {
+  width: 140px;
+  height: 200px;
+  grid-area: rightupperleg;
+  position: relative;
+}
+
+.leftlowerleg {
+  width: 140px;
+  height: 200px;
+  grid-area: leftlowerleg;
+  position: relative;
+}
+
+.rightlowerleg {
+  width: 140px;
+  height: 200px;
+  grid-area: rightlowerleg;
+  position: relative;
+>>>>>>> 3f3a8e4fca01b09c2eb3baaa3ab8fe49d4fd1058
 }

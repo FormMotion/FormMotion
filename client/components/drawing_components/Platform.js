@@ -12,21 +12,20 @@ const Platform = (props) => {
   const [color, setColor] = useState('#aabbcc');
   const [drawnPlatform, setDrawnPlatform] = useState(true);
   const [drawnPrize, setDrawnPrize] = useState(true);
+  // const [thickness, setThickness] = useState(7);
 
   useEffect(() => {
-    if (platform === null)  {
+    if (platform === null) {
       const canvas = document.querySelector('#platform');
       platform = new Atrament(canvas);
     }
     platform.color = color;
-    if (prize === null)  {
-        const canvas = document.querySelector('#prize');
-        prize = new Atrament(canvas);
-      }
-      prize.color = color;
+    if (prize === null) {
+      const canvas = document.querySelector('#prize');
+      prize = new Atrament(canvas);
+    }
+    prize.color = color;
   }, [color]);
-
-
 
   function clearPlatform(e) {
     e.preventDefault();
@@ -72,40 +71,38 @@ const Platform = (props) => {
 
   const handleExport = (e) => {
     e.preventDefault();
-    if(drawnPlatform){
-        const platformURI = platform.toImage();
-        localStorage.setItem('playerDrawnPlatform', platformURI);
+    if (drawnPlatform) {
+      const platformURI = platform.toImage();
+      localStorage.setItem('playerDrawnPlatform', platformURI);
     } else {
-        localStorage.setItem('playerDrawnPlatform', false);
+      localStorage.setItem('playerDrawnPlatform', false);
     }
 
-    if (drawnPrize){
-        const prizeURI = prize.toImage();
-        localStorage.setItem('playerDrawnPrize', prizeURI);
+    if (drawnPrize) {
+      const prizeURI = prize.toImage();
+      localStorage.setItem('playerDrawnPrize', prizeURI);
     } else {
-        localStorage.setItem('playerDrawnPrize', false);
+      localStorage.setItem('playerDrawnPrize', false);
     }
-    
 
     props.history.push('./game');
   };
 
   const useDefaultPlatform = () => {
-    setDrawnPlatform(false)
-  }
-  
+    setDrawnPlatform(false);
+  };
+
   const useDefaultPrize = () => {
-    setDrawnPrize(false)
-  }
+    setDrawnPrize(false);
+  };
 
+  // KEEP THIS FOR THE FUTURE LOGGED IN USER!
 
-  // KEEP THIS FOR THE FUTURE LOGGED IN USER! 
-
-//   const saveToGame = async (e) => {
-//     e.preventDefault(0);
-//     const playerDrawnCharacter = sketchpad.toImage();
-//     await props.saveImage(playerDrawnCharacter);
-//   };
+  //   const saveToGame = async (e) => {
+  //     e.preventDefault(0);
+  //     const playerDrawnCharacter = sketchpad.toImage();
+  //     await props.saveImage(playerDrawnCharacter);
+  //   };
 
   return (
     <div>
@@ -126,10 +123,10 @@ const Platform = (props) => {
         <button onClick={useDefaultPlatform}>Use default platform</button>
         <button onClick={clearPlatform}>clear</button>
         <button onClick={downloadPlatform}>
-            Download platform drawing to my local computer
-            </button>
+          Download platform drawing to my local computer
+        </button>
       </form>
-       <canvas
+      <canvas
         id="prize"
         width="100"
         height="100"
@@ -142,15 +139,17 @@ const Platform = (props) => {
           backgroundRepeat: 'no-repeat',
         }}
       ></canvas>
-       <form>
+      <form>
         <button onClick={useDefaultPrize}>Use default prize</button>
         <button onClick={clearPrize}>clear</button>
         <button onClick={downloadPrize}>
-            Download prize drawing to my local computer
-            </button>
+          Download prize drawing to my local computer
+        </button>
       </form>
       <form>
-        <button onClick={handleExport} style = {{backgroundColor:'lightpink'}}>Save and play the game</button>
+        <button onClick={handleExport} style={{ backgroundColor: 'lightpink' }}>
+          Save and play the game
+        </button>
         <br />
         <label>Thickness</label>
         <br />

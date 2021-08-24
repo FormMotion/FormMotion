@@ -153,8 +153,10 @@ export default class Game extends Phaser.Scene {
 
     if (this.cursors.left.isDown && !touchingDown) {
       this.player.setVelocityX(-300);
+      this.player.flipX = true // Avatar facing left
     } else if (this.cursors.right.isDown && !touchingDown) {
       this.player.setVelocityX(300);
+      this.player.flipX = false // Avatar facing right
     } else {
       this.player.setVelocityX(0);
     }
@@ -194,7 +196,11 @@ export default class Game extends Phaser.Scene {
       // this.scene.stop();
       // this.scene.start();
     }
-  }
+
+    // Rotate Player with arrow keys
+
+
+  } // END OF UPDATE
 
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {

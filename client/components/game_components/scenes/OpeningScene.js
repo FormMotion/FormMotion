@@ -76,8 +76,6 @@ export default class OpeningScene extends Phaser.Scene {
             },
             this
         );
-
-
     }
 }
 // ^^^^^ End of create()

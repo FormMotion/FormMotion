@@ -23,6 +23,7 @@ class Routes extends Component {
           <Route path="/game" component={Game} />
           <Route path="/platform" component={Platform} />
           <Route path ="/merge" component={Merge} />
+          {/**Merge route for dev purposes only - should be removed as soon as no longer needed. */}
         </Switch>
       </div>
     );

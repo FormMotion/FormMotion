@@ -144,6 +144,10 @@ export default class Game extends Phaser.Scene {
 
     //Sounds
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
+  
+    //Opening Scene launch pop-up
+    this.scene.launch('OpeningScene');
+    this.scene.pause('MainScene');
   }
 
   update() {

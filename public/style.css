@@ -1,61 +1,94 @@
 body {
-	color: red;
+  color: black;
 }
 
 .container {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-	gap: 0px 0px;
-	grid-auto-flow: row;
-	grid-template-areas:
-		'. . head head . .'
-		'. . head head . .'
-		'. leftupperarm torso torso rightupperarm .'
-		'. leftupperarm torso torso rightupperarm .'
-		'. leftlowerarm torso torso rightlowerarm .'
-		'. leftlowerarm leftupperleg rightupperleg rightlowerarm .'
-		'. . leftupperleg rightupperleg . .'
-		'. . leftlowerleg rightlowerleg . .'
-		'. . leftlowerleg rightlowerleg . .';
+  display: grid;
+  width: 510x;
+  height: 820px;
+  position: relative;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 2px 2px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    '. . head head . .'
+    '. . head head . .'
+    '. leftupperarm torso torso rightupperarm .'
+    '. leftupperarm torso torso rightupperarm .'
+    '. leftlowerarm torso torso rightlowerarm .'
+    '. leftlowerarm leftupperleg rightupperleg rightlowerarm .'
+    '. . leftupperleg rightupperleg . .'
+    '. . leftlowerleg rightlowerleg . .'
+    '. . leftlowerleg rightlowerleg . .';
 }
 
 .head {
-	grid-area: head;
+  grid-area: head;
+  width: 250px;
+  height: 150px;
+  position: relative;
 }
 
 .leftupperarm {
-	grid-area: leftupperarm;
+  grid-area: leftupperarm;
+  width: 100px;
+  height: 170px;
+  position: relative;
 }
 
 .rightupperarm {
-	grid-area: rightupperarm;
+  width: 100px;
+  height: 170px;
+  grid-area: rightupperarm;
+  position: relative;
 }
 
 .leftlowerarm {
-	grid-area: leftlowerarm;
+  width: 100px;
+  height: 180px;
+  grid-area: leftlowerarm;
+  position: relative;
 }
 
 .rightlowerarm {
-	grid-area: rightlowerarm;
+  width: 100px;
+  height: 180px;
+  grid-area: rightlowerarm;
+  position: relative;
 }
 
 .torso {
-	grid-area: torso;
+  width: 250px;
+  height: 280px;
+  grid-area: torso;
+  position: relative;
 }
 
 .leftupperleg {
-	grid-area: leftupperleg;
+  width: 140px;
+  height: 200px;
+  grid-area: leftupperleg;
+  position: relative;
 }
 
 .rightupperleg {
-	grid-area: rightupperleg;
+  width: 140px;
+  height: 200px;
+  grid-area: rightupperleg;
+  position: relative;
 }
 
 .leftlowerleg {
-	grid-area: leftlowerleg;
+  width: 140px;
+  height: 200px;
+  grid-area: leftlowerleg;
+  position: relative;
 }
 
 .rightlowerleg {
-	grid-area: rightlowerleg;
+  width: 140px;
+  height: 200px;
+  grid-area: rightlowerleg;
+  position: relative;
 }

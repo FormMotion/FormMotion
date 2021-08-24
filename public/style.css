@@ -1,3 +1,61 @@
 body {
-  color: red;
+	color: red;
+}
+
+.container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	gap: 0px 0px;
+	grid-auto-flow: row;
+	grid-template-areas:
+		'. . head head . .'
+		'. . head head . .'
+		'. leftupperarm torso torso rightupperarm .'
+		'. leftupperarm torso torso rightupperarm .'
+		'. leftlowerarm torso torso rightlowerarm .'
+		'. leftlowerarm leftupperleg rightupperleg rightlowerarm .'
+		'. . leftupperleg rightupperleg . .'
+		'. . leftlowerleg rightlowerleg . .'
+		'. . leftlowerleg rightlowerleg . .';
+}
+
+.head {
+	grid-area: head;
+}
+
+.leftupperarm {
+	grid-area: leftupperarm;
+}
+
+.rightupperarm {
+	grid-area: rightupperarm;
+}
+
+.leftlowerarm {
+	grid-area: leftlowerarm;
+}
+
+.rightlowerarm {
+	grid-area: rightlowerarm;
+}
+
+.torso {
+	grid-area: torso;
+}
+
+.leftupperleg {
+	grid-area: leftupperleg;
+}
+
+.rightupperleg {
+	grid-area: rightupperleg;
+}
+
+.leftlowerleg {
+	grid-area: leftlowerleg;
+}
+
+.rightlowerleg {
+	grid-area: rightlowerleg;
 }

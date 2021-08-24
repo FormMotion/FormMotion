@@ -7,10 +7,10 @@ export const SAVE_IMAGE = 'SAVE_IMAGE';
 //   image,
 // });
 
-export const saveImageThunk = (dataUrl) => {
+export const saveImageThunk = (name, dataUrl) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post('/api/images', { dataUrl });
+      const { data } = await axios.post('/api/images', { name, dataUrl });
 
       // dispatch(getImage(data));
     } catch (err) {

@@ -4,14 +4,14 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import About from './components/About';
 import Welcome from './components/Welcome';
-import Drawing from './components/drawing_components/Drawing.js';
+import Drawing from './components/drawing_components/oneDrawing.js';
 import Game from './components/Game';
 import Platform from './components/drawing_components/Platform.js';
 
 class Routes extends Component {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
   render() {
     return (
       <div>

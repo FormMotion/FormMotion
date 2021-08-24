@@ -1,13 +1,15 @@
 const router = require('express').Router();
 const fs = require('fs');
 const path = require('path');
-const filePath = path.join(
-  __dirname,
-  '../../public/assets/temp_char_facing_right_run.png'
-);
 
 router.post('/', function (req, res, next) {
   const data = req.body.dataUrl;
+  const name = req.body.name;
+  const filePath = path.join(
+    __dirname,
+    `../../public/assets/temp_char_${name}.png`
+  );
+
   const uri = data.split(',')[1];
   const img = Buffer.from(uri, 'base64');
   fs.writeFileSync(filePath, img, (err) => {

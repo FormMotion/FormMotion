@@ -138,6 +138,10 @@ export default class Game extends Phaser.Scene {
 
     //Sounds
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
+  
+    //Opening Scene launch pop-up
+    this.scene.launch('OpeningScene');
+    this.scene.pause('MainScene');
   }
 
   update() {
@@ -149,8 +153,10 @@ export default class Game extends Phaser.Scene {
 
     if (this.cursors.left.isDown && !touchingDown) {
       this.player.setVelocityX(-300);
+      this.player.flipX = true // Avatar facing left
     } else if (this.cursors.right.isDown && !touchingDown) {
       this.player.setVelocityX(300);
+      this.player.flipX = false // Avatar facing right
     } else {
       this.player.setVelocityX(0);
     }
@@ -178,11 +184,23 @@ export default class Game extends Phaser.Scene {
     });
 
     //Ends game if player falls below bottom of screen
-    if (this.player.y > 550) {
+    if (this.player.y > 900) {
       const style = { color: '#fff', fontSize: 80 };
       this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
     }
-  }
+
+    if (this.player.y > 2500) {
+      this.registry.destroy(); // destroy registry
+      this.events.off(); // disable all active events
+      this.scene.restart(); // restart current scene
+      // this.scene.stop();
+      // this.scene.start();
+    }
+
+    // Rotate Player with arrow keys
+
+
+  } // END OF UPDATE
 
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {

@@ -20,14 +20,20 @@ export default class OpeningScene extends Phaser.Scene {
         this.button.strokeRect(325, 465, 150, 50);
         this.button.fillRect(325, 465, 150, 50);
 
+        // Show the Avatar in the pop up box
+        this.player = this.add
+        .sprite(300, 100, 'playerFacingRight')
+        .setScale(0.25)
+        .setOrigin(1.8, 0.02) // player placement
+
         // Add title
         this.add
             .text(400, 83, 'FormMotion', {
-                fill: '#2a275c',
-                fontSize: '34px',
-                fontStyle: 'bold'
-        })
-        .setOrigin(0.5);
+                fill: '#fff',
+                fontSize: '40px',
+                fontStyle: 'bold',
+            })
+            .setOrigin(0.5);
 
         // Add description of game
         this.add
@@ -35,9 +41,8 @@ export default class OpeningScene extends Phaser.Scene {
                 200,
                 'Hop around your world, from one platform to another, be sure to collect your prizes to earn points!',
                 {
-                    fill: 'CED4D6',
+                    fill: '#fff',
                     fontSize: '20px',
-                    fontStyle: 'bold',
                     align: 'center',
                     wordWrap: {width: 480, height: 445, useAdvancedWrap: true},
                 }
@@ -47,21 +52,21 @@ export default class OpeningScene extends Phaser.Scene {
         // Add instructions
         this.add
             .text(400, 340, '<= => to move | ^ to jump', {
-                fill: 'CED4D6',
+                fill: '#fff',
                 fontSize: '20px',
-                fontStyle: 'bold',
                 align: 'center',
-        })
-        .setOrigin(0.5)
+            })
+            .setOrigin(0.5)
 
         //Start Button 
         this.startButton = this.add
             .text(400, 490, 'Start', {
-                fill: '2A275C',
+                fill: '#fff', // white text
                 fontSize: '30px',
                 fontStyle: 'bold'
             })
             .setOrigin(0.5);
+
         this.startButton.setInteractive();
         this.startButton.on(
             'pointerdown',
@@ -71,6 +76,8 @@ export default class OpeningScene extends Phaser.Scene {
             },
             this
         );
+
+
     }
 }
 // ^^^^^ End of create()

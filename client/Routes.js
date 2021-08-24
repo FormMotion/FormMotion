@@ -7,6 +7,7 @@ import Welcome from './components/Welcome';
 import Drawing from './components/drawing_components/Drawing.js';
 import Game from './components/Game';
 import Platform from './components/drawing_components/Platform.js';
+import Merge from './components/merge_test/merge_test.js'
 
 class Routes extends Component {
     constructor() {
@@ -21,6 +22,7 @@ class Routes extends Component {
           <Route path="/play" component={Drawing} />
           <Route path="/game" component={Game} />
           <Route path="/platform" component={Platform} />
+          <Route path ="/merge" component={Merge} />
         </Switch>
       </div>
     );

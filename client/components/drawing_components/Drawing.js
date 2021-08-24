@@ -82,52 +82,6 @@ const Drawing = (props) => {
 
   return (
     <div>
-<<<<<<< HEAD
-      <canvas
-        id="sketchpad"
-        width="500"
-        height="800"
-        style={{
-          borderStyle: 'solid',
-          borderColor: 'black',
-          backgroundImage: `url(${graph_paper})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      ></canvas>
-      <form>
-        <button onClick={downloadDrawing}>
-          Download image to my local computer
-        </button>
-        <button onClick={handleExport} style = {{backgroundColor:'lightpink'}}>Save character and choose platform</button>
-        <button onClick={clear}>clear</button>
-        <br />
-        <label>Thickness</label>
-        <br />
-        <input
-          type="range"
-          min={1}
-          max={80}
-          onInput={setThickness}
-          step={0.1}
-        />
-        <br />
-        <label>Mode</label>
-
-        <select onChange={chooseMode}>
-          <option value="draw">Draw</option>
-          <option value="fill">Fill</option>
-          <option value="erase">Erase</option>
-          <option value="disabled">Disabled</option>
-        </select>
-        <br />
-        <label>Color</label>
-        <HexColorPicker color={color} onChange={setColor} />
-        <br />
-      </form>
-    </div>
-=======
       <Box alignItems="center" justifyContent="center">
         <canvas
           id="sketchpad"
@@ -154,9 +108,9 @@ const Drawing = (props) => {
       </Typography>
       <br />
       <Slider
-        min={1}
-        max={40}
-        onChage={setThickness}
+        min={10}
+        max={80}
+        onChange={setThickness}
         step={0.1}
       />
       <br />
@@ -179,7 +133,6 @@ const Drawing = (props) => {
       <HexColorPicker color={color} onChange={setColor} />
       <br />
     </div >
->>>>>>> 5d195844691406f8902a403b39f5fba00f0153a3
   );
 };
 

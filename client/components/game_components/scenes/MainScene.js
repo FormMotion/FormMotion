@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 
+
 //Parallax Mountains
 let bg5 = 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png';
 let bg4 =
@@ -41,18 +42,20 @@ export default class Game extends Phaser.Scene {
     // this.load.image('platform', 'assets/temp_platform.png');
     // this.load.image('prize', 'assets/temp_coin.png');
 
-    this.load.audio('pickup', 'assets/kalimba_chime.mp3');
 
+
+
+    
     //Loaded from localStorage - user drawn images
     let dataURI = localStorage.getItem('playerDrawnCharacter');
     let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
     let drawnPrize = localStorage.getItem('playerDrawnPrize');
-
+    
     // CHARACTER DRAWN
     let data = new Image();
     data.src = dataURI;
     this.textures.addBase64('playerFacingRight', dataURI, data);
-
+    
     // PLATFORM DRAWN
     if(drawnPlatform) {
       let platformData = new Image();
@@ -66,6 +69,9 @@ export default class Game extends Phaser.Scene {
       prizeData.src = drawnPrize;
       this.textures.addBase64('prize', drawnPrize, prizeData);
     }
+
+    this.load.audio('pickup', 'assets/kalimba_chime.mp3');
+    
   }
 
   create() {
@@ -78,7 +84,7 @@ export default class Game extends Phaser.Scene {
     this.add
       .image(width * 0.5, height * 0.5, 'bg-5')
       .setScrollFactor(0)
-      .setScale(5);
+      .setScale(6);
     createAligned(this, totalWidth, 'bg-4', 0.25, bgscale);
     createAligned(this, totalWidth, 'bg-3', 0.5, bgscale);
     createAligned(this, totalWidth, 'bg-2', 1, bgscale),
@@ -101,7 +107,7 @@ export default class Game extends Phaser.Scene {
 
     //Avatar / Player Character
     this.player = this.physics.add
-      .sprite(300, 100, 'playerFacingRight')
+      .sprite(300, 10, 'playerFacingRight')
       .setScale(0.25);
 
     //Prize

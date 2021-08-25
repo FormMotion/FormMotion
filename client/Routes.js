@@ -8,7 +8,7 @@ import Drawing from './components/drawing_components/Drawing.js';
 import oneDrawing from './components/drawing_components/oneDrawing.js';
 import Game from './components/Game';
 import Platform from './components/drawing_components/Platform.js';
-import Merge from './components/merge_test/merge_test.js'
+import Merge from './components/merge_components/MergeMain.js'
 
 class Routes extends Component {
   constructor() {

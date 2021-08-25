@@ -14,9 +14,21 @@ export default class merge_test extends Component {
             mergedImage: null
         }
     }
-    //Note: not sure if we will actually need to use state for this - this is just the easiest way I know to handle Promises
+
+    
+
 
     componentDidMount() {
+        const head = localStorage.getItem('playerDrawnhead')
+        const torso = localStorage.getItem('playerDrawntorso')
+        const armRightUpper = localStorage.getItem('playerDrawnrightUpperArm')
+        const armRightLower = localStorage.getItem('playerDrawnrightLowerArm')
+        const armLeftUpper = localStorage.getItem('playerDrawnleftUpperArm')
+        const armLeftLower = localStorage.getItem('playerDrawnleftLowerArm')
+        const legRightUpper = localStorage.getItem('playerDrawnrightUpperLeg')
+        const legRightLower = localStorage.getItem('playerDrawnrightLowerLeg')
+        const legLeftUpper = localStorage.getItem('playerDrawnleftUpperLeg')
+        const legLeftLower = localStorage.getItem('playerDrawnleftLowerLeg')
 
         mergeImages([
             //Image paths have to, apparently, be relative to index.html
@@ -26,21 +38,21 @@ export default class merge_test extends Component {
             //BACKGROUND
             {src: 'merge_test_assets/visible_test_background.png', x: 0, y: 0},
             //HEAD
-            {src: 'merge_test_assets/test_head.png', x: 150, y: 0},
+            {src: head, x: 130, y: 0},
             //TORSO
-            {src: 'merge_test_assets/test_torso.png', x: 120, y: 131},
-            //RIGHT ARM (from character perspective)
-            {src: 'merge_test_assets/test_upper_right_arm.png', x: 50, y: 151},
-            {src: 'merge_test_assets/test_lower_right_arm.png', x: 30, y: 282},
-            //LEFT ARM (from character perspective)
-            {src: 'merge_test_assets/test_upper_left_arm.png', x: 310, y: 131},
-            {src: 'merge_test_assets/test_lower_left_arm.png', x: 310, y: 262},
-            //RIGHT LEG (from character perspective)
-            {src: 'merge_test_assets/test_upper_right_leg.png', x: 100, y: 400},
-            {src: 'merge_test_assets/test_lower_right_leg.png', x: 50, y: 550},
-            //LEFT LEG (from character perspective)
-            {src: 'merge_test_assets/test_upper_left_leg.png', x: 200, y: 400},
-            {src: 'merge_test_assets/test_lower_left_leg.png', x: 250, y: 550},
+            {src: torso, x: 120, y: 150},
+            //Left ARM (from user perspective)
+            {src: armLeftUpper, x: 20, y: 150},
+            {src: armLeftLower, x: 20, y: 300},
+            //Right ARM (from user perspective)
+            {src: armRightUpper, x: 400, y: 150},
+            {src: armRightLower, x: 400, y: 320},
+            //Left LEG (from user perspective)
+            {src: legLeftUpper, x: 150, y: 400},
+            {src: legLeftLower, x: 150, y: 580},
+            //Right LEG (from user perspective)
+            {src: legRightUpper, x: 250, y: 400},
+            {src: legRightLower, x: 250, y: 580},
             
         ])
         .then(res => this.setState({mergedImage: res}))

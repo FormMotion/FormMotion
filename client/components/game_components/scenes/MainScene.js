@@ -15,6 +15,7 @@ let bgscale = 3;
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
+    //maybe we need to do this twice in this file?
     this.setScale(0.7);
   }
 }
@@ -38,33 +39,39 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-3', bg3);
     this.load.image('bg-2', bg2);
     this.load.image('bg-1', bg1);
-    // this.load.image('platform', 'assets/temp_platform.png');
-    // this.load.image('prize', 'assets/temp_coin.png');
 
     this.load.audio('pickup', 'assets/kalimba_chime.mp3');
 
     //Loaded from localStorage - user drawn images
-    let dataURI = localStorage.getItem('playerDrawnCharacter');
+    let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
     let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
     let drawnPrize = localStorage.getItem('playerDrawnPrize');
 
     // CHARACTER DRAWN
-    let data = new Image();
-    data.src = dataURI;
-    this.textures.addBase64('playerFacingRight', dataURI, data);
+    if (drawnCharacter !== 'false') {
+      let data = new Image();
+      data.src = drawnCharacter;
+      this.textures.addBase64('playerFacingRight', drawnCharacter, data);
+    } else {
+      this.load.image('playerFacingRight', 'assets/eyeChar.png');
+    }
 
     // PLATFORM DRAWN
-    if(drawnPlatform) {
+    if (drawnPlatform !== 'false') {
       let platformData = new Image();
       platformData.src = drawnPlatform;
       this.textures.addBase64('platform', drawnPlatform, platformData);
+    } else {
+      this.load.image('platform', 'assets/eyePlatform.png');
     }
-    
+
     // PRIZE DRAWN
-    if(drawnPrize) {
+    if (drawnPrize !== 'false') {
       let prizeData = new Image();
       prizeData.src = drawnPrize;
       this.textures.addBase64('prize', drawnPrize, prizeData);
+    } else {
+      this.load.image('prize', 'assets/eyePrize.png');
     }
   }
 
@@ -93,6 +100,7 @@ export default class Game extends Phaser.Scene {
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, 'platform');
+
       platform.scale = 1;
 
       const body = platform.body;
@@ -138,7 +146,7 @@ export default class Game extends Phaser.Scene {
 
     //Sounds
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
-  
+
     //Opening Scene launch pop-up
     this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
@@ -153,10 +161,10 @@ export default class Game extends Phaser.Scene {
 
     if (this.cursors.left.isDown && !touchingDown) {
       this.player.setVelocityX(-300);
-      this.player.flipX = true // Avatar facing left
+      this.player.flipX = true; // Avatar facing left
     } else if (this.cursors.right.isDown && !touchingDown) {
       this.player.setVelocityX(300);
-      this.player.flipX = false // Avatar facing right
+      this.player.flipX = false; // Avatar facing right
     } else {
       this.player.setVelocityX(0);
     }
@@ -198,8 +206,6 @@ export default class Game extends Phaser.Scene {
     }
 
     // Rotate Player with arrow keys
-
-
   } // END OF UPDATE
 
   //Adds the prizes above the platforms

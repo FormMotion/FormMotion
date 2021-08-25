@@ -6,13 +6,22 @@ import { HexColorPicker } from 'react-colorful';
 
 let platform = null;
 let prize = null;
-let graph_paper = 'assets/graph-paper.png';
 
 const Platform = (props) => {
   const [color, setColor] = useState('#aabbcc');
   const [drawnPlatform, setDrawnPlatform] = useState(true);
   const [drawnPrize, setDrawnPrize] = useState(true);
   // const [thickness, setThickness] = useState(7);
+
+  let graph_paper_prize = 'assets/graph-paper.png';
+  let graph_paper_platform = 'assets/graph-paper.png';
+
+  if (!drawnPrize) {
+    graph_paper_prize = 'assets/eyePrize.png';
+  }
+  if (!drawnPlatform) {
+    graph_paper_platform = 'assets/eyePlatform.png';
+  }
 
   useEffect(() => {
     if (platform === null) {
@@ -43,8 +52,12 @@ const Platform = (props) => {
   }
 
   function chooseMode(e) {
-    platform.mode = e.target.value;
-    prize.mode = e.target.value;
+    if (drawnPlatform) {
+      platform.mode = e.target.value;
+    }
+    if (drawnPrize) {
+      prize.mode = e.target.value;
+    }
   }
 
   function downloadPlatform(e) {
@@ -88,12 +101,29 @@ const Platform = (props) => {
     props.history.push('./game');
   };
 
-  const useDefaultPlatform = () => {
+  const useDefaultPlatform = (e) => {
+    e.preventDefault();
+    platform.clear();
     setDrawnPlatform(false);
+    platform.mode = 'disabled';
   };
 
-  const useDefaultPrize = () => {
+  const drawPlatform = (e) => {
+    e.preventDefault();
+    setDrawnPlatform(true);
+    platform.mode = 'draw';
+  };
+  const useDefaultPrize = (e) => {
+    e.preventDefault();
+    prize.clear();
     setDrawnPrize(false);
+    prize.mode = 'disabled';
+  };
+
+  const drawPrize = (e) => {
+    e.preventDefault();
+    setDrawnPrize(true);
+    prize.mode = 'draw';
   };
 
   // KEEP THIS FOR THE FUTURE LOGGED IN USER!
@@ -113,14 +143,19 @@ const Platform = (props) => {
         style={{
           borderStyle: 'solid',
           borderColor: 'black',
-          backgroundImage: `url(${graph_paper})`,
+          backgroundImage: `url(${graph_paper_platform})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       ></canvas>
       <form>
-        <button onClick={useDefaultPlatform}>Use default platform</button>
+        {drawnPlatform && (
+          <button onClick={useDefaultPlatform}>Use default platform</button>
+        )}
+        {!drawnPlatform && (
+          <button onClick={drawPlatform}>Draw platform</button>
+        )}
         <button onClick={clearPlatform}>clear</button>
         <button onClick={downloadPlatform}>
           Download platform drawing to my local computer
@@ -133,14 +168,17 @@ const Platform = (props) => {
         style={{
           borderStyle: 'solid',
           borderColor: 'black',
-          backgroundImage: `url(${graph_paper})`,
+          backgroundImage: `url(${graph_paper_prize})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       ></canvas>
       <form>
-        <button onClick={useDefaultPrize}>Use default prize</button>
+        {drawnPrize && (
+          <button onClick={useDefaultPrize}>Use default prize</button>
+        )}
+        {!drawnPrize && <button onClick={drawPrize}>Draw prize</button>}
         <button onClick={clearPrize}>clear</button>
         <button onClick={downloadPrize}>
           Download prize drawing to my local computer

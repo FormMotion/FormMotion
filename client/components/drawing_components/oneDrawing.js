@@ -33,6 +33,12 @@ let graph_paper = 'assets/graph-paper.png';
 const oneDrawing = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
+  const [drawnChar, setDrawnChar] = useState(true);
+  const [thickness, setThickness] = useState(7);
+
+  if (!drawnChar) {
+    graph_paper = 'assets/eyeChar.png';
+  }
 
   useEffect(() => {
     if (sketchpad === null) {
@@ -47,12 +53,16 @@ const oneDrawing = (props) => {
     sketchpad.clear();
   }
 
-  function setThickness(e) {
-    sketchpad.weight = parseFloat(e.target.value);
+  function setThicknessOnState(e, data) {
+    e.preventDefault();
+    setThickness(data);
+    sketchpad.weight = parseFloat(data);
   }
 
   function chooseMode(e) {
-    sketchpad.mode = e.target.value;
+    if (drawnChar) {
+      sketchpad.mode = e.target.value;
+    }
   }
 
   function downloadDrawing(e) {
@@ -69,9 +79,26 @@ const oneDrawing = (props) => {
 
   const handleExport = (e) => {
     e.preventDefault();
-    const uri = sketchpad.toImage();
-    localStorage.setItem('playerDrawnCharacter', uri);
+    if (drawnChar) {
+      const uri = sketchpad.toImage();
+      localStorage.setItem('playerDrawnCharacter', uri);
+    } else {
+      localStorage.setItem('playerDrawnCharacter', false);
+    }
     props.history.push('./platform');
+  };
+
+  const useDefaultCharacter = (e) => {
+    e.preventDefault();
+    sketchpad.clear();
+    setDrawnChar(false);
+    sketchpad.mode = 'disabled';
+  };
+
+  const drawCharacter = (e) => {
+    e.preventDefault();
+    setDrawnChar(true);
+    sketchpad.mode = 'draw';
   };
 
   const saveToGame = async (e) => {
@@ -97,6 +124,16 @@ const oneDrawing = (props) => {
           }}
         ></canvas>
       </Box>
+      {drawnChar && (
+        <Button variant="contained" onClick={useDefaultCharacter}>
+          Use default character
+        </Button>
+      )}
+      {!drawnChar && (
+        <Button variant="contained" onClick={drawCharacter}>
+          Draw character
+        </Button>
+      )}
       <Button variant="contained" onClick={downloadDrawing}>
         Download image to my local computer
       </Button>
@@ -109,7 +146,13 @@ const oneDrawing = (props) => {
         Thickness
       </Typography>
       <br />
-      <Slider min={1} max={40} onChange={setThickness} step={0.1} />
+      <Slider
+        min={1}
+        max={40}
+        value={thickness}
+        onChange={setThicknessOnState}
+        step={0.1}
+      />
       <br />
       <Typography>Mode</Typography>
       <FormControl className={classes.formControl}>

@@ -31,10 +31,10 @@ let sketchpad = null;
 let canvas_image = 'assets/graph-paper.png';
 
 const images = {
-  0: 'assets/graph-paper.png',
-  1: 'assets/temp_char_facing_left_run.png',
-  2: 'assets/temp_char_facing_right_run.png',
-  3: 'assets/eyeChar.png',
+  0: 'assets/single-chars/graph-paper.png',
+  1: 'assets/single-chars/eyeChar.png',
+  2: 'assets/single-chars/flamingoOnePiece.png',
+  3: 'assets/single-chars/temp_char_facing_left_run.png',
   4: 'assets/surpriseBox.jpeg',
 };
 
@@ -75,7 +75,6 @@ const oneDrawing = (props) => {
     const link = document.createElement('a');
     link.download = 'myCharacter.png';
     link.href = uri;
-    console.log(link, 'link');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -98,14 +97,13 @@ const oneDrawing = (props) => {
       setDefaultChar(choice);
       sketchpad.clear();
       sketchpad.mode = 'disabled';
-      console.log('my choice looks like this', images[choice]);
       canvas_image = images[choice];
     }
   };
 
   function setDataUrl(src, callback) {
     const img = new Image();
-    img.crossOrigin = 'Anonymous';
+    // img.crossOrigin = 'Anonymous';
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -114,7 +112,6 @@ const oneDrawing = (props) => {
       canvas.width = img.naturalWidth;
       ctx.drawImage(img, 0, 0);
       dataURL = canvas.toDataURL();
-      console.log(dataURL, 'dataUrl');
       callback(dataURL);
     };
     img.src = src;
@@ -133,7 +130,7 @@ const oneDrawing = (props) => {
 
   // get a random number between 1 and 3
   const getRandomChar = () => {
-    return Math.random() * 3 + 1;
+    return Math.floor(Math.random() * 4 + 1);
   };
 
   const handleExport = (e) => {
@@ -141,25 +138,26 @@ const oneDrawing = (props) => {
     // if the user hasn't chosen a default character and they've drawn on the canvas,
     // put their drawing in local storage
     if (!defaultChar && sketchpad.isDirty()) {
-      console.log('i got here to image');
       const uri = sketchpad.toImage();
       localStorage.setItem('playerDrawnCharacter', uri);
-
+      props.history.push('./platform');
       // if the user hasn't chosen a default character OR drawn on the canvas,
       // choose a random default character and put it in local storage
     } else {
       let choice;
-      if (!sketchpad.isDirty() && !defaultChar) {
+      if (
+        (!sketchpad.isDirty() && defaultChar === '0') ||
+        defaultChar === '4'
+      ) {
         choice = getRandomChar();
       } else {
         choice = defaultChar;
       }
-      console.log(choice, 'here is my choice');
-      setDataUrl(choice, (dataURL) => {
+      setDataUrl(images[choice], (dataURL) => {
         localStorage.setItem('playerDrawnCharacter', dataURL);
+        props.history.push('./platform');
       });
     }
-    props.history.push('./platform');
   };
 
   const saveToGame = async (e) => {
@@ -195,22 +193,12 @@ const oneDrawing = (props) => {
           <option value={1}>Eyes</option>
           <option value={2}>Flamingo</option>
           <option value={3}>Other</option>
-          <option value={4}>Be surprised!</option>
+          <option value={4}>Surprise me!</option>
         </NativeSelect>
         <FormHelperText>
           Draw, choose one of the provided options, or be surprised!
         </FormHelperText>
       </FormControl>
-      {/* {defaultChar && (
-        <Button variant="contained" onClick={useDefaultCharacter}>
-          Use default character
-        </Button>
-      )}
-      {!defaultChar && (
-        <Button variant="contained" onClick={drawCharacter}>
-          Draw character
-        </Button>
-      )} */}
       <Button variant="contained" onClick={downloadDrawing}>
         Download image to my local computer
       </Button>

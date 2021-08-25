@@ -48,31 +48,44 @@ export default class Game extends Phaser.Scene {
     let drawnPrize = localStorage.getItem('playerDrawnPrize');
 
     // CHARACTER DRAWN
-    if (drawnCharacter !== 'false') {
-      let data = new Image();
-      data.src = drawnCharacter;
-      this.textures.addBase64('playerFacingRight', drawnCharacter, data);
-    } else {
-      this.load.image('playerFacingRight', 'assets/eyeChar.png');
-    }
+    // do we need this?
+    // if (drawnCharacter !== 'false') {
+    //   let data = new Image();
+    //   data.src = drawnCharacter;
+    //   this.textures.addBase64('playerFacingRight', drawnCharacter, data);
+    // } else {
+    //   this.load.image('playerFacingRight', 'assets/eyeChar.png');
+    // }
+
+    let data = new Image();
+    data.src = drawnCharacter;
+    this.textures.addBase64('playerFacingRight', drawnCharacter, data);
 
     // PLATFORM DRAWN
-    if (drawnPlatform !== 'false') {
-      let platformData = new Image();
-      platformData.src = drawnPlatform;
-      this.textures.addBase64('platform', drawnPlatform, platformData);
-    } else {
-      this.load.image('platform', 'assets/eyePlatform.png');
-    }
+    // if (drawnPlatform !== 'false') {
+    //   let platformData = new Image();
+    //   platformData.src = drawnPlatform;
+    //   this.textures.addBase64('platform', drawnPlatform, platformData);
+    // } else {
+    //   this.load.image('platform', 'assets/eyePlatform.png');
+    // }
+
+    let platformData = new Image();
+    platformData.src = drawnPlatform;
+    this.textures.addBase64('platform', drawnPlatform, platformData);
 
     // PRIZE DRAWN
-    if (drawnPrize !== 'false') {
-      let prizeData = new Image();
-      prizeData.src = drawnPrize;
-      this.textures.addBase64('prize', drawnPrize, prizeData);
-    } else {
-      this.load.image('prize', 'assets/eyePrize.png');
-    }
+    // if (drawnPrize !== 'false') {
+    //   let prizeData = new Image();
+    //   prizeData.src = drawnPrize;
+    //   this.textures.addBase64('prize', drawnPrize, prizeData);
+    // } else {
+    //   this.load.image('prize', 'assets/eyePrize.png');
+    // }
+
+    let prizeData = new Image();
+    prizeData.src = drawnPrize;
+    this.textures.addBase64('prize', drawnPrize, prizeData);
   }
 
   create() {

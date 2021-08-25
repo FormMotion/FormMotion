@@ -17,10 +17,10 @@ const Platform = (props) => {
   let graph_paper_platform = 'assets/graph-paper.png';
 
   if (!drawnPrize) {
-    graph_paper_prize = 'assets/eyePrize.png';
+    graph_paper_prize = 'assets/prizes/eyePrize.png';
   }
   if (!drawnPlatform) {
-    graph_paper_platform = 'assets/eyePlatform.png';
+    graph_paper_platform = 'assets/platforms/eyePlatform.png';
   }
 
   useEffect(() => {

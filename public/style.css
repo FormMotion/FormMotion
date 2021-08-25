@@ -1,7 +1,4 @@
 body {
-<<<<<<< HEAD
-  color: rgb(255, 145, 163);
-=======
   color: black;
 }
 
@@ -94,5 +91,4 @@ body {
   height: 200px;
   grid-area: rightlowerleg;
   position: relative;
->>>>>>> 3f3a8e4fca01b09c2eb3baaa3ab8fe49d4fd1058
 }

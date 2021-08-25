@@ -344,16 +344,10 @@ const Drawing = (props) => {
       <br />
       <br />
       <Slider
-<<<<<<< HEAD
-        min={10}
-        max={80}
-        onChange={setThickness}
-=======
         min={1}
         max={40}
         value={thickness}
         onChange={setThicknessOnState}
->>>>>>> 3f3a8e4fca01b09c2eb3baaa3ab8fe49d4fd1058
         step={0.1}
       />
       <br />

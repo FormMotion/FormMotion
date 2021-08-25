@@ -4,7 +4,8 @@ import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import About from './components/About';
 import Welcome from './components/Welcome';
-import Drawing from './components/drawing_components/oneDrawing.js';
+import Drawing from './components/drawing_components/Drawing.js';
+import oneDrawing from './components/drawing_components/oneDrawing.js';
 import Game from './components/Game';
 import Platform from './components/drawing_components/Platform.js';
 import Merge from './components/merge_test/merge_test.js'
@@ -22,8 +23,7 @@ class Routes extends Component {
           <Route path="/play" component={Drawing} />
           <Route path="/game" component={Game} />
           <Route path="/platform" component={Platform} />
-          <Route path ="/merge" component={Merge} />
-          {/**Merge route for dev purposes only - should be removed as soon as no longer needed. */}
+          <Route path="/oneDrawing" component={oneDrawing} />
         </Switch>
       </div>
     );

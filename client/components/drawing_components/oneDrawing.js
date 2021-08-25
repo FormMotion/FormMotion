@@ -16,6 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -24,6 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  specialTypography: {
+    fontFamily: [
+      'Klee One',
+      'cursive',
+    ].join(','),
+    fontWeight: 600,
   },
 }));
 
@@ -108,8 +116,14 @@ const oneDrawing = (props) => {
   };
 
   return (
-    <div>
-      <Box alignItems="center" justifyContent="center">
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-evenly"
+      alignItems="flex-start"
+      spacing={4}
+    >
+      <Grid Item>
         <canvas
           id="sketchpad"
           width="500"
@@ -123,56 +137,87 @@ const oneDrawing = (props) => {
             backgroundRepeat: 'no-repeat',
           }}
         ></canvas>
-      </Box>
-      {drawnChar && (
-        <Button variant="contained" onClick={useDefaultCharacter}>
-          Use default character
-        </Button>
-      )}
-      {!drawnChar && (
-        <Button variant="contained" onClick={drawCharacter}>
-          Draw character
-        </Button>
-      )}
-      <Button variant="contained" onClick={downloadDrawing}>
-        Download image to my local computer
-      </Button>
-      <Button variant="contained" onClick={handleExport}>
-        Save character and choose platform
-      </Button>
-      <Button onClick={clear}>clear</Button>
-      <br />
-      <Typography id="non-linear-slider" gutterBottom>
-        Thickness
-      </Typography>
-      <br />
-      <Slider
-        min={1}
-        max={40}
-        value={thickness}
-        onChange={setThicknessOnState}
-        step={0.1}
-      />
-      <br />
-      <Typography>Mode</Typography>
-      <FormControl className={classes.formControl}>
-        <NativeSelect
-          onChange={chooseMode}
-          name="age"
-          className={classes.selectEmpty}
-          // inputProps={{ 'aria-label': 'age' }}
+      </Grid>
+      <Grid Item>
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
         >
-          <option value={'draw'}>Draw</option>
-          <option value={'fill'}>Fill</option>
-          <option value={'erase'}>Erase</option>
-          <option value={'disable'}>Disabled</option>
-        </NativeSelect>
-        <FormHelperText>Draw, fill or erase</FormHelperText>
-      </FormControl>
-      <Typography>Color</Typography>
-      <HexColorPicker color={color} onChange={setColor} />
-      <br />
-    </div>
+          <Grid Item>
+            <Typography id="non-linear-slider" className={classes.specialTypography} style={{ margin: 15 }} justifyContent="center" gutterBottom>
+              Thickness
+            </Typography>
+            <Slider
+              min={1}
+              max={40}
+              value={thickness}
+              onChange={setThicknessOnState}
+              step={0.1}
+            />
+          </Grid>
+          <Grid Item>
+            <Typography className={classes.specialTypography} style={{ margin: 15 }} align="center">Mode</Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseMode}
+                name="age"
+                className={classes.selectEmpty}
+                style={{ margin: 5 }}
+              // inputProps={{ 'aria-label': 'age' }}
+              >
+                <option value={'draw'}>Draw</option>
+                <option value={'fill'}>Fill</option>
+                <option value={'erase'}>Erase</option>
+                {/* <option value={'disable'}>Disabled</option> */}
+              </NativeSelect>
+              <FormHelperText>Draw, fill or erase</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid Item>
+            <Typography style={{ margin: 15 }} align="center" className={classes.specialTypography}>Color</Typography>
+            <HexColorPicker style={{ margin: 15 }} color={color} onChange={setColor} />
+          </Grid>
+          <Grid Item>
+            <Grid
+              container
+              direction="column"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid Item>
+                {drawnChar && (
+                  <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} variant="contained" onClick={useDefaultCharacter}>
+                    Use default character
+                  </Button>
+                )}
+              </Grid>
+              <Grid Item>
+                {!drawnChar && (
+                  <Button style={{ backgroundColor: '#ebc460', margin: 10 }} variant="contained" onClick={drawCharacter}>
+                    Draw character
+                  </Button>
+                )}
+              </Grid>
+              <Grid Item>
+                <Button style={{ backgroundColor: '#60a8eb', margin: 10 }} variant="contained" onClick={downloadDrawing}>
+                  Download
+                </Button>
+              </Grid>
+              <Grid Item>
+                <Button style={{ backgroundColor: '#86995a', margin: 10 }} variant="contained" onClick={handleExport}>
+                  Next
+                </Button>
+              </Grid>
+              <Grid Item>
+                <Button style={{ backgroundColor: '#eb6069', margin: 10 }} variant="contained" onClick={clear}>Clear</Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

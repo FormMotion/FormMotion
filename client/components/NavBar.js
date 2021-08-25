@@ -17,21 +17,18 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    fontFamily: [
-      'Hanalei Fill',
-      'cursive',
-    ].join(','),
+    fontFamily: ['Hanalei Fill', 'cursive'].join(','),
   },
   rightNav: {
     display: 'flex',
   },
   link: {
-    color: "#373736",
+    color: '#373736',
   },
   logo: {
     width: 150,
-  }
-}));
+  },
+}))
 
 const Navbar = () => {
   const classes = useStyles()
@@ -39,20 +36,28 @@ const Navbar = () => {
   return (
     <div>
       <nav>
-        <AppBar style={{ background: '#DBDFB1' }} position="relative">
+        <AppBar
+          position='static'
+          style={{ background: 'transparent', boxShadow: 'none' }}
+        >
           <Toolbar>
-            <Link to="/">< img src="TransparentLogo.png" alt="logo" className={classes.logo} /> </Link>
-            <Typography className={classes.title} variant="h6" noWrap>
+            <Link to='/'>
+              <img
+                src='TransparentLogo.png'
+                alt='logo'
+                className={classes.logo}
+              />{' '}
+            </Link>
+            <Typography className={classes.title} variant='h6' noWrap>
               {/* <Link className={classes.link} to="/play" >Play! </Link> */}
             </Typography>
           </Toolbar>
         </AppBar>
       </nav>
       <hr />
-    </div >
+    </div>
   )
 }
-
 
 const mapState = () => ({})
 const mapDispatch = () => ({})

@@ -1,11 +1,5 @@
 import Phaser from 'phaser';
 
-//Loaded from localStorage - user drawn images
-let dataURI = localStorage.getItem('playerDrawnCharacter');
-let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
-let drawnPrize = localStorage.getItem('playerDrawnPrize');
-console.log('i got here', drawnPlatform, drawnPrize);
-
 //Parallax Mountains
 let bg5 = 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png';
 let bg4 =
@@ -21,11 +15,8 @@ let bgscale = 3;
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
-    if (drawnPrize === 'false') {
-      this.setScale(0.05);
-    } else {
-      this.setScale(0.7);
-    }
+    //maybe we need to do this twice in this file?
+    this.setScale(0.7);
   }
 }
 
@@ -51,10 +42,19 @@ export default class Game extends Phaser.Scene {
 
     this.load.audio('pickup', 'assets/kalimba_chime.mp3');
 
+    //Loaded from localStorage - user drawn images
+    let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
+    let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
+    let drawnPrize = localStorage.getItem('playerDrawnPrize');
+
     // CHARACTER DRAWN
-    let data = new Image();
-    data.src = dataURI;
-    this.textures.addBase64('playerFacingRight', dataURI, data);
+    if (drawnCharacter !== 'false') {
+      let data = new Image();
+      data.src = drawnCharacter;
+      this.textures.addBase64('playerFacingRight', drawnCharacter, data);
+    } else {
+      this.load.image('playerFacingRight', 'assets/eyeChar.png');
+    }
 
     // PLATFORM DRAWN
     if (drawnPlatform !== 'false') {
@@ -62,7 +62,7 @@ export default class Game extends Phaser.Scene {
       platformData.src = drawnPlatform;
       this.textures.addBase64('platform', drawnPlatform, platformData);
     } else {
-      this.load.image('platform', 'assets/temp_platform.png');
+      this.load.image('platform', 'assets/eyePlatform.png');
     }
 
     // PRIZE DRAWN
@@ -71,7 +71,7 @@ export default class Game extends Phaser.Scene {
       prizeData.src = drawnPrize;
       this.textures.addBase64('prize', drawnPrize, prizeData);
     } else {
-      this.load.image('prize', 'assets/temp_coin.png');
+      this.load.image('prize', 'assets/eyePrize.png');
     }
   }
 
@@ -100,11 +100,8 @@ export default class Game extends Phaser.Scene {
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, 'platform');
-      if (drawnPrize === 'false') {
-        platform.scale = 0.2;
-      } else {
-        platform.scale = 1;
-      }
+
+      platform.scale = 1;
 
       const body = platform.body;
       body.updateFromGameObject();

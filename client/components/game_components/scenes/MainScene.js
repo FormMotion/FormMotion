@@ -42,8 +42,6 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-1', bg1);
 
 
-
-
     
     //Loaded from localStorage - user drawn images
     let drawnCharacter = localStorage.getItem('playerDrawnCharacter');

@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Grid from '@material-ui/core/Grid'
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -27,13 +27,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   specialTypography: {
-    fontFamily: [
-      'Klee One',
-      'cursive',
-    ].join(','),
+    fontFamily: ['Klee One', 'cursive'].join(','),
     fontWeight: 600,
   },
 }));
+
+let canvas_image = 'assets/graph-paper.png';
 
 let platform = null;
 let prize = null;
@@ -41,19 +40,14 @@ let prize = null;
 const Platform = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
-  const [drawnPlatform, setDrawnPlatform] = useState(true);
-  const [drawnPrize, setDrawnPrize] = useState(true);
+  const [defaultPlatform, setDefaultPlatform] = useState(true);
+  const [defaultPrize, setDefaultPrize] = useState(true);
   const [thickness, setThickness] = useState(7);
 
-  let graph_paper_prize = 'assets/graph-paper.png';
-  let graph_paper_platform = 'assets/graph-paper.png';
-
-  if (!drawnPrize) {
-    graph_paper_prize = 'assets/eyePrize.png';
-  }
-  if (!drawnPlatform) {
-    graph_paper_platform = 'assets/eyePlatform.png';
-  }
+  const canvases = {
+    prize,
+    platform,
+  };
 
   useEffect(() => {
     if (platform === null) {
@@ -89,10 +83,10 @@ const Platform = (props) => {
   }
 
   function chooseMode(e) {
-    if (drawnPlatform) {
+    if (defaultPlatform === '0') {
       platform.mode = e.target.value;
     }
-    if (drawnPrize) {
+    if (defaultPrize === '0') {
       prize.mode = e.target.value;
     }
   }
@@ -119,48 +113,88 @@ const Platform = (props) => {
     document.body.removeChild(link);
   }
 
+  const chooseDrawOrDefaultPrize = (e) => {
+    let choice = e.target.value;
+
+    if (choice === '0') {
+      setDefaultPrize(0);
+      prize.mode = 'draw';
+      prize.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
+    } else {
+      setDefaultPrize(choice);
+      prize.clear();
+      prize.mode = 'disabled';
+      prize.canvas.style.backgroundImage = `url(assets/prizes/prize${choice}.png)`;
+    }
+  };
+
+  const chooseDrawOrDefaultPlatform = (e) => {
+    let choice = e.target.value;
+
+    if (choice === '0') {
+      setDefaultPlatform(0);
+      platform.mode = 'draw';
+      platform.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
+    } else {
+      setDefaultPlatform(choice);
+      platform.clear();
+      platform.mode = 'disabled';
+      platform.canvas.style.backgroundImage = `url(assets/platforms/platform${choice}.png)`;
+    }
+  };
+
+  function setDataUrl(src, callback) {
+    const img = new Image();
+    // img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      let dataURL;
+      canvas.height = img.naturalHeight;
+      canvas.width = img.naturalWidth;
+      ctx.drawImage(img, 0, 0);
+      dataURL = canvas.toDataURL();
+      callback(dataURL);
+    };
+    img.src = src;
+    if (img.complete || img.complete === undefined) {
+      img.src =
+        'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+      img.src = src;
+    }
+  }
+
+  // get a random number between 1 and 3
+  const getRandomChar = () => {
+    return Math.floor(Math.random() * 4 + 1);
+  };
+
   const handleExport = (e) => {
     e.preventDefault();
-    if (drawnPlatform) {
-      const platformURI = platform.toImage();
-      localStorage.setItem('playerDrawnPlatform', platformURI);
-    } else {
-      localStorage.setItem('playerDrawnPlatform', false);
-    }
 
-    if (drawnPrize) {
-      const prizeURI = prize.toImage();
-      localStorage.setItem('playerDrawnPrize', prizeURI);
-    } else {
-      localStorage.setItem('playerDrawnPrize', false);
-    }
-
-    props.history.push('./game');
-  };
-
-  const useDefaultPlatform = (e) => {
-    e.preventDefault();
-    platform.clear();
-    setDrawnPlatform(false);
-    platform.mode = 'disabled';
-  };
-
-  const drawPlatform = (e) => {
-    e.preventDefault();
-    setDrawnPlatform(true);
-    platform.mode = 'draw';
-  };
-  const useDefaultPrize = (e) => {
-    e.preventDefault();
-    prize.clear();
-    setDrawnPrize(false);
-    prize.mode = 'disabled';
-  };
-
-  const drawPrize = (e) => {
-    e.preventDefault();
-    setDrawnPrize(true);
-    prize.mode = 'draw';
+    canvases.forEach((canvas) => {
+      let defaultCanvas =
+        canvas === 'platform' ? defaultPlatform : defaultPrize;
+      if (defaultCanvas !== '0' && canvas.isDirty()) {
+        const uri = canvases[canvas].toImage();
+        localStorage.setItem(`playerDrawn${canvas}`, uri);
+      } else {
+        let choice;
+        if (
+          (!canvas.isDirty() && defaultCanvas === '0') ||
+          defaultCanvas === '4'
+        ) {
+          choice = getRandomChar();
+        } else {
+          choice = defaultCanvas;
+        }
+        // convert the image to dataURl and put in local storage
+        setDataUrl(`assets/${canvas}s/${canvas}${choice}`, (dataURL) => {
+          localStorage.setItem(`playerDrawn${canvas}`, dataURL);
+        });
+      }
+    });
+    props.history.push('./platform');
   };
 
   // KEEP THIS FOR THE FUTURE LOGGED IN USER!
@@ -187,7 +221,7 @@ const Platform = (props) => {
           style={{
             borderStyle: 'solid',
             borderColor: 'black',
-            backgroundImage: `url(${graph_paper_platform})`,
+            backgroundImage: `url(${canvas_image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -200,22 +234,40 @@ const Platform = (props) => {
           alignItems="center"
         >
           <Grid Item>
-            {drawnPlatform && (
-              <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} onClick={useDefaultPlatform}>Use default platform</Button>
-            )}
-            {!drawnPlatform && (
-              <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} onClick={drawPlatform}>Draw platform</Button>
-            )}
+            <Typography>Draw or choose pre-drawn platform</Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseDrawOrDefaultPlatform}
+                className={classes.selectEmpty}
+              >
+                <option value={0}>Draw prize</option>
+                <option value={1}>Eyes</option>
+                <option value={2}>Flamingo</option>
+                <option value={3}>Other</option>
+                <option value={4}>Surprise me!</option>
+              </NativeSelect>
+              <FormHelperText>
+                Draw, choose one of the provided options, or be surprised!
+              </FormHelperText>
+            </FormControl>
           </Grid>
           <Grid Item>
-            <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} onClick={clearPlatform}>clear</Button>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              onClick={clearPlatform}
+            >
+              clear
+            </Button>
           </Grid>
           <Grid Item>
-            <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} onClick={downloadPlatform}>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              onClick={downloadPlatform}
+            >
               Download
             </Button>
           </Grid>
-        </Grid >
+        </Grid>
         <canvas
           id="prize"
           width="100"
@@ -223,7 +275,7 @@ const Platform = (props) => {
           style={{
             borderStyle: 'solid',
             borderColor: 'black',
-            backgroundImage: `url(${graph_paper_prize})`,
+            backgroundImage: `url(${canvas_image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -236,23 +288,43 @@ const Platform = (props) => {
           alignItems="center"
         >
           <Grid Item>
-            {drawnPrize && (
-              <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} variant="contained" onClick={useDefaultPrize}>Use default prize</Button>
-            )}
+            <Typography>Draw or choose pre-drawn prize</Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseDrawOrDefaultPrize}
+                className={classes.selectEmpty}
+              >
+                <option value={0}>Draw prize</option>
+                <option value={1}>Eyes</option>
+                <option value={2}>Flamingo</option>
+                <option value={3}>Other</option>
+                <option value={4}>Surprise me!</option>
+              </NativeSelect>
+              <FormHelperText>
+                Draw, choose one of the provided options, or be surprised!
+              </FormHelperText>
+            </FormControl>
           </Grid>
           <Grid Item>
-            {!drawnPrize && <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} variant="contained" onClick={drawPrize}>Draw prize</Button>}
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              variant="contained"
+              onClick={clearPrize}
+            >
+              Clear
+            </Button>
           </Grid>
           <Grid Item>
-            <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} variant="contained" onClick={clearPrize}>Clear</Button>
-          </Grid>
-          <Grid Item>
-            <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} variant="contained" onClick={downloadPrize}>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              variant="contained"
+              onClick={downloadPrize}
+            >
               Download
             </Button>
           </Grid>
-        </Grid >
-      </Grid >
+        </Grid>
+      </Grid>
       <Grid Item>
         <Grid
           container
@@ -261,7 +333,13 @@ const Platform = (props) => {
           alignItems="center"
         >
           <Grid Item>
-            <Typography id="non-linear-slider" className={classes.specialTypography} style={{ margin: 15 }} justifyContent="center" gutterBottom>
+            <Typography
+              id="non-linear-slider"
+              className={classes.specialTypography}
+              style={{ margin: 15 }}
+              justifyContent="center"
+              gutterBottom
+            >
               Thickness
             </Typography>
             <Slider
@@ -273,7 +351,13 @@ const Platform = (props) => {
             />
           </Grid>
           <Grid Item>
-            <Typography className={classes.specialTypography} style={{ margin: 15 }} align="center">Mode</Typography>
+            <Typography
+              className={classes.specialTypography}
+              style={{ margin: 15 }}
+              align="center"
+            >
+              Mode
+            </Typography>
             <FormControl className={classes.formControl}>
               <NativeSelect
                 onChange={chooseMode}
@@ -291,17 +375,31 @@ const Platform = (props) => {
             </FormControl>
           </Grid>
           <Grid Item>
-            <Typography style={{ margin: 15 }} align="center" className={classes.specialTypography}>Color</Typography>
-            <HexColorPicker style={{ margin: 15 }} color={color} onChange={setColor} />
+            <Typography
+              style={{ margin: 15 }}
+              align="center"
+              className={classes.specialTypography}
+            >
+              Color
+            </Typography>
+            <HexColorPicker
+              style={{ margin: 15 }}
+              color={color}
+              onChange={setColor}
+            />
           </Grid>
           <Grid Item>
-            <Button style={{ backgroundColor: '#d9e6a1', margin: 5 }} variant="contained" onClick={handleExport}>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              variant="contained"
+              onClick={handleExport}
+            >
               Next
             </Button>
           </Grid>
         </Grid>
-      </Grid >
-    </Grid >
+      </Grid>
+    </Grid>
   );
 };
 

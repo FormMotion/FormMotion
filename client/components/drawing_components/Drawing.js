@@ -313,6 +313,7 @@ const Drawing = (props) => {
   //   });
   //   props.history.push('./platform');
   // };
+  console.log('alldefault', allDefault);
 
   return (
     <Grid
@@ -550,95 +551,105 @@ const Drawing = (props) => {
                 Draw, choose one of the provided options, or be surprised!
               </FormHelperText>
             </FormControl>
-
+          </Grid>
+          <Grid Item>
             <Typography>Draw or choose pre-drawn part of character</Typography>
-
-            {Object.keys(canvases).map((canvas, index) => (
-              <FormControl key={index}>
-                <Typography>
-                  Choose whether to draw the {names[canvas]} or use a default:
-                </Typography>
-                <FormControl className={classes.formControl}>
-                  <NativeSelect
-                    onChange={chooseDefaultOrDraw}
-                    className={classes.selectEmpty}
-                  >
-                    <option value={[0, canvas]}>Draw character</option>
-                    <option value={[1, canvas]}>Eyes</option>
-                    <option value={[2, canvas]}>Flamingo</option>
-                    <option value={[3, canvas]}>Other</option>
-                    <option value={[4, canvas]}>Surprise me!</option>
-                  </NativeSelect>
-                  <FormHelperText>
-                    Draw, choose one of the provided options, or be surprised!
-                  </FormHelperText>
-                </FormControl>
-              </FormControl>
-            ))}
           </Grid>
-          <Grid Item>
-            <Typography
-              className={classes.specialTypography}
-              style={{ margin: 15 }}
-              align="center"
+          <div>
+            {(allDefault === '0' || allDefault === 0) && (
+              <div>
+                {Object.keys(canvases).map((canvas, index) => (
+                  <Grid Item>
+                    <FormControl key={index}>
+                      <Typography>
+                        Choose whether to draw the {names[canvas]} or use a
+                        default:
+                      </Typography>
+                      <FormControl className={classes.formControl}>
+                        <NativeSelect
+                          onChange={chooseDefaultOrDraw}
+                          className={classes.selectEmpty}
+                        >
+                          <option value={[0, canvas]}>Draw character</option>
+                          <option value={[1, canvas]}>Eyes</option>
+                          <option value={[2, canvas]}>Flamingo</option>
+                          <option value={[3, canvas]}>Other</option>
+                          <option value={[4, canvas]}>Surprise me!</option>
+                        </NativeSelect>
+                        <FormHelperText>
+                          Draw, choose one of the provided options, or be
+                          surprised!
+                        </FormHelperText>
+                      </FormControl>
+                    </FormControl>
+                  </Grid>
+                ))}
+              </div>
+            )}
+          </div>
+        </Grid>
+        <Grid Item>
+          <Typography
+            className={classes.specialTypography}
+            style={{ margin: 15 }}
+            align="center"
+          >
+            Mode
+          </Typography>
+          <FormControl className={classes.formControl}>
+            <NativeSelect
+              onChange={chooseMode}
+              name="age"
+              className={classes.selectEmpty}
+              style={{ margin: 5 }}
+              // inputProps={{ 'aria-label': 'age' }}
             >
-              Mode
-            </Typography>
-            <FormControl className={classes.formControl}>
-              <NativeSelect
-                onChange={chooseMode}
-                name="age"
-                className={classes.selectEmpty}
-                style={{ margin: 5 }}
-                // inputProps={{ 'aria-label': 'age' }}
+              <option value={'draw'}>Draw</option>
+              <option value={'fill'}>Fill</option>
+              <option value={'erase'}>Erase</option>
+              {/* <option value={'disable'}>Disabled</option> */}
+            </NativeSelect>
+            <FormHelperText>Draw, fill or erase</FormHelperText>
+          </FormControl>
+        </Grid>
+        <Grid Item>
+          <Typography
+            style={{ margin: 15 }}
+            align="center"
+            className={classes.specialTypography}
+          >
+            Color
+          </Typography>
+          <HexColorPicker
+            style={{ margin: 15 }}
+            color={color}
+            onChange={setColor}
+          />
+        </Grid>
+        <Grid Item>
+          <Grid
+            container
+            direction="column"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Grid Item>
+              <Button
+                style={{ backgroundColor: '#86995a', margin: 10 }}
+                variant="contained"
+                onClick={handleExport}
               >
-                <option value={'draw'}>Draw</option>
-                <option value={'fill'}>Fill</option>
-                <option value={'erase'}>Erase</option>
-                {/* <option value={'disable'}>Disabled</option> */}
-              </NativeSelect>
-              <FormHelperText>Draw, fill or erase</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid Item>
-            <Typography
-              style={{ margin: 15 }}
-              align="center"
-              className={classes.specialTypography}
-            >
-              Color
-            </Typography>
-            <HexColorPicker
-              style={{ margin: 15 }}
-              color={color}
-              onChange={setColor}
-            />
-          </Grid>
-          <Grid Item>
-            <Grid
-              container
-              direction="column"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid Item>
-                <Button
-                  style={{ backgroundColor: '#86995a', margin: 10 }}
-                  variant="contained"
-                  onClick={handleExport}
-                >
-                  Save character and choose platform
-                </Button>
-              </Grid>
-              <Grid Item>
-                <Button
-                  style={{ backgroundColor: '#eb6069', margin: 10 }}
-                  variant="contained"
-                  onClick={clear}
-                >
-                  Clear
-                </Button>
-              </Grid>
+                Save character and choose platform
+              </Button>
+            </Grid>
+            <Grid Item>
+              <Button
+                style={{ backgroundColor: '#eb6069', margin: 10 }}
+                variant="contained"
+                onClick={clear}
+              >
+                Clear
+              </Button>
             </Grid>
           </Grid>
         </Grid>

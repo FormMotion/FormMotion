@@ -40,8 +40,8 @@ let prize = null;
 const Platform = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
-  const [drawnPlatform, setDrawnPlatform] = useState(true);
-  const [drawnPrize, setDrawnPrize] = useState(true);
+  const [defaultPlatform, setDefaultPlatform] = useState(0);
+  const [defaultPrize, setDefaultPrize] = useState(true);
   const [thickness, setThickness] = useState(7);
 
   const canvases = {

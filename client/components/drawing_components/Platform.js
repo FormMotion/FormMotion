@@ -43,6 +43,7 @@ const Platform = (props) => {
   const [defaultPlatform, setDefaultPlatform] = useState(0);
   const [defaultPrize, setDefaultPrize] = useState(true);
   const [thickness, setThickness] = useState(7);
+  // const [count, setCount] = useState(0);
 
   const canvases = {
     prize,
@@ -93,24 +94,29 @@ const Platform = (props) => {
 
   function downloadPlatform(e) {
     e.preventDefault();
-    const uri = platform.toImage();
-    const link = document.createElement('a');
-    link.download = 'myPlatform.png';
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (defaultPlatform.toString() === '0') {
+      const uri = platform.toImage();
+
+      const link = document.createElement('a');
+      link.download = 'myPlatform.png';
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   function downloadPrize(e) {
     e.preventDefault();
-    const uri = prize.toImage();
-    const link = document.createElement('a');
-    link.download = 'myPrize.png';
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (defaultPrize.toString() === '0') {
+      const uri = prize.toImage();
+      const link = document.createElement('a');
+      link.download = 'myPrize.png';
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   const chooseDrawOrDefaultPrize = (e) => {
@@ -169,33 +175,53 @@ const Platform = (props) => {
     return Math.floor(Math.random() * 4 + 1);
   };
 
-  const handleExport = (e) => {
+  function handleExport(e) {
     e.preventDefault();
+    let count = 0;
 
-    canvases.forEach((canvas) => {
+    Object.keys(canvases).forEach((canvas) => {
       let defaultCanvas =
         canvas === 'platform' ? defaultPlatform : defaultPrize;
-      if (defaultCanvas !== '0' && canvas.isDirty()) {
+
+      if (defaultCanvas.toString() !== '0' && canvases[canvas].isDirty()) {
         const uri = canvases[canvas].toImage();
-        localStorage.setItem(`playerDrawn${canvas}`, uri);
+        localStorage.setItem(
+          `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
+          uri
+        );
+        count++;
+
+        // setCount((prevCount) => prevCount + 1);
+        // console.log('picCounter', count);
+        if (count === 2) {
+          props.history.push('./game');
+        }
       } else {
         let choice;
         if (
-          (!canvas.isDirty() && defaultCanvas === '0') ||
-          defaultCanvas === '4'
+          (!canvases[canvas].isDirty() && defaultCanvas.toString() === '0') ||
+          defaultCanvas.toString() === '4'
         ) {
           choice = getRandomChar();
         } else {
           choice = defaultCanvas;
         }
         // convert the image to dataURl and put in local storage
-        setDataUrl(`assets/${canvas}s/${canvas}${choice}`, (dataURL) => {
-          localStorage.setItem(`playerDrawn${canvas}`, dataURL);
+        setDataUrl(`assets/${canvas}s/${canvas}${choice}.png`, (dataURL) => {
+          localStorage.setItem(
+            `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
+            dataURL
+          );
+          count++;
+
+          if (count === 2) {
+            props.history.push('./game');
+          }
         });
       }
     });
-    props.history.push('./platform');
-  };
+    // props.history.push('./game');
+  }
 
   // KEEP THIS FOR THE FUTURE LOGGED IN USER!
 
@@ -240,10 +266,10 @@ const Platform = (props) => {
                 onChange={chooseDrawOrDefaultPlatform}
                 className={classes.selectEmpty}
               >
-                <option value={0}>Draw prize</option>
-                <option value={1}>Eyes</option>
-                <option value={2}>Flamingo</option>
-                <option value={3}>Other</option>
+                <option value={0}>Draw platform</option>
+                <option value={1}>Platform 1</option>
+                <option value={2}>Platform 2</option>
+                <option value={3}>Platform 3</option>
                 <option value={4}>Surprise me!</option>
               </NativeSelect>
               <FormHelperText>
@@ -295,9 +321,9 @@ const Platform = (props) => {
                 className={classes.selectEmpty}
               >
                 <option value={0}>Draw prize</option>
-                <option value={1}>Eyes</option>
-                <option value={2}>Flamingo</option>
-                <option value={3}>Other</option>
+                <option value={1}>Prize 1</option>
+                <option value={2}>Prize 2</option>
+                <option value={3}>Prize 3</option>
                 <option value={4}>Surprise me!</option>
               </NativeSelect>
               <FormHelperText>

@@ -78,14 +78,6 @@ const names = {
   leftLowerLeg: 'left lower leg',
 };
 
-const wholeBody = {
-  0: 'assets/single-chars/graph-paper.png',
-  1: 'assets/single-chars/eyeChar.png',
-  2: 'assets/single-chars/flamingoOnePiece.png',
-  3: 'assets/single-chars/temp_char_facing_left_run.png',
-  4: 'assets/surpriseBox.jpeg',
-};
-
 // Object.keys(canvases).forEach((canvas) => {
 //   canvas = {
 //     value: null,
@@ -110,6 +102,7 @@ const Drawing = (props) => {
   const [thickness, setThickness] = useState(7);
   const [allDefault, setAllDefault] = useState(0);
   const [defaultChoices, setDefaultChoices] = useState({});
+  // const [count, setCount] = useState(0);
   // const [defaulttorso, setDefaulttorso] = useState(0);
   // const [defaultrightUpperArm, setDefaultrightUpperArm] = useState(0);
   // const [defaultrightLowerArm, setDefaultrightLowerArm] = useState(0);
@@ -128,6 +121,9 @@ const Drawing = (props) => {
         canvases[canvas] = new Atrament(currentCanvas);
         const parent = document.querySelectorAll(`.${parentName}`)[0];
         fitToContainer(canvases[canvas], parent);
+        setDefaultChoices((prevDefault) => {
+          return { ...prevDefault, [currentCanvas.id]: '0' };
+        });
       }
       canvases[canvas].color = color;
     });
@@ -154,12 +150,13 @@ const Drawing = (props) => {
 
   function chooseMode(e) {
     Object.keys(canvases).forEach((canvas) => {
-      if (defaultChoices[canvas] === '0') {
+      if (defaultChoices[canvas] === '0' || defaultChoices[canvas] === 0) {
         canvases[canvas].mode = e.target.value;
       }
     });
   }
 
+  // where do we want this?
   // function downloadDrawing(e) {
   //   e.preventDefault();
   //   const uri = sketchpad.toImage();
@@ -172,33 +169,43 @@ const Drawing = (props) => {
   //   document.body.removeChild(link);
   // }
 
-  //use for later?
   const chooseDefault = (e) => {
     let choice = e.target.value;
     // if the user chooses 0, they're choosing to draw.
     // set defaultChar to 0 and put the graph paper image in
     // and allow them to draw
-    if (choice === '0') {
+    if (choice.toString() === '0') {
       setAllDefault(0);
       Object.keys(canvases).forEach((canvas) => {
         canvases[canvas].mode = 'draw';
         canvases[
           canvas
         ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
+        setDefaultChoices((prevDefault) => {
+          return { ...prevDefault, [canvas]: '0' };
+        });
       });
     }
     // if the user chooses to use a default character, set the default,
     // disable the drawing and clear the sketchpad, and set the
     // appropraite image as the canvas image (random is a surprise box image)
-    if (choice > 0) {
+    else {
       setAllDefault(choice);
       Object.keys(canvases).forEach((canvas) => {
         canvases[canvas].clear();
         canvases[canvas].mode = 'disabled';
-        console.log(canvases[canvas].canvas, 'attempt');
-        canvases[
-          canvas
-        ].canvas.style.backgroundImage = `url(assets/group-chars/flamingo-lad/${canvas}.png)`;
+        if (choice === '4') {
+          canvases[
+            canvas
+          ].canvas.style.backgroundImage = `url(assets/surpriseBox.jpeg)`;
+        } else {
+          canvases[
+            canvas
+          ].canvas.style.backgroundImage = `url(assets/group-chars/${choice}/${canvas}.png)`;
+        }
+        setDefaultChoices((prevChoices) => {
+          return { ...prevChoices, [canvas]: choice };
+        });
       });
     }
   };
@@ -207,12 +214,13 @@ const Drawing = (props) => {
     let choiceAndCanvas = e.target.value.split(',');
     let choice = choiceAndCanvas[0];
     let canvas = choiceAndCanvas[1];
-    console.log(choice, canvas, 'choice, canvas', canvases[canvas]);
+    setDefaultChoices((prevChoices) => {
+      return { ...prevChoices, [canvas]: choice };
+    });
     // if the user chooses 0, they're choosing to draw.
     // set defaultChar to 0 and put the graph paper image in
     // and allow them to draw
     if (choice === '0') {
-      setDefaultChoices({ ...defaultChoices, canvas: choice });
       canvases[canvas].mode = 'draw';
       canvases[
         canvas
@@ -221,12 +229,17 @@ const Drawing = (props) => {
     // if the user chooses to use a default character, set the default,
     // disable the drawing and clear the sketchpad, and set the
     // appropraite image as the canvas image (random is a surprise box image)
-    if (choice > 0) {
-      setDefaultChoices({ ...defaultChoices, canvas: choice });
+    else {
       canvases[canvas].clear();
-      canvases[
-        canvas
-      ].canvas.style.backgroundImage = `url(assets/group-chars/flamingo-lad/${canvas}.png)`;
+      if (choice !== '4') {
+        canvases[
+          canvas
+        ].canvas.style.backgroundImage = `url(assets/group-chars/${choice}/${canvas}.png)`;
+      } else {
+        canvases[
+          canvas
+        ].canvas.style.backgroundImage = `url(assets/surpriseBox.jpeg)`;
+      }
     }
   };
 
@@ -258,50 +271,55 @@ const Drawing = (props) => {
 
   const handleExport = (e) => {
     e.preventDefault();
+    let count = 0;
     // if the user has chosen a full default image, convert it to url
     // and put it in local storage (if they chose a random one, get a random number first)
     let choice;
-    if (allDefault === 4) {
-      setAllDefault(getRandomChar());
-    }
-    if (allDefault !== 0) {
-      choice = allDefault;
-      setDataUrl(wholeBody[choice], (dataURL) => {
-        localStorage.setItem('playerDrawnCharacter', dataURL);
-        props.history.push('./platform');
-      });
-    } else {
-      // for each of the canvases,
-      Object.keys(canvases).forEach((canvas) => {
-        // if the user hasn't chosen a default for this canvas and they've drawn on it,
-        // put their drawing in local storage
-        if (
-          (!defaultChoices[canvas] || defaultChoices[canvas] === '0') &&
-          canvases[canvas].isDirty()
-        ) {
-          const uri = canvas.toImage();
-          localStorage.setItem(`playerDrawn${canvas}`, uri);
+    // for each of the canvases,
+    Object.keys(canvases).forEach((canvas) => {
+      // if the user hasn't chosen a default for this canvas and they've drawn on it,
+      // put their drawing in local storage
+      if (defaultChoices[canvas] === '0' && canvases[canvas].isDirty()) {
+        const uri = canvases[canvas].toImage();
+        localStorage.setItem(
+          `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
+          uri
+        );
+        count++;
+        if (count === 10) {
+          props.history.push('./platform');
         }
+      }
 
-        // if the user hasn't chosen a default for this canvas OR drawn on it,
-        // or they've chosen to receive a random default, set their choice to a random default
-        else if (
-          ((!defaultChoices[canvas] || defaultChoices[canvas] === '0') &&
-            canvases[canvas].isDirty()) ||
+      // if the user hasn't chosen a default for this canvas OR drawn on it,
+      // or they've chosen to receive a random default, set their choice to a random default
+      else {
+        if (
+          (defaultChoices[canvas] === '0' && canvases[canvas].isDirty()) ||
           defaultChoices[canvas] === '4'
         ) {
-          setDefaultChoices({ ...defaultChoices, canvas: getRandomChar() });
+          setDefaultChoices((prevChoices) => {
+            const random = getRandomChar().toString();
+            return { ...prevChoices, [canvas]: random };
+          });
         }
 
         // set the choice equal to the default chosen, convert it to dataUrl, and set it in local storage
         choice = defaultChoices[canvas];
-        setDataUrl(`assets/group-chars/flamingo-lad/${canvas}`, (dataURL) => {
-          localStorage.setItem(`playerDrawn${canvas}`, dataURL);
+        console.log('CHOICE, HERE', choice);
+        setDataUrl(`assets/group-chars/${choice}/${canvas}.png`, (dataURL) => {
+          localStorage.setItem(
+            `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
+            dataURL
+          );
+          count++;
+          if (count === 10) {
+            props.history.push('./platform');
+          }
         });
-      });
-      // move on to the next page after looping through the canvases
-      props.history.push('./platform');
-    }
+      }
+    });
+    // move on to the next page after looping through the canvases
   };
 
   // for logged-in user
@@ -313,7 +331,6 @@ const Drawing = (props) => {
   //   });
   //   props.history.push('./platform');
   // };
-  console.log('alldefault', allDefault);
 
   return (
     <Grid
@@ -542,9 +559,9 @@ const Drawing = (props) => {
                 className={classes.selectEmpty}
               >
                 <option value={0}>Draw character</option>
-                <option value={1}>Eyes</option>
-                <option value={2}>Flamingo</option>
-                <option value={3}>Other</option>
+                <option value={1}>Character 1</option>
+                <option value={2}>Character 2</option>
+                <option value={3}>Character 3</option>
                 <option value={4}>Surprise me!</option>
               </NativeSelect>
               <FormHelperText>
@@ -571,9 +588,9 @@ const Drawing = (props) => {
                           className={classes.selectEmpty}
                         >
                           <option value={[0, canvas]}>Draw character</option>
-                          <option value={[1, canvas]}>Eyes</option>
-                          <option value={[2, canvas]}>Flamingo</option>
-                          <option value={[3, canvas]}>Other</option>
+                          <option value={[1, canvas]}>{names[canvas]} 1</option>
+                          <option value={[2, canvas]}>{names[canvas]} 2</option>
+                          <option value={[3, canvas]}>{names[canvas]} 3</option>
                           <option value={[4, canvas]}>Surprise me!</option>
                         </NativeSelect>
                         <FormHelperText>

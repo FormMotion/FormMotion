@@ -45,8 +45,8 @@ const Platform = (props) => {
 
   const canvases = {
     prize,
-    platform
-  }
+    platform,
+  };
 
   useEffect(() => {
     if (platform === null) {
@@ -107,20 +107,20 @@ const Platform = (props) => {
     document.body.removeChild(link);
   }
 
- const chooseDrawOrDefaultPrize = (e) => {
-   let choice = e.target.value;
+  const chooseDrawOrDefaultPrize = (e) => {
+    let choice = e.target.value;
 
-   if (choice === '0') {
-     setDefaultPrize(0);
-     prize.mode = 'draw';
-     prize.canvas.style.backgroundImage = canvas_image;
-   } else {
-     setDefaultPrize(choice);
-     prize.clear();
-     prize.mode = 'disabled';
-     prize.canvas.style.backgroundImage = `assets/prizes/${choice}`;
-   }
- };
+    if (choice === '0') {
+      setDefaultPrize(0);
+      prize.mode = 'draw';
+      prize.canvas.style.backgroundImage = canvas_image;
+    } else {
+      setDefaultPrize(choice);
+      prize.clear();
+      prize.mode = 'disabled';
+      prize.canvas.style.backgroundImage = `assets/prizes/${choice}`;
+    }
+  };
 
   const chooseDrawOrDefaultPlatform = (e) => {
     let choice = e.target.value;
@@ -167,28 +167,28 @@ const Platform = (props) => {
     e.preventDefault();
 
     canvases.forEach((canvas) => {
-      let default = canvas === 'platform' ? defaultPlatform : defaultPrize;
-      if (default !== '0' && canvas.isDirty()) {
-      const uri = canvases[canvas].toImage();
-      localStorage.setItem(`playerDrawn${canvas}`, uri);
-    } else {
-      let choice;
-      if (
-        (!canvas.isDirty() && default === '0') ||
-        default === '4'
-      ) {
-        choice = getRandomChar();
+      let defaultCanvas =
+        canvas === 'platform' ? defaultPlatform : defaultPrize;
+      if (defaultCanvas !== '0' && canvas.isDirty()) {
+        const uri = canvases[canvas].toImage();
+        localStorage.setItem(`playerDrawn${canvas}`, uri);
       } else {
-        choice = default;
+        let choice;
+        if (
+          (!canvas.isDirty() && defaultCanvas === '0') ||
+          defaultCanvas === '4'
+        ) {
+          choice = getRandomChar();
+        } else {
+          choice = defaultCanvas;
+        }
+        // convert the image to dataURl and put in local storage
+        setDataUrl(`assets/${canvas}s/${canvas}${choice}`, (dataURL) => {
+          localStorage.setItem(`playerDrawn${canvas}`, dataURL);
+        });
       }
-      // convert the image to dataURl and put in local storage
-      setDataUrl(`assets/${canvas}s/${canvas}${choice}`, (dataURL) => {
-        localStorage.setItem(`playerDrawn${canvas}`, dataURL);
-
-      });
-    }
-          })
-        props.history.push('./platform');
+    });
+    props.history.push('./platform');
   };
 
   // KEEP THIS FOR THE FUTURE LOGGED IN USER!

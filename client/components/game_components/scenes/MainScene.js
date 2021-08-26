@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import Phaser from "phaser";
+=======
+import Phaser from 'phaser';
+>>>>>>> 85c58a63f48fdb968ddf904727b8c91e0b7d3537
 
 //Parallax Mountains
 let bg5 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
@@ -33,6 +37,7 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //Static images hosted within assets folder
+<<<<<<< HEAD
     this.load.image("bg-5", bg5);
     this.load.image("bg-4", bg4);
     this.load.image("bg-3", bg3);
@@ -72,6 +77,60 @@ export default class Game extends Phaser.Scene {
     }
 
     this.load.audio("pickup", "assets/kalimba_chime.mp3");
+=======
+    this.load.image('bg-5', bg5);
+    this.load.image('bg-4', bg4);
+    this.load.image('bg-3', bg3);
+    this.load.image('bg-2', bg2);
+    this.load.image('bg-1', bg1);
+
+    //Loaded from localStorage - user drawn images
+    let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
+    let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
+    let drawnPrize = localStorage.getItem('playerDrawnPrize');
+
+    // CHARACTER DRAWN
+    // do we need this?
+    // if (drawnCharacter !== 'false') {
+    //   let data = new Image();
+    //   data.src = drawnCharacter;
+    //   this.textures.addBase64('playerFacingRight', drawnCharacter, data);
+    // } else {
+    //   this.load.image('playerFacingRight', 'assets/eyeChar.png');
+    // }
+
+    let data = new Image();
+    data.src = drawnCharacter;
+    this.textures.addBase64('playerFacingRight', drawnCharacter, data);
+
+    // PLATFORM DRAWN
+    // if (drawnPlatform !== 'false') {
+    //   let platformData = new Image();
+    //   platformData.src = drawnPlatform;
+    //   this.textures.addBase64('platform', drawnPlatform, platformData);
+    // } else {
+    //   this.load.image('platform', 'assets/eyePlatform.png');
+    // }
+
+    let platformData = new Image();
+    platformData.src = drawnPlatform;
+    this.textures.addBase64('platform', drawnPlatform, platformData);
+
+    // PRIZE DRAWN
+    // if (drawnPrize !== 'false') {
+    //   let prizeData = new Image();
+    //   prizeData.src = drawnPrize;
+    //   this.textures.addBase64('prize', drawnPrize, prizeData);
+    // } else {
+    //   this.load.image('prize', 'assets/eyePrize.png');
+    // }
+
+    let prizeData = new Image();
+    prizeData.src = drawnPrize;
+    this.textures.addBase64('prize', drawnPrize, prizeData);
+
+    this.load.audio('pickup', 'assets/kalimba_chime.mp3');
+>>>>>>> 85c58a63f48fdb968ddf904727b8c91e0b7d3537
   }
 
   create() {

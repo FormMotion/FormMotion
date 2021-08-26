@@ -16,6 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -24,6 +25,10 @@ const useStyles = makeStyles((theme) => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
+  },
+  specialTypography: {
+    fontFamily: ['Klee One', 'cursive'].join(','),
+    fontWeight: 600,
   },
 }));
 
@@ -35,9 +40,9 @@ let prize = null;
 const Platform = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
-  const [defaultPlatform, setDefaultPlatform] = useState(0);
-  const [defaultPrize, setDefaultPrize] = useState(0);
-  // const [thickness, setThickness] = useState(7);
+  const [drawnPlatform, setDrawnPlatform] = useState(true);
+  const [drawnPrize, setDrawnPrize] = useState(true);
+  const [thickness, setThickness] = useState(7);
 
   const canvases = {
     prize,
@@ -67,9 +72,14 @@ const Platform = (props) => {
     prize.clear();
   }
 
-  function setThickness(e) {
-    platform.weight = parseFloat(e.target.value);
-    prize.weight = parseFloat(e.target.value);
+  // function setThickness(e) {
+  //   platform.weight = parseFloat(e.target.value);
+  //   prize.weight = parseFloat(e.target.value);
+  // }
+  function setThicknessOnState(e, data) {
+    e.preventDefault();
+    setThickness(data);
+    platform.weight = parseFloat(data);
   }
 
   function chooseMode(e) {
@@ -196,106 +206,200 @@ const Platform = (props) => {
   //   };
 
   return (
-    <div>
-      <canvas
-        id="platform"
-        width="250"
-        height="75"
-        style={{
-          borderStyle: 'solid',
-          borderColor: 'black',
-          backgroundImage: `url(${canvas_image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      ></canvas>
-      <form>
-        <Typography>Draw or choose pre-drawn platform</Typography>
-        <FormControl className={classes.formControl}>
-          <NativeSelect
-            onChange={chooseDrawOrDefaultPlatform}
-            className={classes.selectEmpty}
-          >
-            <option value={0}>Draw prize</option>
-            <option value={1}>Eyes</option>
-            <option value={2}>Flamingo</option>
-            <option value={3}>Other</option>
-            <option value={4}>Surprise me!</option>
-          </NativeSelect>
-          <FormHelperText>
-            Draw, choose one of the provided options, or be surprised!
-          </FormHelperText>
-        </FormControl>
-        <button onClick={clearPlatform}>clear</button>
-        <button onClick={downloadPlatform}>
-          Download platform drawing to my local computer
-        </button>
-      </form>
-      <canvas
-        id="prize"
-        width="100"
-        height="100"
-        style={{
-          borderStyle: 'solid',
-          borderColor: 'black',
-          backgroundImage: `url(${canvas_image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      ></canvas>
-      <form>
-        <Typography>Draw or choose pre-drawn prize</Typography>
-        <FormControl className={classes.formControl}>
-          <NativeSelect
-            onChange={chooseDrawOrDefaultPrize}
-            className={classes.selectEmpty}
-          >
-            <option value={0}>Draw prize</option>
-            <option value={1}>Eyes</option>
-            <option value={2}>Flamingo</option>
-            <option value={3}>Other</option>
-            <option value={4}>Surprise me!</option>
-          </NativeSelect>
-          <FormHelperText>
-            Draw, choose one of the provided options, or be surprised!
-          </FormHelperText>
-        </FormControl>
-        <button onClick={clearPrize}>clear</button>
-        <button onClick={downloadPrize}>
-          Download prize drawing to my local computer
-        </button>
-      </form>
-      <form>
-        <button onClick={handleExport} style={{ backgroundColor: 'lightpink' }}>
-          Save and play the game
-        </button>
-        <br />
-        <label>Thickness</label>
-        <br />
-        <input
-          type="range"
-          min={1}
-          max={40}
-          onInput={setThickness}
-          step={0.1}
-        />
-        <br />
-        <label>Mode</label>
-
-        <select onChange={chooseMode}>
-          <option value="draw">Draw</option>
-          <option value="fill">Fill</option>
-          <option value="erase">Erase</option>
-          <option value="disabled">Disabled</option>
-        </select>
-        <br />
-        <label>Color</label>
-        <HexColorPicker color={color} onChange={setColor} />
-        <br />
-      </form>
-    </div>
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-evenly"
+      alignItems="flex-start"
+      spacing={2}
+    >
+      <Grid Item>
+        <canvas
+          id="platform"
+          width="250"
+          height="75"
+          style={{
+            borderStyle: 'solid',
+            borderColor: 'black',
+            backgroundImage: `url(${canvas_image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        ></canvas>
+        <Grid
+          container
+          direction="column"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid Item>
+            <Typography>Draw or choose pre-drawn platform</Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseDrawOrDefaultPlatform}
+                className={classes.selectEmpty}
+              >
+                <option value={0}>Draw prize</option>
+                <option value={1}>Eyes</option>
+                <option value={2}>Flamingo</option>
+                <option value={3}>Other</option>
+                <option value={4}>Surprise me!</option>
+              </NativeSelect>
+              <FormHelperText>
+                Draw, choose one of the provided options, or be surprised!
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid Item>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              onClick={clearPlatform}
+            >
+              clear
+            </Button>
+          </Grid>
+          <Grid Item>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              onClick={downloadPlatform}
+            >
+              Download
+            </Button>
+          </Grid>
+        </Grid>
+        <canvas
+          id="prize"
+          width="100"
+          height="100"
+          style={{
+            borderStyle: 'solid',
+            borderColor: 'black',
+            backgroundImage: `url(${canvas_image})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        ></canvas>
+        <Grid
+          container
+          direction="column"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid Item>
+            <Typography>Draw or choose pre-drawn prize</Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseDrawOrDefaultPrize}
+                className={classes.selectEmpty}
+              >
+                <option value={0}>Draw prize</option>
+                <option value={1}>Eyes</option>
+                <option value={2}>Flamingo</option>
+                <option value={3}>Other</option>
+                <option value={4}>Surprise me!</option>
+              </NativeSelect>
+              <FormHelperText>
+                Draw, choose one of the provided options, or be surprised!
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid Item>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              variant="contained"
+              onClick={clearPrize}
+            >
+              Clear
+            </Button>
+          </Grid>
+          <Grid Item>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              variant="contained"
+              onClick={downloadPrize}
+            >
+              Download
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid Item>
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+        >
+          <Grid Item>
+            <Typography
+              id="non-linear-slider"
+              className={classes.specialTypography}
+              style={{ margin: 15 }}
+              justifyContent="center"
+              gutterBottom
+            >
+              Thickness
+            </Typography>
+            <Slider
+              min={1}
+              max={40}
+              value={thickness}
+              onChange={setThicknessOnState}
+              step={0.1}
+            />
+          </Grid>
+          <Grid Item>
+            <Typography
+              className={classes.specialTypography}
+              style={{ margin: 15 }}
+              align="center"
+            >
+              Mode
+            </Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseMode}
+                name="age"
+                className={classes.selectEmpty}
+                style={{ margin: 5 }}
+                // inputProps={{ 'aria-label': 'age' }}
+              >
+                <option value={'draw'}>Draw</option>
+                <option value={'fill'}>Fill</option>
+                <option value={'erase'}>Erase</option>
+                {/* <option value={'disable'}>Disabled</option> */}
+              </NativeSelect>
+              <FormHelperText>Draw, fill or erase</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid Item>
+            <Typography
+              style={{ margin: 15 }}
+              align="center"
+              className={classes.specialTypography}
+            >
+              Color
+            </Typography>
+            <HexColorPicker
+              style={{ margin: 15 }}
+              color={color}
+              onChange={setColor}
+            />
+          </Grid>
+          <Grid Item>
+            <Button
+              style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+              variant="contained"
+              onClick={handleExport}
+            >
+              Next
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

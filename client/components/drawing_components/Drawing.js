@@ -16,6 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -155,7 +156,7 @@ const Drawing = (props) => {
     Object.keys(canvases).forEach((canvas) => {
       if (defaultChoices[canvas] === '0') {
         canvases[canvas].mode = e.target.value;
-        }
+      }
     });
   }
 
@@ -314,8 +315,14 @@ const Drawing = (props) => {
   // };
 
   return (
-    <div>
-      <div>
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-evenly"
+      alignItems="flex-start"
+      spacing={4}
+    >
+      <Grid Item>
         {/* <div
         width={500}
         height={800}
@@ -495,91 +502,148 @@ const Drawing = (props) => {
             ></canvas>
           </div>
         </div>
-      </div>
-      {/* <Button variant="contained" onClick={downloadDrawing}>
-        Download image to my local computer
-      </Button> */}
-      <Typography>
-        Draw or choose pre-drawn character (parts of the character)
-      </Typography>
-      <Typography>
-        To avoid drawing anything and use entire pre-drawn character:
-      </Typography>
-      <FormControl className={classes.formControl}>
-        <NativeSelect onChange={chooseDefault} className={classes.selectEmpty}>
-          <option value={0}>Draw character</option>
-          <option value={1}>Eyes</option>
-          <option value={2}>Flamingo</option>
-          <option value={3}>Other</option>
-          <option value={4}>Surprise me!</option>
-        </NativeSelect>
-        <FormHelperText>
-          Draw, choose one of the provided options, or be surprised!
-        </FormHelperText>
-      </FormControl>
-
-      <Typography>Draw or choose pre-drawn part of character</Typography>
-
-      {Object.keys(canvases).map((canvas, index) => (
-        <FormControl key={index}>
-          <Typography>
-            Choose whether to draw the {names[canvas]} or use a default:
-          </Typography>
-          <FormControl className={classes.formControl}>
-            <NativeSelect
-              onChange={chooseDefaultOrDraw}
-              className={classes.selectEmpty}
-            >
-              <option value={[0, canvas]}>Draw character</option>
-              <option value={[1, canvas]}>Eyes</option>
-              <option value={[2, canvas]}>Flamingo</option>
-              <option value={[3, canvas]}>Other</option>
-              <option value={[4, canvas]}>Surprise me!</option>
-            </NativeSelect>
-            <FormHelperText>
-              Draw, choose one of the provided options, or be surprised!
-            </FormHelperText>
-          </FormControl>
-        </FormControl>
-      ))}
-
-      <Button variant="contained" onClick={handleExport}>
-        Save character and choose platform
-      </Button>
-      <Button onClick={clear}>clear</Button>
-      <br />
-      <Typography id="non-linear-slider" gutterBottom>
-        Thickness
-      </Typography>
-      <br />
-      <br />
-      <Slider
-        min={1}
-        max={40}
-        value={thickness}
-        onChange={setThicknessOnState}
-        step={0.1}
-      />
-      <br />
-      <Typography>Mode</Typography>
-      <FormControl className={classes.formControl}>
-        <NativeSelect
-          onChange={chooseMode}
-          name="age"
-          className={classes.selectEmpty}
-          // inputProps={{ 'aria-label': 'age' }}
+      </Grid>
+      <Grid Item>
+        <Grid
+          container
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
         >
-          <option value={'draw'}>Draw</option>
-          <option value={'fill'}>Fill</option>
-          <option value={'erase'}>Erase</option>
-          <option value={'disable'}>Disabled</option>
-        </NativeSelect>
-        <FormHelperText>Draw, fill or erase</FormHelperText>
-      </FormControl>
-      <Typography>Color</Typography>
-      <HexColorPicker color={color} onChange={setColor} />
-      <br />
-    </div>
+          <Grid Item>
+            <Typography
+              id="non-linear-slider"
+              className={classes.specialTypography}
+              style={{ margin: 15 }}
+              justifyContent="center"
+              gutterBottom
+            >
+              Thickness
+            </Typography>
+            <Slider
+              min={1}
+              max={40}
+              value={thickness}
+              onChange={setThicknessOnState}
+              step={0.1}
+            />
+          </Grid>
+          <Grid Item>
+            <Typography>
+              Draw or choose pre-drawn character (parts of the character)
+            </Typography>
+            <Typography>
+              To avoid drawing anything and use entire pre-drawn character:
+            </Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseDefault}
+                className={classes.selectEmpty}
+              >
+                <option value={0}>Draw character</option>
+                <option value={1}>Eyes</option>
+                <option value={2}>Flamingo</option>
+                <option value={3}>Other</option>
+                <option value={4}>Surprise me!</option>
+              </NativeSelect>
+              <FormHelperText>
+                Draw, choose one of the provided options, or be surprised!
+              </FormHelperText>
+            </FormControl>
+
+            <Typography>Draw or choose pre-drawn part of character</Typography>
+
+            {Object.keys(canvases).map((canvas, index) => (
+              <FormControl key={index}>
+                <Typography>
+                  Choose whether to draw the {names[canvas]} or use a default:
+                </Typography>
+                <FormControl className={classes.formControl}>
+                  <NativeSelect
+                    onChange={chooseDefaultOrDraw}
+                    className={classes.selectEmpty}
+                  >
+                    <option value={[0, canvas]}>Draw character</option>
+                    <option value={[1, canvas]}>Eyes</option>
+                    <option value={[2, canvas]}>Flamingo</option>
+                    <option value={[3, canvas]}>Other</option>
+                    <option value={[4, canvas]}>Surprise me!</option>
+                  </NativeSelect>
+                  <FormHelperText>
+                    Draw, choose one of the provided options, or be surprised!
+                  </FormHelperText>
+                </FormControl>
+              </FormControl>
+            ))}
+          </Grid>
+          <Grid Item>
+            <Typography
+              className={classes.specialTypography}
+              style={{ margin: 15 }}
+              align="center"
+            >
+              Mode
+            </Typography>
+            <FormControl className={classes.formControl}>
+              <NativeSelect
+                onChange={chooseMode}
+                name="age"
+                className={classes.selectEmpty}
+                style={{ margin: 5 }}
+                // inputProps={{ 'aria-label': 'age' }}
+              >
+                <option value={'draw'}>Draw</option>
+                <option value={'fill'}>Fill</option>
+                <option value={'erase'}>Erase</option>
+                {/* <option value={'disable'}>Disabled</option> */}
+              </NativeSelect>
+              <FormHelperText>Draw, fill or erase</FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid Item>
+            <Typography
+              style={{ margin: 15 }}
+              align="center"
+              className={classes.specialTypography}
+            >
+              Color
+            </Typography>
+            <HexColorPicker
+              style={{ margin: 15 }}
+              color={color}
+              onChange={setColor}
+            />
+          </Grid>
+          <Grid Item>
+            <Grid
+              container
+              direction="column"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid Item>
+                <Button
+                  style={{ backgroundColor: '#86995a', margin: 10 }}
+                  variant="contained"
+                  onClick={handleExport}
+                >
+                  Save character and choose platform
+                </Button>
+              </Grid>
+              <Grid Item>
+                <Button
+                  style={{ backgroundColor: '#eb6069', margin: 10 }}
+                  variant="contained"
+                  onClick={clear}
+                >
+                  Clear
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

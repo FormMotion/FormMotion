@@ -40,8 +40,6 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-2', bg2);
     this.load.image('bg-1', bg1);
 
-    this.load.audio('pickup', 'assets/kalimba_chime.mp3');
-
     //Loaded from localStorage - user drawn images
     let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
     let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
@@ -86,19 +84,21 @@ export default class Game extends Phaser.Scene {
     let prizeData = new Image();
     prizeData.src = drawnPrize;
     this.textures.addBase64('prize', drawnPrize, prizeData);
+
+    this.load.audio('pickup', 'assets/kalimba_chime.mp3');
   }
 
   create() {
     const width = this.scale.width;
     const height = this.scale.height;
-    const totalWidth = width * 10;
+    const totalWidth = width * 1000;
 
     //Background
 
     this.add
       .image(width * 0.5, height * 0.5, 'bg-5')
       .setScrollFactor(0)
-      .setScale(5);
+      .setScale(6);
     createAligned(this, totalWidth, 'bg-4', 0.25, bgscale);
     createAligned(this, totalWidth, 'bg-3', 0.5, bgscale);
     createAligned(this, totalWidth, 'bg-2', 1, bgscale),
@@ -122,7 +122,7 @@ export default class Game extends Phaser.Scene {
 
     //Avatar / Player Character
     this.player = this.physics.add
-      .sprite(300, 100, 'playerFacingRight')
+      .sprite(300, 10, 'playerFacingRight')
       .setScale(0.25);
 
     //Prize

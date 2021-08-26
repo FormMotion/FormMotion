@@ -18,16 +18,16 @@ const About = (props) => {
                 <Typography className={classes.specialTypography} component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
                     FAQ
                 </Typography>
-                <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                <Typography className={classes.regularTypography}>
                     How to play?
                 </Typography>
-                <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                <Typography className={classes.regularTypography}>
                     How to win?
                 </Typography>
-                <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                <Typography className={classes.regularTypography}>
                     Why does this game exist?
                 </Typography>
-                <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                <Typography className={classes.regularTypography}>
                     Who made this game?
                 </Typography>
             </Container>

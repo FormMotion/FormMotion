@@ -25,15 +25,20 @@ export default class Game extends Phaser.Scene {
     super('game');
     this.player;
     this.cursors;
+    this.pointer; // touch controls
     this.platforms;
     this.prizes;
     this.prizesCollected = 0;
     this.prizesText = 'Grace Hopping Along!';
     this.pickupPrize;
+    this.input = {
+      activePointers: 3 // by default there are 2 so we are adding 1 to make 3 total
+    }
   }
 
   preload() {
-    //Static images hosted within assets folder
+
+  //Static images hosted within assets folder
     this.load.image('bg-5', bg5);
     this.load.image('bg-4', bg4);
     this.load.image('bg-3', bg3);
@@ -109,7 +114,7 @@ export default class Game extends Phaser.Scene {
 
     //Avatar / Player Character
     this.player = this.physics.add
-      .sprite(300, 100, 'playerFacingRight')
+      .sprite(300, 0, 'playerFacingRight')
       .setScale(0.25);
 
     //Prize
@@ -140,6 +145,7 @@ export default class Game extends Phaser.Scene {
 
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.input.addPointer(1)
 
     //Camera
     this.cameras.main.startFollow(this.player);
@@ -153,24 +159,24 @@ export default class Game extends Phaser.Scene {
   }
 
   update() {
+
     //Player Movement
     const touchingDown = this.player.body.touching.down;
     if (touchingDown) {
       this.player.setVelocityY(-300);
     }
 
-    if (this.cursors.left.isDown && !touchingDown) {
+    if ((this.cursors.left.isDown && !touchingDown) || (this.input.pointer1.isDown && !touchingDown && this.input.pointer1.x < this.player.x)) {
       this.player.setVelocityX(-300);
-      this.player.flipX = true; // Avatar facing left
-    } else if (this.cursors.right.isDown && !touchingDown) {
+      // this.player.flipX = true; // Avatar facing left
+    } else if ((this.cursors.right.isDown && !touchingDown)|| (this.input.pointer1.isDown && !touchingDown && this.input.pointer1.x > this.player.x)) {
       this.player.setVelocityX(300);
-      this.player.flipX = false; // Avatar facing right
+      // this.player.flipX = false; // Avatar facing right
     } else {
       this.player.setVelocityX(0);
     }
 
     const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
-
     if (
       didPressJump &&
       !touchingDown &&
@@ -205,7 +211,6 @@ export default class Game extends Phaser.Scene {
       // this.scene.start();
     }
 
-    // Rotate Player with arrow keys
   } // END OF UPDATE
 
   //Adds the prizes above the platforms

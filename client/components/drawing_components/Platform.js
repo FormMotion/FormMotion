@@ -4,23 +4,48 @@ import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
 
+// material-ui
+import { makeStyles } from '@material-ui/core/styles';
+import Slider from '@material-ui/core/Slider';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormHelperText from '@material-ui/core/FormHelperText';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+let sketchpad = null;
+let canvas_image = 'assets/graph-paper.png';
+
 let platform = null;
 let prize = null;
 
 const Platform = (props) => {
+  const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
-  const [drawnPlatform, setDrawnPlatform] = useState(true);
-  const [drawnPrize, setDrawnPrize] = useState(true);
+  const [defaultPlatform, setDefaultPlatform] = useState(0);
+  const [defaultPrize, setDefaultPrize] = useState(0);
   // const [thickness, setThickness] = useState(7);
 
   let graph_paper_prize = 'assets/graph-paper.png';
   let graph_paper_platform = 'assets/graph-paper.png';
 
-  if (!drawnPrize) {
-    graph_paper_prize = 'assets/prizes/eyePrize.png';
-  }
-  if (!drawnPlatform) {
-    graph_paper_platform = 'assets/platforms/eyePlatform.png';
+  const canvases = {
+    prize,
+    platform
   }
 
   useEffect(() => {
@@ -52,10 +77,10 @@ const Platform = (props) => {
   }
 
   function chooseMode(e) {
-    if (drawnPlatform) {
+    if (defaultPlatform === '0') {
       platform.mode = e.target.value;
     }
-    if (drawnPrize) {
+    if (defaultPrize === '0') {
       prize.mode = e.target.value;
     }
   }
@@ -82,48 +107,88 @@ const Platform = (props) => {
     document.body.removeChild(link);
   }
 
+ const chooseDrawOrDefaultPrize = (e) => {
+   let choice = e.target.value;
+
+   if (choice === '0') {
+     setDefaultPrize(0);
+     prize.mode = 'draw';
+     prize.canvas.style.backgroundImage = canvas_image;
+   } else {
+     setDefaultPrize(choice);
+     prize.clear();
+     prize.mode = 'disabled';
+     prize.canvas.style.backgroundImage = `assets/prizes/${choice}`;
+   }
+ };
+
+  const chooseDrawOrDefaultPlatform = (e) => {
+    let choice = e.target.value;
+
+    if (choice === '0') {
+      setDefaultPlatform(0);
+      platform.mode = 'draw';
+      platform.canvas.style.backgroundImage = canvas_image;
+    } else {
+      setDefaultPlatform(choice);
+      platform.clear();
+      platform.mode = 'disabled';
+      platform.canvas.style.backgroundImage = `assets/platforms/${choice}`;
+    }
+  };
+
+  function setDataUrl(src, callback) {
+    const img = new Image();
+    // img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      let dataURL;
+      canvas.height = img.naturalHeight;
+      canvas.width = img.naturalWidth;
+      ctx.drawImage(img, 0, 0);
+      dataURL = canvas.toDataURL();
+      callback(dataURL);
+    };
+    img.src = src;
+    if (img.complete || img.complete === undefined) {
+      img.src =
+        'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+      img.src = src;
+    }
+  }
+
+  // get a random number between 1 and 3
+  const getRandomChar = () => {
+    return Math.floor(Math.random() * 4 + 1);
+  };
+
   const handleExport = (e) => {
     e.preventDefault();
-    if (drawnPlatform) {
-      const platformURI = platform.toImage();
-      localStorage.setItem('playerDrawnPlatform', platformURI);
+
+    canvases.forEach((canvas) => {
+      let default = canvas === 'platform' ? defaultPlatform : defaultPrize;
+      if (default !== '0' && canvas.isDirty()) {
+      const uri = canvases[canvas].toImage();
+      localStorage.setItem(`playerDrawn${canvas}`, uri);
     } else {
-      localStorage.setItem('playerDrawnPlatform', false);
+      let choice;
+      if (
+        (!canvas.isDirty() && default === '0') ||
+        default === '4'
+      ) {
+        choice = getRandomChar();
+      } else {
+        choice = default;
+      }
+      // convert the image to dataURl and put in local storage
+      setDataUrl(`assets/${canvas}s/${canvas}${choice}`, (dataURL) => {
+        localStorage.setItem(`playerDrawn${canvas}`, dataURL);
+
+      });
     }
-
-    if (drawnPrize) {
-      const prizeURI = prize.toImage();
-      localStorage.setItem('playerDrawnPrize', prizeURI);
-    } else {
-      localStorage.setItem('playerDrawnPrize', false);
-    }
-
-    props.history.push('./game');
-  };
-
-  const useDefaultPlatform = (e) => {
-    e.preventDefault();
-    platform.clear();
-    setDrawnPlatform(false);
-    platform.mode = 'disabled';
-  };
-
-  const drawPlatform = (e) => {
-    e.preventDefault();
-    setDrawnPlatform(true);
-    platform.mode = 'draw';
-  };
-  const useDefaultPrize = (e) => {
-    e.preventDefault();
-    prize.clear();
-    setDrawnPrize(false);
-    prize.mode = 'disabled';
-  };
-
-  const drawPrize = (e) => {
-    e.preventDefault();
-    setDrawnPrize(true);
-    prize.mode = 'draw';
+          })
+        props.history.push('./platform');
   };
 
   // KEEP THIS FOR THE FUTURE LOGGED IN USER!
@@ -150,12 +215,22 @@ const Platform = (props) => {
         }}
       ></canvas>
       <form>
-        {drawnPlatform && (
-          <button onClick={useDefaultPlatform}>Use default platform</button>
-        )}
-        {!drawnPlatform && (
-          <button onClick={drawPlatform}>Draw platform</button>
-        )}
+        <Typography>Draw or choose pre-drawn platform</Typography>
+        <FormControl className={classes.formControl}>
+          <NativeSelect
+            onChange={chooseDrawOrDefaultPlatform}
+            className={classes.selectEmpty}
+          >
+            <option value={0}>Draw prize</option>
+            <option value={1}>Eyes</option>
+            <option value={2}>Flamingo</option>
+            <option value={3}>Other</option>
+            <option value={4}>Surprise me!</option>
+          </NativeSelect>
+          <FormHelperText>
+            Draw, choose one of the provided options, or be surprised!
+          </FormHelperText>
+        </FormControl>
         <button onClick={clearPlatform}>clear</button>
         <button onClick={downloadPlatform}>
           Download platform drawing to my local computer
@@ -175,10 +250,22 @@ const Platform = (props) => {
         }}
       ></canvas>
       <form>
-        {drawnPrize && (
-          <button onClick={useDefaultPrize}>Use default prize</button>
-        )}
-        {!drawnPrize && <button onClick={drawPrize}>Draw prize</button>}
+        <Typography>Draw or choose pre-drawn prize</Typography>
+        <FormControl className={classes.formControl}>
+          <NativeSelect
+            onChange={chooseDrawOrDefaultPrize}
+            className={classes.selectEmpty}
+          >
+            <option value={0}>Draw prize</option>
+            <option value={1}>Eyes</option>
+            <option value={2}>Flamingo</option>
+            <option value={3}>Other</option>
+            <option value={4}>Surprise me!</option>
+          </NativeSelect>
+          <FormHelperText>
+            Draw, choose one of the provided options, or be surprised!
+          </FormHelperText>
+        </FormControl>
         <button onClick={clearPrize}>clear</button>
         <button onClick={downloadPrize}>
           Download prize drawing to my local computer

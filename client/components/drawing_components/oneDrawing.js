@@ -64,7 +64,7 @@ const oneDrawing = (props) => {
   }
 
   function chooseMode(e) {
-    if (!defaultChar) {
+    if (defaultChar === '0') {
       sketchpad.mode = e.target.value;
     }
   }
@@ -122,12 +122,6 @@ const oneDrawing = (props) => {
     }
   }
 
-  const drawCharacter = (e) => {
-    e.preventDefault();
-    setDefaultChar(0);
-    sketchpad.mode = 'draw';
-  };
-
   // get a random number between 1 and 3
   const getRandomChar = () => {
     return Math.floor(Math.random() * 4 + 1);
@@ -137,7 +131,7 @@ const oneDrawing = (props) => {
     e.preventDefault();
     // if the user hasn't chosen a default character and they've drawn on the canvas,
     // put their drawing in local storage
-    if (!defaultChar && sketchpad.isDirty()) {
+    if (defaultChar === '0' && sketchpad.isDirty()) {
       const uri = sketchpad.toImage();
       localStorage.setItem('playerDrawnCharacter', uri);
       props.history.push('./platform');

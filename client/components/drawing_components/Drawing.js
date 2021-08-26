@@ -153,7 +153,9 @@ const Drawing = (props) => {
 
   function chooseMode(e) {
     Object.keys(canvases).forEach((canvas) => {
-      canvases[canvas].mode = e.target.value;
+      if (defaultChoices[canvas] === '0') {
+        canvases[canvas].mode = e.target.value;
+        }
     });
   }
 

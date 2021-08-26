@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let sketchpad = null;
 let canvas_image = 'assets/graph-paper.png';
 
 let platform = null;
@@ -39,9 +38,6 @@ const Platform = (props) => {
   const [defaultPlatform, setDefaultPlatform] = useState(0);
   const [defaultPrize, setDefaultPrize] = useState(0);
   // const [thickness, setThickness] = useState(7);
-
-  let graph_paper_prize = 'assets/graph-paper.png';
-  let graph_paper_platform = 'assets/graph-paper.png';
 
   const canvases = {
     prize,
@@ -113,12 +109,12 @@ const Platform = (props) => {
     if (choice === '0') {
       setDefaultPrize(0);
       prize.mode = 'draw';
-      prize.canvas.style.backgroundImage = canvas_image;
+      prize.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
     } else {
       setDefaultPrize(choice);
       prize.clear();
       prize.mode = 'disabled';
-      prize.canvas.style.backgroundImage = `assets/prizes/${choice}`;
+      prize.canvas.style.backgroundImage = `url(assets/prizes/prize${choice}.png)`;
     }
   };
 
@@ -128,12 +124,12 @@ const Platform = (props) => {
     if (choice === '0') {
       setDefaultPlatform(0);
       platform.mode = 'draw';
-      platform.canvas.style.backgroundImage = canvas_image;
+      platform.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
     } else {
       setDefaultPlatform(choice);
       platform.clear();
       platform.mode = 'disabled';
-      platform.canvas.style.backgroundImage = `assets/platforms/${choice}`;
+      platform.canvas.style.backgroundImage = `url(assets/platforms/platform${choice}.png)`;
     }
   };
 
@@ -208,7 +204,7 @@ const Platform = (props) => {
         style={{
           borderStyle: 'solid',
           borderColor: 'black',
-          backgroundImage: `url(${graph_paper_platform})`,
+          backgroundImage: `url(${canvas_image})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -243,7 +239,7 @@ const Platform = (props) => {
         style={{
           borderStyle: 'solid',
           borderColor: 'black',
-          backgroundImage: `url(${graph_paper_prize})`,
+          backgroundImage: `url(${canvas_image})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

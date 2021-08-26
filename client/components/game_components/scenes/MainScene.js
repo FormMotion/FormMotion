@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Phaser from 'phaser';
 
 //Parallax Mountains
@@ -10,6 +11,9 @@ let bg2 = 'assets/backgrounds/parallax_mountains/parallax-mountain-trees.png';
 let bg1 =
   'assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png';
 let bgscale = 3;
+=======
+import Phaser from "phaser";
+>>>>>>> main
 
 //This is a separate class so we can set up internal configuration details for the prize Sprite here
 class Prize extends Phaser.Physics.Arcade.Sprite {
@@ -33,6 +37,7 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //Static images hosted within assets folder
+<<<<<<< HEAD
     this.load.image('bg-5', bg5);
     this.load.image('bg-4', bg4);
     this.load.image('bg-3', bg3);
@@ -85,16 +90,71 @@ export default class Game extends Phaser.Scene {
     this.textures.addBase64('prize', drawnPrize, prizeData);
 
     this.load.audio('pickup', 'assets/kalimba_chime.mp3');
+=======
+    this.load.image("bg-10", bg10);
+    this.load.image("bg-9", bg9);
+    this.load.image("bg-8", bg8);
+    this.load.image("bg-7", bg7);
+    this.load.image("bg-6", bg6);
+    this.load.image("bg-5", bg5);
+    this.load.image("bg-4", bg4);
+    this.load.image("bg-3", bg3);
+    this.load.image("bg-2", bg2);
+    this.load.image("bg-1", bg1);
+
+    //Loaded from localStorage - user drawn images
+    let drawnCharacter = localStorage.getItem("playerDrawnCharacter");
+    let drawnPlatform = localStorage.getItem("playerDrawnPlatform");
+    let drawnPrize = localStorage.getItem("playerDrawnPrize");
+
+    // CHARACTER DRAWN
+    if (drawnCharacter !== "false") {
+      let characterData = new Image();
+      characterData.src = drawnCharacter;
+      this.textures.addBase64(
+        "playerFacingRight",
+        drawnCharacter,
+        characterData
+      );
+    } else {
+      this.load.image("playerFacingRight", "assets/eyeChar.png");
+    }
+
+    // PLATFORM DRAWN
+    if (drawnPlatform !== "false") {
+      let platformData = new Image();
+      platformData.src = drawnPlatform;
+      this.textures.addBase64("platform", drawnPlatform, platformData);
+    } else {
+      this.load.image("platform", "assets/eyePlatform.png");
+    }
+
+    // PRIZE DRAWN
+    if (drawnPrize !== "false") {
+      let prizeData = new Image();
+      prizeData.src = drawnPrize;
+      this.textures.addBase64("prize", drawnPrize, prizeData);
+    } else {
+      this.load.image("prize", "assets/eyePrize.png");
+    }
+
+    this.load.audio("pickup", "assets/kalimba_chime.mp3");
+>>>>>>> main
   }
 
   create() {
+       //Opening Scene launch pop-up
+       this.scene.launch("OpeningScene");
+       this.scene.pause('MainScene');
+
     const width = this.scale.width;
     const height = this.scale.height;
     const totalWidth = width * 1000;
 
     //Background
-
+    //This allows for parallax scrolling
     this.add
+<<<<<<< HEAD
       .image(width * 0.5, height * 0.5, 'bg-5')
       .setScrollFactor(0)
       .setScale(6);
@@ -102,6 +162,20 @@ export default class Game extends Phaser.Scene {
     createAligned(this, totalWidth, 'bg-3', 0.5, bgscale);
     createAligned(this, totalWidth, 'bg-2', 1, bgscale),
       createAligned(this, totalWidth, 'bg-1', 1.25, bgscale);
+=======
+      .image(width * 0.5, height * 0.5, "bg-10")
+      .setScrollFactor(0)
+      .setScale(6);
+    createAligned(this, totalWidth, "bg-9", 0.20, bgscale);
+    createAligned(this, totalWidth, "bg-8", 0.40, bgscale);
+    createAligned(this, totalWidth, "bg-7", 0.60, bgscale),
+      createAligned(this, totalWidth, "bg-6", 0.80, bgscale);
+    createAligned(this, totalWidth, "bg-5", 1, bgscale);
+    createAligned(this, totalWidth, "bg-4", 1.20, bgscale);
+    createAligned(this, totalWidth, "bg-3", 1.40, bgscale);
+    createAligned(this, totalWidth, "bg-2", 1.60, bgscale),
+      createAligned(this, totalWidth, "bg-1", 1.80, bgscale);
+>>>>>>> main
 
     //Platforms
     this.platforms = this.physics.add.staticGroup();
@@ -160,9 +234,13 @@ export default class Game extends Phaser.Scene {
     //Sounds
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
 
+<<<<<<< HEAD
     //Opening Scene launch pop-up
     this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
+=======
+ 
+>>>>>>> main
   }
 
   update() {
@@ -238,7 +316,7 @@ export default class Game extends Phaser.Scene {
       // this.scene.stop();
       // this.scene.start();
     }
-  } // END OF UPDATE
+  } 
 
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {
@@ -285,4 +363,59 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
   }
 };
 
-//this will add the prizes above platforms - may want to make them more random than one on each platform
+//////////**********BACKGROUNDS**********//////////
+
+//Template - highest number is furthest back
+// const bg10 = 'assets/transparent_background_500_x_800.png'
+// const bg9 = 'assets/transparent_background_500_x_800.png'
+// const bg8 = 'assets/transparent_background_500_x_800.png'
+// const bg7 = 'assets/transparent_background_500_x_800.png'
+// const bg6 = 'assets/transparent_background_500_x_800.png'
+// const bg5 = 'assets/transparent_background_500_x_800.png'
+// const bg4 = 'assets/transparent_background_500_x_800.png'
+// const bg3 = 'assets/transparent_background_500_x_800.png'
+// const bg2 = 'assets/transparent_background_500_x_800.png'
+// const bg1 = 'assets/transparent_background_500_x_800.png'
+// const bgscale = 3
+
+//Parallax Mountains Background
+const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
+const bg9 =
+  "assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png";
+const bg8 =
+  "assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png";
+const bg7 = "assets/backgrounds/parallax_mountains/parallax-mountain-trees.png";
+const bg6 =
+  "assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png";
+const bg5 = 'assets/transparent_background_500_x_800.png';
+const bg4 = 'assets/transparent_background_500_x_800.png';
+const bg3 = 'assets/transparent_background_500_x_800.png';
+const bg2 = 'assets/transparent_background_500_x_800.png';
+const bg1 = 'assets/transparent_background_500_x_800.png';
+const bgscale = 3;
+
+//Mountains - with weird line on top????
+// const bg10 = 'assets/backgrounds/Field/Field Layer 01.png'
+// const bg9 = 'assets/backgrounds/Field/Field Layer 02.png'
+// const bg8 = 'assets/transparent_background_500_x_800.png'
+// const bg7 = 'assets/backgrounds/Field/Field Layer 04.png'
+// const bg6 = 'assets/backgrounds/Field/Field Layer 05.png'
+// const bg5 = 'assets/backgrounds/Field/Field Layer 06.png'
+// const bg4 = 'assets/backgrounds/Field/Field Layer 07.png'
+// const bg3 = 'assets/backgrounds/Field/Field Layer 08.png'
+// const bg2 = 'assets/transparent_background_500_x_800.png'
+// const bg1 = 'assets/transparent_background_500_x_800.png'
+// const bgscale = 5
+
+//Volcano!
+// const bg10 = 'assets/backgrounds/Volcano/Volcano anim. 01.png'
+// const bg9 = 'assets/backgrounds/Volcano/Volcano Layer 01.png'
+// const bg8 = 'assets/backgrounds/Volcano/Volcano Layer 02.png'
+// const bg7 = 'assets/backgrounds/Volcano/Volcano Layer 03.png'
+// const bg6 = 'assets/backgrounds/Volcano/Volcano Layer 04.png'
+// const bg5 = 'assets/backgrounds/Volcano/Volcano Layer 05.png'
+// const bg4 = 'assets/backgrounds/Volcano/Volcano Layer 06.png'
+// const bg3 = 'assets/backgrounds/Volcano/Volcano Layer 07.png'
+// const bg2 = 'assets/backgrounds/Volcano/Volcano Layer 08.png'
+// const bg1 = 'assets/transparent_background_500_x_800.png'
+// const bgscale = 10

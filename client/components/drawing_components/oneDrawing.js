@@ -142,7 +142,7 @@ const oneDrawing = (props) => {
       localStorage.setItem('playerDrawnCharacter', uri);
       props.history.push('./platform');
       // if the user hasn't chosen a default character OR drawn on the canvas,
-      // choose a random default character and put it in local storage
+      // choose a random default character
     } else {
       let choice;
       if (
@@ -153,6 +153,7 @@ const oneDrawing = (props) => {
       } else {
         choice = defaultChar;
       }
+      // convert the image to dataURl and put in local storage
       setDataUrl(images[choice], (dataURL) => {
         localStorage.setItem('playerDrawnCharacter', dataURL);
         props.history.push('./platform');

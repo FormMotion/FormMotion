@@ -2,7 +2,6 @@ const Sequelize = require('sequelize')
 
 const databaseName = 'formmotion'
 
-
 const config = {
   logging: false
 };

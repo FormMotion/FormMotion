@@ -35,18 +35,18 @@ export default function StandingAvatar() {
       { src: head, x: 130, y: 0 },
       //TORSO
       { src: torso, x: 120, y: 150 },
-      //Left ARM (from user perspective)
-      { src: armLeftUpper, x: 20, y: 150 },
-      { src: armLeftLower, x: 20, y: 300 },
-      //Right ARM (from user perspective)
-      { src: armRightUpper, x: 400, y: 150 },
-      { src: armRightLower, x: 400, y: 320 },
       //Left LEG (from user perspective)
       { src: legLeftUpper, x: 150, y: 400 },
       { src: legLeftLower, x: 150, y: 580 },
       //Right LEG (from user perspective)
       { src: legRightUpper, x: 250, y: 400 },
       { src: legRightLower, x: 250, y: 580 },
+      //Left ARM (from user perspective)
+      { src: armLeftUpper, x: 20, y: 150 },
+      { src: armLeftLower, x: 20, y: 300 },
+      //Right ARM (from user perspective)
+      { src: armRightUpper, x: 400, y: 150 },
+      { src: armRightLower, x: 400, y: 320 },
     ]).then((res) => setAvatar(res));
 
 
@@ -103,11 +103,11 @@ export function Landing() {
     };
   };
 
-  rotate(armRightLower, 90, function (resultBase64) {
+  rotate(armRightLower, 0, function (resultBase64) {
     setRotatedArmRightLower(resultBase64);
   });
 
-  rotate(armLeftLower, 280, function (resultBase64) {
+  rotate(armLeftLower, 0, function (resultBase64) {
     setRotatedArmLeftLower(resultBase64);
   });
 
@@ -120,18 +120,18 @@ export function Landing() {
       { src: head, x: 130, y: 0 },
       //TORSO
       { src: torso, x: 120, y: 150 },
-      //Left ARM (from user perspective)
-      { src: armLeftUpper, x: 20, y: 150 },
-      { src: rotatedArmLeftLower, x: 50, y: 300 },
-      //Right ARM (from user perspective)
-      { src: armRightUpper, x: 400, y: 150 },
-      { src: rotatedArmRightLower, x: 250, y: 320 },
       //Left LEG (from user perspective)
       { src: legLeftUpper, x: 150, y: 400 },
       { src: legLeftLower, x: 150, y: 580 },
       //Right LEG (from user perspective)
       { src: legRightUpper, x: 250, y: 400 },
       { src: legRightLower, x: 250, y: 580 },
+      //Left ARM (from user perspective)
+      { src: armLeftUpper, x: 20, y: 150 },
+      { src: rotatedArmLeftLower, x: 20, y: 300 },
+      //Right ARM (from user perspective)
+      { src: armRightUpper, x: 400, y: 150 },
+      { src: armRightLower, x: 400, y: 320 },
     ]).then((res) => setAvatar(res));
   }
 
@@ -203,18 +203,18 @@ export function Landing() {
 //       { src: rotatedHead, x: 130, y: 0 },
 //       //TORSO
 //       { src: torso, x: 120, y: 150 },
-//       //Left ARM (from user perspective)
-//       { src: armLeftUpper, x: 20, y: 150 },
-//       { src: armLeftLower, x: 20, y: 300 },
-//       //Right ARM (from user perspective)
-//       { src: armRightUpper, x: 400, y: 150 },
-//       { src: armRightLower, x: 400, y: 320 },
 //       //Left LEG (from user perspective)
 //       { src: legLeftUpper, x: 150, y: 400 },
 //       { src: legLeftLower, x: 150, y: 580 },
 //       //Right LEG (from user perspective)
 //       { src: legRightUpper, x: 250, y: 400 },
 //       { src: legRightLower, x: 250, y: 580 },
+//       //Left ARM (from user perspective)
+//       { src: armLeftUpper, x: 20, y: 150 },
+//       { src: armLeftLower, x: 20, y: 300 },
+//       //Right ARM (from user perspective)
+//       { src: armRightUpper, x: 400, y: 150 },
+//       { src: armRightLower, x: 400, y: 320 },
 //     ]).then((res) => setAvatar(res));
 //   }
 

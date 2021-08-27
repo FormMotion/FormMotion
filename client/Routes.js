@@ -21,7 +21,7 @@ class Routes extends Component {
           <Route path="/" exact component={Welcome} />
           <Route path="/about" component={About} />
           <Route path="/play" component={Drawing} />
-          <Route path="/game" component={Game} />
+          <Route path="/game" exact component={Game} />
           <Route path="/platform" component={Platform} />
           <Route path="/oneDrawing" component={oneDrawing} />
           <Route path="/merge" component={Landing} /> {/** For dev purposes */}

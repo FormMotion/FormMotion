@@ -1,14 +1,10 @@
 import Phaser from 'phaser';
 import React from 'react';
-// function LoadingAvatars() {
-//   return (
-//     <div>
-//       <StandingAvatar />
-//       <LandingAvatar />
-//       <ForwardMovement />
-//     </div>
-//   );
-// }
+
+
+
+
+
 //This is a separate class so we can set up internal configuration details for the prize Sprite here
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
@@ -40,6 +36,8 @@ export default class Game extends Phaser.Scene {
     this.load.image('bg-3', bg3);
     this.load.image('bg-2', bg2);
     this.load.image('bg-1', bg1);
+
+
     //Loaded from localStorage - user drawn images
     let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
     let drawnPlatform = localStorage.getItem('playerDrawnPlatform');
@@ -47,6 +45,14 @@ export default class Game extends Phaser.Scene {
     const standing = localStorage.getItem('standingAvatar');
     const landing = localStorage.getItem('landingAvatar');
     const forward = localStorage.getItem('forwardMovementAvatar');
+    const downward = localStorage.getItem('downwardMovementAvatar')
+
+
+    //Default Character
+    let defaultCharacter = new Image()
+    defaultCharacter.src = drawnCharacter
+    this.textures.addBase64('defaultCharacter', defaultCharacter)
+
     // CHARACTER DRAWN
     if (standing !== 'false') {
       //adds standing avatar to useable images
@@ -61,25 +67,33 @@ export default class Game extends Phaser.Scene {
       let forwardAvatar = new Image();
       forwardAvatar.src = forward;
       this.textures.addBase64('forwardPlayer', forward, forwardAvatar);
+      //adds downward movement avatar to useable images - currently not functional, but may be useful soon
+      let downwardAvatar = new Image();
+      downwardAvatar.src = downward;
+      this.textures.addBase64('downwardPlayer', downward, downwardAvatar);
     } else {
-      this.load.image('playerFacingRight', 'assets/eyeChar.png');
+      this.load.image('defaultCharacter', 'assets/eyeChar.png');
     }
-    // PLATFORM DRAWN
 
+
+    // PLATFORM DRAWN
     let platformData = new Image();
     platformData.src = drawnPlatform;
     this.textures.addBase64('platform', drawnPlatform, platformData);
 
     this.load.image('platform', 'assets/eyePlatform.png');
 
-    // PRIZE DRAWN
 
+    // PRIZE DRAWN
     let prizeData = new Image();
     prizeData.src = drawnPrize;
     this.textures.addBase64('prize', drawnPrize, prizeData);
 
+
     this.load.audio('pickup', 'assets/kalimba_chime.mp3');
   }
+
+
   create() {
     //Opening Scene launch pop-up
     this.scene.launch('OpeningScene');
@@ -113,10 +127,12 @@ export default class Game extends Phaser.Scene {
       const body = platform.body;
       body.updateFromGameObject();
     }
+    
     //Avatar / Player Character
     this.player = this.physics.add
       .sprite(300, 10, 'standingPlayer')
       .setScale(0.25);
+
     //Prize
     this.prizes = this.physics.add.group({
       classType: Prize,
@@ -126,6 +142,7 @@ export default class Game extends Phaser.Scene {
       .text(600, 10, 'Grace Hopping Along!', style)
       .setScrollFactor(0)
       .setOrigin(0.5, 0);
+
     //Colliders
     this.physics.add.collider(this.platforms, this.player);
     this.physics.add.collider(this.platforms, this.prizes);
@@ -139,11 +156,14 @@ export default class Game extends Phaser.Scene {
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
+
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
     this.input.addPointer(2);
+
     //Camera
     this.cameras.main.startFollow(this.player);
+
     //Sounds
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
   }
@@ -157,6 +177,8 @@ export default class Game extends Phaser.Scene {
     } else if (!touchingDown & (this.player.y < this.justLanded - 50)) {
       this.player.setTexture('standingPlayer');
     }
+ 
+
 
     if (
       (this.cursors.left.isDown && !touchingDown) ||
@@ -172,12 +194,16 @@ export default class Game extends Phaser.Scene {
         !touchingDown &&
         this.input.pointer1.x > 700)
     ) {
+
       this.player.setVelocityX(300);
-      this.player.setTexture('forwardPlayer');
+      
+      this.player.setTexture('forwardPlayer')
+
       this.player.flipX = false; // Avatar facing right
     } else {
       this.player.setVelocityX(0);
     }
+    
     //Player needs to hold down second input (finger) to float/jump on touchscreen
     if (
       this.input.pointer1.isDown &&
@@ -187,6 +213,7 @@ export default class Game extends Phaser.Scene {
     ) {
       this.player.setVelocityY(-300);
     }
+
     //For jumping using up arrow on keyboard
     const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
     if (
@@ -197,6 +224,7 @@ export default class Game extends Phaser.Scene {
     ) {
       this.player.setVelocityY(-300);
     }
+
     //Platform Infinite Scrolling
     this.platforms.children.iterate((child) => {
       const platform = child;
@@ -262,18 +290,6 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
   }
 };
 //////////**********BACKGROUNDS**********//////////
-//Template - highest number is furthest back
-// const bg10 = 'assets/transparent_background_500_x_800.png'
-// const bg9 = 'assets/transparent_background_500_x_800.png'
-// const bg8 = 'assets/transparent_background_500_x_800.png'
-// const bg7 = 'assets/transparent_background_500_x_800.png'
-// const bg6 = 'assets/transparent_background_500_x_800.png'
-// const bg5 = 'assets/transparent_background_500_x_800.png'
-// const bg4 = 'assets/transparent_background_500_x_800.png'
-// const bg3 = 'assets/transparent_background_500_x_800.png'
-// const bg2 = 'assets/transparent_background_500_x_800.png'
-// const bg1 = 'assets/transparent_background_500_x_800.png'
-// const bgscale = 3
 //Parallax Mountains Background
 const bg10 = 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png';
 const bg9 =

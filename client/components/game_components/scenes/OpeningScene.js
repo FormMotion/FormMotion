@@ -24,7 +24,7 @@ export default class OpeningScene extends Phaser.Scene {
 
         // Show the Avatar in the pop up box
         this.player = this.add
-        .sprite(350, 350, 'playerFacingRight')
+        .sprite(350, 350, 'standingAvatar')
         .setScale(0.25)
         .setOrigin(1.8, 0.02) // player placement
 

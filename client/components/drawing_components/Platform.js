@@ -3,6 +3,10 @@ const Atrament = require('atrament');
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
+import StandingAvatar from "../merge_components/MergeMain";
+import LandingAvatar from "../merge_components/Landing";
+import ForwardMovement from "../merge_components/ForwardMovement";
+import DownwardMovement from "../merge_components/DownwardMovement.js";
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -416,6 +420,11 @@ const Platform = (props) => {
           </Grid>
         </Grid>
       </Grid>
+      {/* This is here so that the merged avatars are loaded into localStorage before we get to the game */}
+      <StandingAvatar />
+      <LandingAvatar />
+      <ForwardMovement />
+      <DownwardMovement />
     </Grid>
   );
 };

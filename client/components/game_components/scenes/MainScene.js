@@ -351,29 +351,3 @@ const bg3 = 'assets/transparent_background_500_x_800.png';
 const bg2 = 'assets/transparent_background_500_x_800.png';
 const bg1 = 'assets/transparent_background_500_x_800.png';
 const bgscale = 3;
-
-//Mountains - with weird line on top????
-// const bg10 = 'assets/backgrounds/Field/Field Layer 01.png'
-// const bg9 = 'assets/backgrounds/Field/Field Layer 02.png'
-// const bg8 = 'assets/transparent_background_500_x_800.png'
-// const bg7 = 'assets/backgrounds/Field/Field Layer 04.png'
-// const bg6 = 'assets/backgrounds/Field/Field Layer 05.png'
-// const bg5 = 'assets/backgrounds/Field/Field Layer 06.png'
-// const bg4 = 'assets/backgrounds/Field/Field Layer 07.png'
-// const bg3 = 'assets/backgrounds/Field/Field Layer 08.png'
-// const bg2 = 'assets/transparent_background_500_x_800.png'
-// const bg1 = 'assets/transparent_background_500_x_800.png'
-// const bgscale = 5
-
-//Volcano!
-// const bg10 = 'assets/backgrounds/Volcano/Volcano anim. 01.png'
-// const bg9 = 'assets/backgrounds/Volcano/Volcano Layer 01.png'
-// const bg8 = 'assets/backgrounds/Volcano/Volcano Layer 02.png'
-// const bg7 = 'assets/backgrounds/Volcano/Volcano Layer 03.png'
-// const bg6 = 'assets/backgrounds/Volcano/Volcano Layer 04.png'
-// const bg5 = 'assets/backgrounds/Volcano/Volcano Layer 05.png'
-// const bg4 = 'assets/backgrounds/Volcano/Volcano Layer 06.png'
-// const bg3 = 'assets/backgrounds/Volcano/Volcano Layer 07.png'
-// const bg2 = 'assets/backgrounds/Volcano/Volcano Layer 08.png'
-// const bg1 = 'assets/transparent_background_500_x_800.png'
-// const bgscale = 10

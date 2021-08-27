@@ -13,16 +13,16 @@ import React, { Component, useState } from 'react';
 export default function StandingAvatar() {
 
 
-  const head = localStorage.getItem('playerDrawnhead');
-  const torso = localStorage.getItem('playerDrawntorso');
-  const armRightUpper = localStorage.getItem('playerDrawnrightUpperArm');
-  const armRightLower = localStorage.getItem('playerDrawnrightLowerArm');
-  const armLeftUpper = localStorage.getItem('playerDrawnleftUpperArm');
-  const armLeftLower = localStorage.getItem('playerDrawnleftLowerArm');
-  const legRightUpper = localStorage.getItem('playerDrawnrightUpperLeg');
-  const legRightLower = localStorage.getItem('playerDrawnrightLowerLeg');
-  const legLeftUpper = localStorage.getItem('playerDrawnleftUpperLeg');
-  const legLeftLower = localStorage.getItem('playerDrawnleftLowerLeg');
+  const head = localStorage.getItem('playerDrawnHead');
+  const torso = localStorage.getItem('playerDrawnTorso');
+  const armRightUpper = localStorage.getItem('playerDrawnRightUpperArm');
+  const armRightLower = localStorage.getItem('playerDrawnRightLowerArm');
+  const armLeftUpper = localStorage.getItem('playerDrawnLeftUpperArm');
+  const armLeftLower = localStorage.getItem('playerDrawnLeftLowerArm');
+  const legRightUpper = localStorage.getItem('playerDrawnRightUpperLeg');
+  const legRightLower = localStorage.getItem('playerDrawnRightLowerLeg');
+  const legLeftUpper = localStorage.getItem('playerDrawnLeftUpperLeg');
+  const legLeftLower = localStorage.getItem('playerDrawnLeftLowerLeg');
 
 
   const [avatar, setAvatar] = useState(null);

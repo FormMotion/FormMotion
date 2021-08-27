@@ -5,8 +5,13 @@ import StandingAvatar from "./merge_components/MergeMain";
 import LandingAvatar from "./merge_components/Landing";
 import ForwardMovement from "./merge_components/ForwardMovement";
 
-
 export default function Game() {
-
-  return <div> <PhaserGame /> </div>;
+  return (
+    <div>
+      <StandingAvatar />
+      <LandingAvatar />
+      <ForwardMovement />
+      <PhaserGame />
+    </div>
+  );
 }

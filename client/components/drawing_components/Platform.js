@@ -51,51 +51,46 @@ const Platform = (props) => {
   };
 
   useEffect(() => {
-    if (platform === null) {
-      const canvas = document.querySelector('#platform');
-      platform = new Atrament(canvas);
-    }
-    platform.color = color;
-    if (prize === null) {
-      const canvas = document.querySelector('#prize');
-      prize = new Atrament(canvas);
-    }
-    prize.color = color;
+    Object.keys(canvases).forEach((canvas) => {
+      if (canvases[canvas] === null) {
+        let currentCanvas = document.querySelector(`#${canvas}`);
+        canvases[canvas] = new Atrament(currentCanvas);
+      }
+      canvases[canvas].color = color;
+    });
   }, [color]);
 
   function clearPlatform(e) {
     e.preventDefault();
-    platform.clear();
+    canvases.platform.clear();
   }
 
   function clearPrize(e) {
     e.preventDefault();
-    prize.clear();
+    canvases.prize.clear();
   }
 
-  // function setThickness(e) {
-  //   platform.weight = parseFloat(e.target.value);
-  //   prize.weight = parseFloat(e.target.value);
-  // }
   function setThicknessOnState(e, data) {
     e.preventDefault();
     setThickness(data);
-    platform.weight = parseFloat(data);
+    canvases.platform.weight = parseFloat(data);
+    canvases.prize.weight = parseFloat(data);
   }
 
   function chooseMode(e) {
-    if (defaultPlatform === '0') {
-      platform.mode = e.target.value;
-    }
-    if (defaultPrize === '0') {
-      prize.mode = e.target.value;
-    }
+    Object.keys(canvases).forEach((canvas) => {
+      let defaultCanvas =
+        canvas === 'platform' ? defaultPlatform : defaultPrize;
+      if (defaultCanvas[canvas] === '0' || defaultCanvas[canvas] === 0) {
+        canvases[canvas].mode = e.target.value;
+      }
+    });
   }
 
   function downloadPlatform(e) {
     e.preventDefault();
     if (defaultPlatform.toString() === '0') {
-      const uri = platform.toImage();
+      const uri = canvases.platform.toImage();
 
       const link = document.createElement('a');
       link.download = 'myPlatform.png';
@@ -109,7 +104,7 @@ const Platform = (props) => {
   function downloadPrize(e) {
     e.preventDefault();
     if (defaultPrize.toString() === '0') {
-      const uri = prize.toImage();
+      const uri = canvases.prize.toImage();
       const link = document.createElement('a');
       link.download = 'myPrize.png';
       link.href = uri;
@@ -124,13 +119,14 @@ const Platform = (props) => {
 
     if (choice === '0') {
       setDefaultPrize(0);
-      prize.mode = 'draw';
-      prize.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
+      canvases.prize.mode = 'draw';
+      canvases.prize.canvas.style.backgroundImage =
+        'url(assets/graph-paper.png)';
     } else {
       setDefaultPrize(choice);
-      prize.clear();
-      prize.mode = 'disabled';
-      prize.canvas.style.backgroundImage = `url(assets/prizes/prize${choice}.png)`;
+      canvases.prize.clear();
+      canvases.prize.mode = 'disabled';
+      canvases.prize.canvas.style.backgroundImage = `url(assets/prizes/prize${choice}.png)`;
     }
   };
 
@@ -139,13 +135,14 @@ const Platform = (props) => {
 
     if (choice === '0') {
       setDefaultPlatform(0);
-      platform.mode = 'draw';
-      platform.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
+      canvases.platform.mode = 'draw';
+      canvases.platform.canvas.style.backgroundImage =
+        'url(assets/graph-paper.png)';
     } else {
       setDefaultPlatform(choice);
-      platform.clear();
-      platform.mode = 'disabled';
-      platform.canvas.style.backgroundImage = `url(assets/platforms/platform${choice}.png)`;
+      canvases.platform.clear();
+      canvases.platform.mode = 'disabled';
+      canvases.platform.canvas.style.backgroundImage = `url(assets/platforms/platform${choice}.png)`;
     }
   };
 

@@ -1,9 +1,5 @@
 import Phaser from 'phaser';
 import React from 'react';
-import StandingAvatar from '../../merge_components/MergeMain';
-import LandingAvatar from '../../merge_components/Landing';
-import ForwardMovement from '../../merge_components/ForwardMovement';
-
 
 
 
@@ -49,6 +45,7 @@ export default class Game extends Phaser.Scene {
     const standing = localStorage.getItem('standingAvatar');
     const landing = localStorage.getItem('landingAvatar');
     const forward = localStorage.getItem('forwardMovementAvatar');
+    const downward = localStorage.getItem('downwardMovementAvatar')
 
 
     //Default Character
@@ -70,6 +67,10 @@ export default class Game extends Phaser.Scene {
       let forwardAvatar = new Image();
       forwardAvatar.src = forward;
       this.textures.addBase64('forwardPlayer', forward, forwardAvatar);
+      //adds downward movement avatar to useable images - currently not functional, but may be useful soon
+      let downwardAvatar = new Image();
+      downwardAvatar.src = downward;
+      this.textures.addBase64('downwardPlayer', downward, downwardAvatar);
     } else {
       this.load.image('defaultCharacter', 'assets/eyeChar.png');
     }
@@ -126,10 +127,12 @@ export default class Game extends Phaser.Scene {
       const body = platform.body;
       body.updateFromGameObject();
     }
+    
     //Avatar / Player Character
     this.player = this.physics.add
       .sprite(300, 10, 'standingPlayer')
       .setScale(0.25);
+
     //Prize
     this.prizes = this.physics.add.group({
       classType: Prize,
@@ -139,6 +142,7 @@ export default class Game extends Phaser.Scene {
       .text(600, 10, 'Grace Hopping Along!', style)
       .setScrollFactor(0)
       .setOrigin(0.5, 0);
+
     //Colliders
     this.physics.add.collider(this.platforms, this.player);
     this.physics.add.collider(this.platforms, this.prizes);
@@ -152,11 +156,14 @@ export default class Game extends Phaser.Scene {
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
+
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
     this.input.addPointer(2);
+
     //Camera
     this.cameras.main.startFollow(this.player);
+
     //Sounds
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
   }
@@ -187,12 +194,16 @@ export default class Game extends Phaser.Scene {
         !touchingDown &&
         this.input.pointer1.x > 700)
     ) {
+
       this.player.setVelocityX(300);
-      this.player.setTexture('forwardPlayer');
+      
+      this.player.setTexture('forwardPlayer')
+
       this.player.flipX = false; // Avatar facing right
     } else {
       this.player.setVelocityX(0);
     }
+    
     //Player needs to hold down second input (finger) to float/jump on touchscreen
     if (
       this.input.pointer1.isDown &&
@@ -202,6 +213,7 @@ export default class Game extends Phaser.Scene {
     ) {
       this.player.setVelocityY(-300);
     }
+
     //For jumping using up arrow on keyboard
     const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
     if (
@@ -212,6 +224,7 @@ export default class Game extends Phaser.Scene {
     ) {
       this.player.setVelocityY(-300);
     }
+
     //Platform Infinite Scrolling
     this.platforms.children.iterate((child) => {
       const platform = child;

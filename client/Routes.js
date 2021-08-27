@@ -8,7 +8,6 @@ import Drawing from './components/drawing_components/Drawing.js';
 import oneDrawing from './components/drawing_components/oneDrawing.js';
 import Game from './components/Game';
 import Platform from './components/drawing_components/Platform.js';
-import Merge, {JumpForwardAndUp} from './components/merge_components/MergeMain.js'  //For dev purposes
 
 class Routes extends Component {
   constructor() {
@@ -24,7 +23,6 @@ class Routes extends Component {
           <Route path="/game" exact component={Game} />
           <Route path="/platform" component={Platform} />
           <Route path="/oneDrawing" component={oneDrawing} />
-          <Route path="/merge" component={JumpForwardAndUp} /> {/** For dev purposes */}
         </Switch>
       </div>
     );

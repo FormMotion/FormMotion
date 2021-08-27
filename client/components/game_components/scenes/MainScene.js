@@ -1,4 +1,16 @@
 import Phaser from "phaser";
+import React from 'react'
+
+// function LoadingAvatars() {
+//   return (
+//     <div>
+//       <StandingAvatar />
+//       <LandingAvatar />
+//       <ForwardMovement />
+//     </div>
+//   );
+// }
+
 
 //This is a separate class so we can set up internal configuration details for the prize Sprite here
 class Prize extends Phaser.Physics.Arcade.Sprite {
@@ -18,6 +30,7 @@ export default class Game extends Phaser.Scene {
     this.prizesCollected = 0;
     this.prizesText = "Grace Hopping Along!";
     this.pickupPrize;
+    this.justLanded;
   }
 
   preload() {
@@ -38,15 +51,37 @@ export default class Game extends Phaser.Scene {
     let drawnPlatform = localStorage.getItem("playerDrawnPlatform");
     let drawnPrize = localStorage.getItem("playerDrawnPrize");
 
+    const standing = localStorage.getItem("standingAvatar");
+    const landing = localStorage.getItem("landingAvatar");
+    const forward = localStorage.getItem("forwardMovementAvatar");
+
     // CHARACTER DRAWN
-    if (drawnCharacter !== "false") {
-      let characterData = new Image();
-      characterData.src = drawnCharacter;
+    if (standing !== "false") {
+      //adds standing avatar to useable images
+      let standingAvatar = new Image();
+      standingAvatar.src = standing;
       this.textures.addBase64(
-        "playerFacingRight",
-        drawnCharacter,
-        characterData
+        "standingPlayer",
+        standing,
+        standingAvatar
       );
+      //adds landing avatar to useable images
+      let landingAvatar = new Image();
+      landingAvatar.src = landing;
+      this.textures.addBase64(
+        "landingPlayer",
+        landing,
+        landingAvatar
+      )
+      //adds forward movement avatar to useable images
+      let forwardAvatar = new Image();
+      forwardAvatar.src = forward;
+      this.textures.addBase64(
+        "forwardPlayer",
+        forward,
+        forwardAvatar
+      )
+
     } else {
       this.load.image("playerFacingRight", "assets/eyeChar.png");
     }
@@ -115,7 +150,7 @@ export default class Game extends Phaser.Scene {
 
     //Avatar / Player Character
     this.player = this.physics.add
-      .sprite(300, 10, "playerFacingRight")
+      .sprite(300, 10, "standingPlayer")
       .setScale(0.25);
 
     //Prize
@@ -161,8 +196,14 @@ export default class Game extends Phaser.Scene {
     //Player Movement
     const touchingDown = this.player.body.touching.down;
     if (touchingDown) {
-      this.player.setVelocityY(-300);
+      this.player.setVelocityY(-500);
+      this.player.setTexture('landingPlayer')
+      this.justLanded = this.player.y 
+    } else if (!touchingDown & this.player.y < this.justLanded - 50){
+      this.player.setTexture('standingPlayer')
     }
+ 
+
 
     if (
       (this.cursors.left.isDown && !touchingDown) ||
@@ -179,6 +220,7 @@ export default class Game extends Phaser.Scene {
         this.input.pointer1.x > 700)
     ) {
       this.player.setVelocityX(300);
+      this.player.setTexture('forwardPlayer')
       this.player.flipX = false; // Avatar facing right
     } else {
       this.player.setVelocityX(0);
@@ -205,6 +247,8 @@ export default class Game extends Phaser.Scene {
     ) {
       this.player.setVelocityY(-300);
     }
+
+
 
     //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {

@@ -3,6 +3,10 @@ const Atrament = require('atrament');
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
+import StandingAvatar from "../merge_components/MergeMain";
+import LandingAvatar from "../merge_components/Landing";
+import ForwardMovement from "../merge_components/ForwardMovement";
+import DownwardMovement from "../merge_components/DownwardMovement.js";
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,109 +41,111 @@ let canvas_image = 'assets/graph-paper.png';
 let platform = null;
 let prize = null;
 
+const canvases = {
+  prize,
+  platform,
+};
+
 const Platform = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
-  const [drawnPlatform, setDrawnPlatform] = useState(true);
-  const [drawnPrize, setDrawnPrize] = useState(true);
+  const [defaultPlatform, setDefaultPlatform] = useState(0);
+  const [defaultPrize, setDefaultPrize] = useState(0);
   const [thickness, setThickness] = useState(7);
 
-  const canvases = {
-    prize,
-    platform,
-  };
-
   useEffect(() => {
-    if (platform === null) {
-      const canvas = document.querySelector('#platform');
-      platform = new Atrament(canvas);
-    }
-    platform.color = color;
-    if (prize === null) {
-      const canvas = document.querySelector('#prize');
-      prize = new Atrament(canvas);
-    }
-    prize.color = color;
+    Object.keys(canvases).forEach((canvas) => {
+      if (canvases[canvas] === null) {
+        let currentCanvas = document.querySelector(`#${canvas}`);
+        canvases[canvas] = new Atrament(currentCanvas);
+      }
+      canvases[canvas].color = color;
+    });
   }, [color]);
 
   function clearPlatform(e) {
     e.preventDefault();
-    platform.clear();
+    canvases.platform.clear();
   }
 
   function clearPrize(e) {
     e.preventDefault();
-    prize.clear();
+    canvases.prize.clear();
   }
 
-  // function setThickness(e) {
-  //   platform.weight = parseFloat(e.target.value);
-  //   prize.weight = parseFloat(e.target.value);
-  // }
   function setThicknessOnState(e, data) {
     e.preventDefault();
     setThickness(data);
-    platform.weight = parseFloat(data);
+    canvases.platform.weight = parseFloat(data);
+    canvases.prize.weight = parseFloat(data);
   }
 
   function chooseMode(e) {
-    if (defaultPlatform === '0') {
-      platform.mode = e.target.value;
-    }
-    if (defaultPrize === '0') {
-      prize.mode = e.target.value;
-    }
+    Object.keys(canvases).forEach((canvas) => {
+      let defaultCanvas =
+        canvas === 'platform' ? defaultPlatform : defaultPrize;
+      if (defaultCanvas === '0' || defaultCanvas === 0) {
+        canvases[canvas].mode = e.target.value;
+      }
+    });
   }
 
   function downloadPlatform(e) {
     e.preventDefault();
-    const uri = platform.toImage();
-    const link = document.createElement('a');
-    link.download = 'myPlatform.png';
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (defaultPlatform.toString() === '0') {
+      const uri = canvases.platform.toImage();
+
+      const link = document.createElement('a');
+      link.download = 'myPlatform.png';
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   function downloadPrize(e) {
     e.preventDefault();
-    const uri = prize.toImage();
-    const link = document.createElement('a');
-    link.download = 'myPrize.png';
-    link.href = uri;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (defaultPrize.toString() === '0') {
+      const uri = canvases.prize.toImage();
+      const link = document.createElement('a');
+      link.download = 'myPrize.png';
+      link.href = uri;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   }
 
   const chooseDrawOrDefaultPrize = (e) => {
     let choice = e.target.value;
 
-    if (choice === '0') {
-      setDefaultPrize(0);
-      prize.mode = 'draw';
-      prize.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
+    if (choice.toString() === '0') {
+      setDefaultPrize('0');
+      canvases.prize.mode = 'draw';
+      canvases.prize.canvas.style.backgroundImage =
+        'url(assets/graph-paper.png)';
     } else {
       setDefaultPrize(choice);
-      prize.clear();
-      prize.mode = 'disabled';
-      prize.canvas.style.backgroundImage = `url(assets/prizes/prize${choice}.png)`;
+      canvases.prize.clear();
+      canvases.prize.mode = 'disabled';
+      canvases.prize.canvas.style.backgroundImage = `url(assets/prizes/prize${choice}.png)`;
     }
   };
 
   const chooseDrawOrDefaultPlatform = (e) => {
     let choice = e.target.value;
 
-    if (choice === '0') {
-      setDefaultPlatform(0);
-      platform.mode = 'draw';
-      platform.canvas.style.backgroundImage = 'url(assets/graph-paper.png)';
+    if (choice.toString() === '0') {
+      setDefaultPlatform('0');
+      canvases.platform.mode = 'draw';
+      canvases.platform.canvas.style.backgroundImage =
+        'url(assets/graph-paper.png)';
     } else {
       setDefaultPlatform(choice);
-      platform.clear();
-      platform.mode = 'disabled';
-      platform.canvas.style.backgroundImage = `url(assets/platforms/platform${choice}.png)`;
+      canvases.platform.clear();
+      canvases.platform.mode = 'disabled';
+      canvases.platform.canvas.style.backgroundImage = `url(assets/platforms/platform${choice}.png)`;
     }
   };
 
@@ -169,33 +175,48 @@ const Platform = (props) => {
     return Math.floor(Math.random() * 4 + 1);
   };
 
-  const handleExport = (e) => {
+  function handleExport(e) {
     e.preventDefault();
+    let count = 0;
 
-    canvases.forEach((canvas) => {
+    Object.keys(canvases).forEach((canvas) => {
       let defaultCanvas =
         canvas === 'platform' ? defaultPlatform : defaultPrize;
-      if (defaultCanvas !== '0' && canvas.isDirty()) {
+      if (defaultCanvas.toString() === '0' && canvases[canvas].isDirty()) {
         const uri = canvases[canvas].toImage();
-        localStorage.setItem(`playerDrawn${canvas}`, uri);
+        localStorage.setItem(
+          `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
+          uri
+        );
+        count++;
+        if (count === 2) {
+          props.history.push('./game');
+        }
       } else {
         let choice;
         if (
-          (!canvas.isDirty() && defaultCanvas === '0') ||
-          defaultCanvas === '4'
+          (!canvases[canvas].isDirty() && defaultCanvas.toString() === '0') ||
+          defaultCanvas.toString() === '4'
         ) {
-          choice = getRandomChar();
+          choice = getRandomChar().toString();
         } else {
           choice = defaultCanvas;
         }
         // convert the image to dataURl and put in local storage
-        setDataUrl(`assets/${canvas}s/${canvas}${choice}`, (dataURL) => {
-          localStorage.setItem(`playerDrawn${canvas}`, dataURL);
+        setDataUrl(`assets/${canvas}s/${canvas}${choice}.png`, (dataURL) => {
+          localStorage.setItem(
+            `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
+            dataURL
+          );
+          count++;
+          if (count === 2) {
+            props.history.push('./game');
+          }
         });
       }
     });
-    props.history.push('./platform');
-  };
+    // props.history.push('./game');
+  }
 
   // KEEP THIS FOR THE FUTURE LOGGED IN USER!
 
@@ -240,10 +261,10 @@ const Platform = (props) => {
                 onChange={chooseDrawOrDefaultPlatform}
                 className={classes.selectEmpty}
               >
-                <option value={0}>Draw prize</option>
-                <option value={1}>Eyes</option>
-                <option value={2}>Flamingo</option>
-                <option value={3}>Other</option>
+                <option value={0}>Draw platform</option>
+                <option value={1}>Platform 1</option>
+                <option value={2}>Platform 2</option>
+                <option value={3}>Platform 3</option>
                 <option value={4}>Surprise me!</option>
               </NativeSelect>
               <FormHelperText>
@@ -295,9 +316,9 @@ const Platform = (props) => {
                 className={classes.selectEmpty}
               >
                 <option value={0}>Draw prize</option>
-                <option value={1}>Eyes</option>
-                <option value={2}>Flamingo</option>
-                <option value={3}>Other</option>
+                <option value={1}>Prize 1</option>
+                <option value={2}>Prize 2</option>
+                <option value={3}>Prize 3</option>
                 <option value={4}>Surprise me!</option>
               </NativeSelect>
               <FormHelperText>
@@ -399,6 +420,11 @@ const Platform = (props) => {
           </Grid>
         </Grid>
       </Grid>
+      {/* This is here so that the merged avatars are loaded into localStorage before we get to the game */}
+      <StandingAvatar />
+      <LandingAvatar />
+      <ForwardMovement />
+      <DownwardMovement />
     </Grid>
   );
 };

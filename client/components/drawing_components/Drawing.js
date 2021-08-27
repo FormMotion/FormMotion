@@ -175,7 +175,7 @@ const Drawing = (props) => {
     // set defaultChar to 0 and put the graph paper image in
     // and allow them to draw
     if (choice.toString() === '0') {
-      setAllDefault(0);
+      setAllDefault('0');
       Object.keys(canvases).forEach((canvas) => {
         canvases[canvas].mode = 'draw';
         canvases[
@@ -266,7 +266,7 @@ const Drawing = (props) => {
 
   // get a random number between 1 and 3
   const getRandomChar = () => {
-    return Math.floor(Math.random() * 4 + 1);
+    return Math.floor(Math.random() * 3 + 1);
   };
 
   const handleExport = (e) => {
@@ -277,9 +277,17 @@ const Drawing = (props) => {
     let choice;
     // for each of the canvases,
     Object.keys(canvases).forEach((canvas) => {
+      if (
+        (defaultChoices[canvas] === '0' && !canvases[canvas].isDirty()) ||
+        defaultChoices[canvas] === '4'
+      ) {
+        choice = getRandomChar().toString();
+      } else {
+        choice = defaultChoices[canvas];
+      }
       // if the user hasn't chosen a default for this canvas and they've drawn on it,
       // put their drawing in local storage
-      if (defaultChoices[canvas] === '0' && canvases[canvas].isDirty()) {
+      if (choice === '0' && canvases[canvas].isDirty()) {
         const uri = canvases[canvas].toImage();
         localStorage.setItem(
           `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
@@ -294,19 +302,7 @@ const Drawing = (props) => {
       // if the user hasn't chosen a default for this canvas OR drawn on it,
       // or they've chosen to receive a random default, set their choice to a random default
       else {
-        if (
-          (defaultChoices[canvas] === '0' && canvases[canvas].isDirty()) ||
-          defaultChoices[canvas] === '4'
-        ) {
-          setDefaultChoices((prevChoices) => {
-            const random = getRandomChar().toString();
-            return { ...prevChoices, [canvas]: random };
-          });
-        }
-
         // set the choice equal to the default chosen, convert it to dataUrl, and set it in local storage
-        choice = defaultChoices[canvas];
-        console.log('CHOICE, HERE', choice);
         setDataUrl(`assets/group-chars/${choice}/${canvas}.png`, (dataURL) => {
           localStorage.setItem(
             `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,

@@ -231,6 +231,7 @@ const Drawing = (props) => {
     // appropraite image as the canvas image (random is a surprise box image)
     else {
       canvases[canvas].clear();
+      canvases[canvas].mode = 'disabled';
       if (choice !== '4') {
         canvases[
           canvas

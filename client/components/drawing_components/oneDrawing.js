@@ -222,9 +222,9 @@ const oneDrawing = (props) => {
                 className={classes.selectEmpty}
               >
                 <option value={0}>Draw character</option>
-                <option value={1}>Eyes</option>
-                <option value={2}>Flamingo</option>
-                <option value={3}>Other</option>
+                <option value={1}>Character 1</option>
+                <option value={2}>Character 2</option>
+                <option value={3}>Character 3</option>
                 <option value={4}>Surprise me!</option>
               </NativeSelect>
               <FormHelperText>

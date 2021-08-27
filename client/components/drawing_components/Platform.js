@@ -41,9 +41,8 @@ const Platform = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
   const [defaultPlatform, setDefaultPlatform] = useState(0);
-  const [defaultPrize, setDefaultPrize] = useState(true);
+  const [defaultPrize, setDefaultPrize] = useState(0);
   const [thickness, setThickness] = useState(7);
-  // const [count, setCount] = useState(0);
 
   const canvases = {
     prize,
@@ -51,16 +50,13 @@ const Platform = (props) => {
   };
 
   useEffect(() => {
-    if (platform === null) {
-      const canvas = document.querySelector('#platform');
-      platform = new Atrament(canvas);
-    }
-    platform.color = color;
-    if (prize === null) {
-      const canvas = document.querySelector('#prize');
-      prize = new Atrament(canvas);
-    }
-    prize.color = color;
+    Object.keys(canvases).forEach((canvas) => {
+      if (canvases[canvas] === null) {
+        let currentCanvas = document.querySelector(`#${canvas}`);
+        canvases[canvas] = new Atrament(currentCanvas);
+      }
+      canvases[canvas].color = color;
+    });
   }, [color]);
 
   function clearPlatform(e) {
@@ -182,17 +178,13 @@ const Platform = (props) => {
     Object.keys(canvases).forEach((canvas) => {
       let defaultCanvas =
         canvas === 'platform' ? defaultPlatform : defaultPrize;
-
-      if (defaultCanvas.toString() !== '0' && canvases[canvas].isDirty()) {
+      if (defaultCanvas.toString() === '0' && canvases[canvas].isDirty()) {
         const uri = canvases[canvas].toImage();
         localStorage.setItem(
           `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
           uri
         );
         count++;
-
-        // setCount((prevCount) => prevCount + 1);
-        // console.log('picCounter', count);
         if (count === 2) {
           props.history.push('./game');
         }
@@ -202,7 +194,7 @@ const Platform = (props) => {
           (!canvases[canvas].isDirty() && defaultCanvas.toString() === '0') ||
           defaultCanvas.toString() === '4'
         ) {
-          choice = getRandomChar();
+          choice = getRandomChar().toString();
         } else {
           choice = defaultCanvas;
         }

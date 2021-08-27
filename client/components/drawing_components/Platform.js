@@ -37,18 +37,18 @@ let canvas_image = 'assets/graph-paper.png';
 let platform = null;
 let prize = null;
 
+const canvases = {
+  prize,
+  platform,
+};
+
 const Platform = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
   const [defaultPlatform, setDefaultPlatform] = useState(0);
-  const [defaultPrize, setDefaultPrize] = useState(true);
+  const [defaultPrize, setDefaultPrize] = useState(0);
   const [thickness, setThickness] = useState(7);
   // const [count, setCount] = useState(0);
-
-  const canvases = {
-    prize,
-    platform,
-  };
 
   useEffect(() => {
     Object.keys(canvases).forEach((canvas) => {
@@ -81,7 +81,7 @@ const Platform = (props) => {
     Object.keys(canvases).forEach((canvas) => {
       let defaultCanvas =
         canvas === 'platform' ? defaultPlatform : defaultPrize;
-      if (defaultCanvas[canvas] === '0' || defaultCanvas[canvas] === 0) {
+      if (defaultCanvas === '0' || defaultCanvas === 0) {
         canvases[canvas].mode = e.target.value;
       }
     });
@@ -117,8 +117,8 @@ const Platform = (props) => {
   const chooseDrawOrDefaultPrize = (e) => {
     let choice = e.target.value;
 
-    if (choice === '0') {
-      setDefaultPrize(0);
+    if (choice.toString() === '0') {
+      setDefaultPrize('0');
       canvases.prize.mode = 'draw';
       canvases.prize.canvas.style.backgroundImage =
         'url(assets/graph-paper.png)';
@@ -133,8 +133,8 @@ const Platform = (props) => {
   const chooseDrawOrDefaultPlatform = (e) => {
     let choice = e.target.value;
 
-    if (choice === '0') {
-      setDefaultPlatform(0);
+    if (choice.toString() === '0') {
+      setDefaultPlatform('0');
       canvases.platform.mode = 'draw';
       canvases.platform.canvas.style.backgroundImage =
         'url(assets/graph-paper.png)';
@@ -180,7 +180,7 @@ const Platform = (props) => {
       let defaultCanvas =
         canvas === 'platform' ? defaultPlatform : defaultPrize;
 
-      if (defaultCanvas.toString() !== '0' && canvases[canvas].isDirty()) {
+      if (defaultCanvas.toString() === '0' && canvases[canvas].isDirty()) {
         const uri = canvases[canvas].toImage();
         localStorage.setItem(
           `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
@@ -188,8 +188,6 @@ const Platform = (props) => {
         );
         count++;
 
-        // setCount((prevCount) => prevCount + 1);
-        // console.log('picCounter', count);
         if (count === 2) {
           props.history.push('./game');
         }
@@ -210,7 +208,6 @@ const Platform = (props) => {
             dataURL
           );
           count++;
-
           if (count === 2) {
             props.history.push('./game');
           }

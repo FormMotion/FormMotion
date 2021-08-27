@@ -3,6 +3,7 @@ const Atrament = require('atrament');
 import { connect } from 'react-redux';
 import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
+import NavBar from '../NavBar';
 
 // material-ui
 import { makeStyles } from '@material-ui/core/styles';
@@ -330,6 +331,8 @@ const Drawing = (props) => {
   // };
 
   return (
+    <>
+    <NavBar />
     <Grid
       container
       direction="row"
@@ -669,6 +672,7 @@ const Drawing = (props) => {
         </Grid>
       </Grid>
     </Grid>
+    </>
   );
 };
 

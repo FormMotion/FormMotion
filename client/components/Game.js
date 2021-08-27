@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'
 import PhaserGame from "./game_components/index.js";
-import { CircularProgress } from "@material-ui/core";
-
+import Welcome from "../components/Welcome"
 
 export default function Game() {
+
   return (
-    <div>
- <PhaserGame />
-    </div>
+    <>
+      <PhaserGame />
+      <a href="/">FormMotion Home</a>
+    </>
+
   );
 }

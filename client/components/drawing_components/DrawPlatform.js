@@ -16,13 +16,13 @@ let platform = null;
 let prize = null;
 
 const canvases = {
-  prize,
   platform,
+  prize,
 };
 
 const names = {
-  prize,
-  platform,
+  platform: 'platform',
+  prize: 'prize',
 };
 
 const DrawPlatform = (props) => {

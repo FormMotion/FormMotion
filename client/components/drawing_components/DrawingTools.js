@@ -209,10 +209,13 @@ const DrawingTools = (props) => {
           `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
           uri
         );
-
+        console.log('here in the draw about to count', count, uri);
         count++;
-        if (count === 10) {
+        if (count === 10 && type === 'character') {
           props.history.push('./platform');
+        }
+        if (count === 2 && type === 'platformAndPrize') {
+          props.history.push('./game');
         }
       }
 
@@ -229,9 +232,14 @@ const DrawingTools = (props) => {
             `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
             dataURL
           );
+          console.log('here about to count', count, url);
           count++;
-          if (count === 10) {
+
+          if (count === 10 && type === 'character') {
             props.history.push('./platform');
+          }
+          if (count === 2 && type === 'platformAndPrize') {
+            props.history.push('./game');
           }
         });
       }
@@ -337,31 +345,35 @@ const DrawingTools = (props) => {
               Clear
             </Button>
           </Grid>
+          <div>
+            {type === 'character' && (
+              <Grid Item>
+                <Typography>
+                  To avoid drawing anything and fill all canvases with pre-drawn
+                  options:
+                </Typography>
+                <FormControl className={classes.formControl}>
+                  <NativeSelect
+                    onChange={chooseDefault}
+                    className={classes.selectEmpty}
+                  >
+                    <option value={0}>Draw character</option>
+                    <option value={1}>Character 1</option>
+                    <option value={2}>Character 2</option>
+                    <option value={3}>Character 3</option>
+                    <option value={4}>Surprise me!</option>
+                  </NativeSelect>
+                  <FormHelperText>
+                    Draw, choose one of the provided options, or be surprised!
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+            )}
+          </div>
           <Grid Item>
             <Typography>
-              Draw or choose pre-drawn character (parts of the character)
+              Choose for each canvas whether to draw or use the default
             </Typography>
-            <Typography>
-              To avoid drawing anything and use entire pre-drawn character:
-            </Typography>
-            <FormControl className={classes.formControl}>
-              <NativeSelect
-                onChange={chooseDefault}
-                className={classes.selectEmpty}
-              >
-                <option value={0}>Draw character</option>
-                <option value={1}>Character 1</option>
-                <option value={2}>Character 2</option>
-                <option value={3}>Character 3</option>
-                <option value={4}>Surprise me!</option>
-              </NativeSelect>
-              <FormHelperText>
-                Draw, choose one of the provided options, or be surprised!
-              </FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid Item>
-            <Typography>Draw or choose pre-drawn part of character</Typography>
           </Grid>
           <div>
             {(allDefault === '0' || allDefault === 0) && (
@@ -369,16 +381,14 @@ const DrawingTools = (props) => {
                 {Object.keys(canvases).map((canvas, index) => (
                   <Grid Item key={index}>
                     <FormControl>
-                      <Typography>
-                        Choose whether to draw the {names[canvas]} or use a
-                        default:
-                      </Typography>
                       <FormControl className={classes.formControl}>
                         <NativeSelect
                           onChange={chooseDefaultOrDraw}
                           className={classes.selectEmpty}
                         >
-                          <option value={[0, canvas]}>Draw character</option>
+                          <option value={[0, canvas]}>
+                            Draw {names[canvas]}
+                          </option>
                           <option value={[1, canvas]}>{names[canvas]} 1</option>
                           <option value={[2, canvas]}>{names[canvas]} 2</option>
                           <option value={[3, canvas]}>{names[canvas]} 3</option>

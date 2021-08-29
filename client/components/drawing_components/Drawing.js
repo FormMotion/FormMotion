@@ -28,17 +28,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// let head = { value: null, height: '150', width: '280' }
-// let torso = { value: null, height: '250', width: '280' }
-// let rightUpperArm = { value: null, height: '170', width: '70' }
-// let leftUpperArm = { value: null, height: '170', width: '70' }
-// let rightLowerArm = { value: null, height: '180', width: '70' }
-// let leftLowerArm = { value: null, height: '180', width: '70' }
-// let rightUpperLeg = { value: null, height: '200', width: '140' }
-// let leftUpperLeg = { value: null, height: '200', width: '140' }
-// let rightLowerLeg = { value: null, height: '200', width: '280' }
-// let leftLowerLeg = { value: null, height: '200', width: '280' }
-
 let head = null;
 let torso = null;
 let rightUpperArm = null;
@@ -78,40 +67,12 @@ const names = {
   leftLowerLeg: 'left lower leg',
 };
 
-// Object.keys(canvases).forEach((canvas) => {
-//   canvas = {
-//     value: null,
-//     image: 'assets/graph-paper.png',
-//   };
-// });
-
-// let canvas_image_head = 'assets/graph-paper.png';
-// let canvas_image_torso = 'assets/graph-paper.png';
-// let canvas_image_rightUpperArm = 'assets/graph-paper.png';
-// let canvas_image_leftUpperArm = 'assets/graph-paper.png';
-// let canvas_image_rightLowerArm = 'assets/graph-paper.png';
-// let canvas_image_leftLowerArm = 'assets/graph-paper.png';
-// let canvas_image_rightUpperLeg = 'assets/graph-paper.png';
-// let canvas_image_rightLowerLeg = 'assets/graph-paper.png';
-// let canvas_image_leftUpperLeg = 'assets/graph-paper.png';
-// let canvas_image_lefttLowerLeg = 'assets/graph-paper.png';
-
 const Drawing = (props) => {
   const classes = useStyles();
   const [color, setColor] = useState('#aabbcc');
   const [thickness, setThickness] = useState(7);
   const [allDefault, setAllDefault] = useState(0);
   const [defaultChoices, setDefaultChoices] = useState({});
-  // const [count, setCount] = useState(0);
-  // const [defaulttorso, setDefaulttorso] = useState(0);
-  // const [defaultrightUpperArm, setDefaultrightUpperArm] = useState(0);
-  // const [defaultrightLowerArm, setDefaultrightLowerArm] = useState(0);
-  // const [defaultleftUpperArm, setDefaultleftUpperArm] = useState(0);
-  // const [defaultleftLowerArm, setDefaultleftLowerArm] = useState(0);
-  // const [defaultrightUpperLeg, setDefaultrightUpperLeg] = useState(0);
-  // const [defaultrightLowerLeg, setDefaultrightLowerLeg] = useState(0);
-  // const [defaultleftUpperLeg, setDefaultleftUpperLeg] = useState(0);
-  // const [defaultleftLowerLeg, setDefaultleftLowerLeg] = useState(0);
 
   useEffect(() => {
     Object.keys(canvases).forEach((canvas) => {
@@ -155,19 +116,6 @@ const Drawing = (props) => {
       }
     });
   }
-
-  // where do we want this?
-  // function downloadDrawing(e) {
-  //   e.preventDefault();
-  //   const uri = sketchpad.toImage();
-  //   const link = document.createElement('a');
-  //   link.download = 'myCharacter.png';
-  //   link.href = uri;
-  //   console.log(link, 'link');
-  //   document.body.appendChild(link);
-  //   link.click();
-  //   document.body.removeChild(link);
-  // }
 
   const chooseDefault = (e) => {
     let choice = e.target.value;
@@ -319,16 +267,6 @@ const Drawing = (props) => {
     // move on to the next page after looping through the canvases
   };
 
-  // for logged-in user
-  // const saveToGame = (e) => {
-  //   e.preventDefault();
-  //   Object.keys(canvases).forEach(async (canvas) => {
-  //     const uri = canvases[canvas].toImage();
-  //     await props.saveImage(`${canvas}`, uri);
-  //   });
-  //   props.history.push('./platform');
-  // };
-
   return (
     <Grid
       container
@@ -338,33 +276,6 @@ const Drawing = (props) => {
       spacing={4}
     >
       <Grid Item>
-        {/* <div
-        width={500}
-        height={800}
-        style={{
-          borderStyle: 'solid',
-          borderColor: 'black',
-          backgroundImage: `url(${graph_paper})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      > */}
-        {/* {Object.keys(canvases).forEach((canvas) => {
-          <canvas
-            id={canvas}
-            width={canvas.width}
-            height={canvas.height}
-            style={{
-              borderStyle: 'solid',
-              borderColor: 'black',
-              backgroundImage: `url(${graph_paper})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-            }}
-          ></canvas>
-        } */}
         <div className="container">
           <div className="head">
             <canvas

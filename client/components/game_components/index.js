@@ -7,6 +7,7 @@ export default class Game extends React.Component {
     componentDidMount() {
         const config = {
             type: Phaser.AUTO,
+            parent: 'phaser-app',
             width: 1200,
             height: 800,
             physics: {

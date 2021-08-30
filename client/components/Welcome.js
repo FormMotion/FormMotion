@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { palette } from '@material-ui/system';
 
 const Welcome = props => {
   const { classes } = props;

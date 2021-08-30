@@ -8,10 +8,10 @@ import SaveDrawings from './drawing_components/SaveDrawings';
 export default function Game() {
 
   return (
-    <>
+    <div id="phaser-app">
       <PhaserGame />
       <a href="/">FormMotion Home</a>
       <SaveDrawings />
-    </>
+    </div>
   );
 }

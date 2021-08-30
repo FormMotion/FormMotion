@@ -280,6 +280,7 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
   }
 };
 
+
 //////////**********BACKGROUNDS**********//////////
 //Parallax Mountains Background
 const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";

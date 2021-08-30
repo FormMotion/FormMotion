@@ -94,8 +94,13 @@ body {
 }
 
 #phaser-app {
-  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+}
+
+#gamescreenlink {
+  width: 20%
+}
+
+#game_screen_logo {
+  width: 100%;
 }

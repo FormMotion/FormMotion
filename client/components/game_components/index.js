@@ -8,6 +8,7 @@ export default class Game extends React.Component {
         const config = {
             type: Phaser.AUTO,
             parent: 'phaser-app',
+            mode: Phaser.Scale.RESIZE,
             width: 1200,
             height: 800,
             physics: {

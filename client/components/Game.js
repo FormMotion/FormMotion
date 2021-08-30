@@ -10,7 +10,7 @@ export default function Game() {
   return (
     <div id="phaser-app">
       <PhaserGame />
-      <a href="/">FormMotion Home</a>
+      <a href="/" id="gamescreenlink"><img src="/images/TransparentLogo.png" id="game_screen_logo"/></a>
       <SaveDrawings />
     </div>
   );

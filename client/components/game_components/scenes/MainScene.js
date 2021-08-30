@@ -17,6 +17,7 @@ export default class Game extends Phaser.Scene {
     super('game');
     this.player;
     this.cursors;
+    this.spaceBar;
     this.platforms;
     this.prizes;
     this.prizesCollected = 0;
@@ -95,8 +96,7 @@ export default class Game extends Phaser.Scene {
 
 
   create() {
-    //Opening Scene launch pop-up & Pause Scene launch pop-up
-    this.scene.launch('OpeningScene') || this.scene.launch('PauseScene');
+    this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
     const width = this.scale.width;
     const height = this.scale.height;
@@ -170,6 +170,26 @@ export default class Game extends Phaser.Scene {
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
   }
   update() {
+// Space Pause
+    this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+
+      const spaceBarPressed = this.spaceBar.isDown
+      if(spaceBarPressed){
+        console.log('SpaceBar was pressed !!!! 001 ')
+        this.scene.pause('MainScene')
+        this.scene.launch('PauseScene')
+      }
+
+      // if(spaceBarPressed){
+      //   this.input.once("spaceBar", function(){     
+      //     console.log('SpaceBar was pressed !!!! 001 ')   
+      //     this.scene.pause()
+      //     this.scene.launch('PauseScene')
+      //   }, this)
+
+      // }
+
+
     //Player Movement
     const touchingDown = this.player.body.touching.down;
     if (touchingDown) {

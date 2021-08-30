@@ -3,10 +3,12 @@ import Phaser from 'phaser';
 export default class OpeningScene extends Phaser.Scene {
     constructor() {
         super('OpeningScene');
+        this.spaceBar
     }
 
     create() {
 
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
         // Popup box
         this.popup = this.add.graphics();

@@ -4,18 +4,14 @@ import React from 'react';
 export default class PauseScene extends Phaser.Scene {
     constructor() {
         super('PauseScene');
-        this.spacebar;
+        this.spaceBar;
     }
 
     // needs to pause, restart, save character
 
     create() {
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-        // this.spacebar = this.input.keyboard.createCursorKeys();
-        const didPressSpacebar =  Phaser.Input.Keyboard.JustDown(this.spacebar)
-        if(didPressSpacebar & this.spacebar.spacebar.isDown){
-            this.game.paused = true
-            console.log('spacebar pressed!')
+
             // Popup box
             this.popup = this.add.graphics();
             this.popup.lineStyle(1, 0x2a275c);
@@ -55,29 +51,9 @@ export default class PauseScene extends Phaser.Scene {
                 )
                 .setOrigin(0.5);
 
-            //ReStart Game Button 
-            this.reStartButton = this.add
-                .text(615, 525, 'Start', {
-                    fill: '#fff', // white text
-                    fontSize: '30px',
-                    fontStyle: 'bold'
-                })
-                .setOrigin(0.5);
-
-            this.reStartButton.setInteractive();
-            this.reStartButton.on(
-                'pointerdown',
-                () => {
-                    this.scene.resume('MainScene');
-                    this.scene.stop();
-                    console.log('Restart Game')
-                },
-                this
-            );
-
-            // Resuem Game Button
+            // Resume Game Button
             this.resumeGameButton = this.add
-                .text(615, 525, 'Start', {
+                .text(615, 525, 'Resume Game', {
                     fill: '#fff', // white text
                     fontSize: '30px',
                     fontStyle: 'bold'
@@ -88,30 +64,12 @@ export default class PauseScene extends Phaser.Scene {
             this.resumeGameButton.on(
                 'pointerdown',
                 () => {
-                    this.scene.stop();
                     console.log("resumeGame")
+                    this.scene.resume('MainScene')
+                    this.scene.stop();
                 },
                 this
             );
-            // Download Character Button
-            this.downloadButton = this.add
-                .text(615, 525, 'Start', {
-                    fill: '#fff', // white text
-                    fontSize: '30px',
-                    fontStyle: 'bold'
-                })
-                .setOrigin(0.5);
-
-            this.downloadButton.setInteractive();
-            this.downloadButton.on(
-                'pointerdown',
-                () => {
-                // PUT IN THE DOWNLOAD THING
-                console.log('download')
-                },
-                this
-            );
-        }
 
     }
 

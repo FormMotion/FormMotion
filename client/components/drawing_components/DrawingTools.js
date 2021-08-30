@@ -58,10 +58,10 @@ const DrawingTools = (props) => {
     e.preventDefault();
     Object.keys(canvases).forEach((canvas) => {
       canvases[canvas].clear();
-      canvases[canvas].mode = 'draw';
-      canvases[
-        canvas
-      ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
+      // canvases[canvas].mode = 'draw';
+      // canvases[
+      //   canvas
+      // ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
     });
   }
 
@@ -113,7 +113,9 @@ const DrawingTools = (props) => {
           canvases[canvas].canvas.style.backgroundImage =
             type === 'character'
               ? `url(assets/group-chars/${choice}/${canvas}.png)`
-              : `url(assets/platforms-prizes/${choice}/${canvas}.png)`;
+              : type === 'platformAndPrize'
+              ? `url(assets/platforms-prizes/${choice}/${canvas}.png)`
+              : `url(assets/single-chars/${choice}.png)`;
         }
         setDefaultChoices((prevChoices) => {
           return { ...prevChoices, [canvas]: choice };
@@ -148,7 +150,9 @@ const DrawingTools = (props) => {
         canvases[canvas].canvas.style.backgroundImage =
           type === 'character'
             ? `url(assets/group-chars/${choice}/${canvas}.png)`
-            : `url(assets/platforms-prizes/${choice}/${canvas}.png)`;
+            : type === 'platformAndPrize'
+            ? `url(assets/platforms-prizes/${choice}/${canvas}.png)`
+            : `url(assets/single-chars/${choice}.png)`;
       } else {
         canvases[
           canvas
@@ -168,7 +172,6 @@ const DrawingTools = (props) => {
       canvas.width = img.naturalWidth;
       ctx.drawImage(img, 0, 0);
       dataURL = canvas.toDataURL();
-      console.log('i got this far');
       callback(dataURL);
     };
     img.src = src;
@@ -186,7 +189,6 @@ const DrawingTools = (props) => {
 
   const handleExport = (e) => {
     e.preventDefault();
-    console.log('here', defaultChoices);
     let count = 0;
     // if the user has chosen a full default image, convert it to url
     // and put it in local storage (if they chose a random one, get a random number first)
@@ -209,13 +211,15 @@ const DrawingTools = (props) => {
           `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
           uri
         );
-        console.log('here in the draw about to count', count, uri);
         count++;
         if (count === 10 && type === 'character') {
           props.history.push('./platform');
         }
         if (count === 2 && type === 'platformAndPrize') {
           props.history.push('./game');
+        }
+        if (count === 1 && type === 'singleCharacter') {
+          props.history.push('./platform');
         }
       }
 
@@ -226,13 +230,14 @@ const DrawingTools = (props) => {
         const url =
           type === 'character'
             ? `assets/group-chars/${choice}/${canvas}.png`
-            : `assets/platforms-prizes/${choice}/${canvas}.png`;
+            : type === 'platformAndPrize'
+            ? `assets/platforms-prizes/${choice}/${canvas}.png`
+            : `assets/single-chars/${choice}.png`;
         setDataUrl(url, (dataURL) => {
           localStorage.setItem(
             `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
             dataURL
           );
-          console.log('here about to count', count, url);
           count++;
 
           if (count === 10 && type === 'character') {
@@ -240,6 +245,9 @@ const DrawingTools = (props) => {
           }
           if (count === 2 && type === 'platformAndPrize') {
             props.history.push('./game');
+          }
+          if (count === 1 && type === 'singleCharacter') {
+            props.history.push('./platform');
           }
         });
       }

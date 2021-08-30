@@ -92,3 +92,15 @@ body {
   grid-area: rightlowerleg;
   position: relative;
 }
+
+#phaser-app {
+  display: flex;
+}
+
+#gamescreenlink {
+  width: 20%
+}
+
+#game_screen_logo {
+  width: 100%;
+}

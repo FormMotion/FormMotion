@@ -5,7 +5,7 @@ import DrawingTools from './DrawingTools';
 import StandingAvatar from '../merge_components/MergeMain';
 import LandingAvatar from '../merge_components/Landing';
 import ForwardMovement from '../merge_components/ForwardMovement';
-import DownwardMovement from '../merge_components/DownwardMovement.js';
+import JumpingMovement from '../merge_components/JumpingMovement.js';
 
 // material-ui
 import Grid from '@material-ui/core/Grid';
@@ -85,7 +85,7 @@ const DrawPlatform = (props) => {
       <StandingAvatar />
       <LandingAvatar />
       <ForwardMovement />
-      <DownwardMovement />
+      <JumpingMovement />
     </Grid>
   );
 };

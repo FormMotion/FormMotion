@@ -7,13 +7,15 @@ export default class Game extends React.Component {
     componentDidMount() {
         const config = {
             type: Phaser.AUTO,
+            parent: 'phaser-app',
+            mode: Phaser.Scale.RESIZE,
             width: 1200,
             height: 800,
             physics: {
                 default: 'arcade',
                 arcade: {
                     gravity: { y: 550 },
-                    debug: true,
+                    debug: false,
                 },
             },
             scale: {

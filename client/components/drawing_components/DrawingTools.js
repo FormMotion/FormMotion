@@ -270,14 +270,14 @@ const DrawingTools = (props) => {
       container
       direction='column'
       justifyContent='center'
-      alignItems='center'
+      alignItems='flex-start'
     >
       <Grid Item>
         <Grid
           container
           direction="row"
           justifyContent="center"
-          alignItems="center"
+          alignItems="flex-start"
           spacing={0}
         >
           <Grid Item>
@@ -351,7 +351,7 @@ const DrawingTools = (props) => {
           container
           direction='column'
           justifyContent='space-between'
-          alignItems='center'
+          alignItems='flex-start'
         >
           <Grid Item>
             <Button

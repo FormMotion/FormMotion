@@ -67,7 +67,7 @@ const DrawCharacter = (props) => {
       container
       direction="row"
       justifyContent="center"
-      alignItems="center"
+      alignItems="flex-start"
       spacing={0}
     >
       <Grid Item>

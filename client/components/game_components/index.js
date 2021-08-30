@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import React from 'react';
 import MainScene from './scenes/MainScene';
 import OpeningScene from './scenes/OpeningScene';
+import PauseScene from './scenes/PauseScene';
 
 export default class Game extends React.Component {
     componentDidMount() {
@@ -20,7 +21,7 @@ export default class Game extends React.Component {
                 parent: 'game-container',
                 autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
             },
-            scene: [MainScene, OpeningScene],
+            scene: [MainScene, OpeningScene, PauseScene],
         };
         new Phaser.Game(config);
     }

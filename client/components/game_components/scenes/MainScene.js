@@ -95,12 +95,14 @@ export default class Game extends Phaser.Scene {
 
 
   create() {
-    //Opening Scene launch pop-up
-    this.scene.launch('OpeningScene');
+    //Opening Scene launch pop-up & Pause Scene launch pop-up
+    this.scene.launch('OpeningScene') || this.scene.launch('PauseScene');
     this.scene.pause('MainScene');
     const width = this.scale.width;
     const height = this.scale.height;
     const totalWidth = width * 1000;
+
+
     //Background
     //This allows for parallax scrolling
     this.add

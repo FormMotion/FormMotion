@@ -15,31 +15,34 @@ const Welcome = props => {
 
   return (
     <>
-      <NavBar />
-      <div className={classes.heroContent}>
-        <Container maxWidth="sm">
-          <Typography className={classes.specialTypography}>
-            Welcome!
-          </Typography>
+      <div
+        className={classes.heroContent}
+        maxWidth="100%"
+        justifyContent="center"
+        alignItems="center"
+      >
+
+        <Container maxWidth="sm" justifyContent="center" alignItems="center">
+          <img
+            src="TransparentLogo.png"
+            alt="logo"
+            className={classes.logo}
+            width="90%"
+          />
+
           <Typography className={classes.regularTypography}>
             FormMotion is an infinite jumping game that allows you to draw your
             own avatar, platform, and prize in a customizable world!
           </Typography>
           <br></br>
+
           <Typography className={classes.regularTypography}>
-            Before the game begins, you have to choose how you want to draw your
-            avatar.
-          </Typography>
-          <br></br>
-          <Typography className={classes.regularTypography}>
-            You can draw your avatar on either one canvas or multiple canvases.
-            If you choose to draw your avatar on one canvas, your avatar will be
-            static throughout the game. Meanwhile, if you choose to draw your
-            avatar on multiple canvases your avatar will have dynamic limbs and
-            change its body position throughout the game. Also, when drawing
-            your avatar on multiple canvases, you will have the option to choose
-            default or random body parts. By opting for default or random body
-            parts, you can make your avatar a frankenstein of some sort.
+            Draw your avatar and play in your virtual world! Draw the head,
+            body, arms, and legs (or use our provided defaults) then draw your
+            prize and platform. Soon, you'll be running along a world of your
+            own creation, collecting prizes and scoring points! Draw a character
+            who matches all over, or mix and match to create something new and
+            unique. Dream big!
           </Typography>
           <div className={classes.heroButtons}>
             <Grid container spacing={2} justifyContent="center">

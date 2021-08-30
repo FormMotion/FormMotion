@@ -46,10 +46,9 @@ const Navbar = () => {
                 src='TransparentLogo.png'
                 alt='logo'
                 className={classes.logo}
-              />{' '}
+              />
             </Link>
             <Typography className={classes.title} variant='h6' noWrap>
-              {/* <Link className={classes.link} to="/play" >Play! </Link> */}
             </Typography>
           </Toolbar>
         </AppBar>

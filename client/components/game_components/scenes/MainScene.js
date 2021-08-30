@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import React from "react";
 
+
+
 //This is a separate class so we can set up internal configuration details for the prize Sprite here
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {

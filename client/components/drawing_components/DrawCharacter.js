@@ -66,9 +66,9 @@ const DrawCharacter = (props) => {
     <Grid
       container
       direction="row"
-      justifyContent="space-evenly"
-      alignItems="flex-start"
-      spacing={4}
+      justifyContent="center"
+      alignItems="center"
+      spacing={0}
     >
       <Grid Item>
         <div className="container">
@@ -224,14 +224,14 @@ const DrawCharacter = (props) => {
           </div>
         </div>
       </Grid>
-      <div>
+      <Grid Item>
         <DrawingTools
           canvases={canvases}
           history={props.history}
           names={names}
           type="character"
         />
-      </div>
+      </Grid>
     </Grid>
   );
 };

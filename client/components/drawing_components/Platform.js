@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
-const Atrament = require("atrament");
-import { connect } from "react-redux";
-import { saveImageThunk } from "../../redux/actions";
-import { HexColorPicker } from "react-colorful";
-import StandingAvatar from "../merge_components/MergeMain";
-import LandingAvatar from "../merge_components/Landing";
-import ForwardMovement from "../merge_components/ForwardMovement";
-import DownwardMovement from "../merge_components/DownwardMovement.js";
-import NavBar from "../NavBar";
+import React, { useState, useEffect, useRef } from 'react';
+const Atrament = require('atrament');
+import { connect } from 'react-redux';
+import { saveImageThunk } from '../../redux/actions';
+import { HexColorPicker } from 'react-colorful';
+import StandingAvatar from '../merge_components/MergeMain';
+import LandingAvatar from '../merge_components/Landing';
+import ForwardMovement from '../merge_components/ForwardMovement';
+import DownwardMovement from '../merge_components/DownwardMovement.js';
+import NavBar from '../NavBar';
 
 // material-ui
 import { makeStyles } from "@material-ui/core/styles";

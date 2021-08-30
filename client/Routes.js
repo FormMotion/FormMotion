@@ -7,7 +7,7 @@ import Welcome from './components/Welcome';
 import singleCharacterDrawing from './components/drawing_components/singleCharacterDrawing.js';
 import Game from './components/Game';
 import DrawPlatform from './components/drawing_components/DrawPlatform.js';
-import DownwardMovement from './components/merge_components/DownwardMovement';
+import JumpingMovement from './components/merge_components/JumpingMovement';
 import DrawCharacter from './components/drawing_components/DrawCharacter';
 
 class Routes extends Component {
@@ -24,7 +24,7 @@ class Routes extends Component {
           <Route path="/game" exact component={Game} />
           <Route path="/platform" component={DrawPlatform} />
           <Route path="/oneDrawing" component={singleCharacterDrawing} />
-          <Route path="/merge" component={DownwardMovement} />
+          <Route path="/merge" component={JumpingMovement} />
         </Switch>
       </div>
     );

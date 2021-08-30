@@ -40,7 +40,7 @@ export default class Game extends Phaser.Scene {
     const standing = localStorage.getItem("standingAvatar");
     const landing = localStorage.getItem("landingAvatar");
     const forward = localStorage.getItem("forwardMovementAvatar");
-    const downward = localStorage.getItem("downwardMovementAvatar");
+    const jumping = localStorage.getItem("jumpingMovementAvatar");
 
     //Default Character
     let defaultCharacter = new Image();
@@ -49,35 +49,38 @@ export default class Game extends Phaser.Scene {
 
     // CHARACTER DRAWN
     if (standing !== "false") {
-      //adds standing avatar to useable images
-      let standingAvatar = new Image();
+      //Standing / Jumping in Place
+      const standingAvatar = new Image();
       standingAvatar.src = standing;
       this.textures.addBase64("standingPlayer", standing, standingAvatar);
-      //adds landing avatar to useable images
-      let landingAvatar = new Image();
+
+      //Landing
+      const landingAvatar = new Image();
       landingAvatar.src = landing;
       this.textures.addBase64("landingPlayer", landing, landingAvatar);
-      //adds forward movement avatar to useable images
-      let forwardAvatar = new Image();
+
+      //Forward Movement (not jumping)
+      const forwardAvatar = new Image();
       forwardAvatar.src = forward;
       this.textures.addBase64("forwardPlayer", forward, forwardAvatar);
-      //adds downward movement avatar to useable images - currently not functional, but may be useful soon
-      let downwardAvatar = new Image();
-      downwardAvatar.src = downward;
-      this.textures.addBase64("downwardPlayer", downward, downwardAvatar);
+
+      //Forward Movement (jumping)
+      const jumpingAvatar = new Image();
+      jumpingAvatar.src = jumping;
+      this.textures.addBase64("jumpingPlayer", jumping, jumpingAvatar);
     } else {
       this.load.image("defaultCharacter", "assets/eyeChar.png");
     }
 
     // PLATFORM DRAWN
-    let platformData = new Image();
+    const platformData = new Image();
     platformData.src = drawnPlatform;
     this.textures.addBase64("platform", drawnPlatform, platformData);
 
     this.load.image("platform", "assets/eyePlatform.png");
 
     // PRIZE DRAWN
-    let prizeData = new Image();
+    const prizeData = new Image();
     prizeData.src = drawnPrize;
     this.textures.addBase64("prize", drawnPrize, prizeData);
 
@@ -158,8 +161,13 @@ export default class Game extends Phaser.Scene {
     this.pickupPrize = this.sound.add("pickup", { volume: 0.5, loop: false });
   }
   update() {
+    const leftCursor = this.cursors.left;
+    const rightCursor = this.cursors.right;
+    const upCursor = this.cursors.up;
+
     //Player Movement
     const touchingDown = this.player.body.touching.down;
+
     if (touchingDown) {
       this.player.setVelocityY(-500);
       this.player.setTexture("landingPlayer");
@@ -168,24 +176,22 @@ export default class Game extends Phaser.Scene {
       this.player.setTexture("standingPlayer");
     }
 
-    if (
-      (this.cursors.left.isDown && !touchingDown) ||
-      (this.input.pointer1.isDown &&
-        !touchingDown &&
-        this.input.pointer1.x < 500)
-    ) {
+    if ( (leftCursor.isDown && !touchingDown) || (this.input.pointer1.isDown && !touchingDown && this.input.pointer1.x < 500)) {
       this.player.setVelocityX(-300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = true; // Avatar facing left
-    } else if (
-      (this.cursors.right.isDown && !touchingDown) ||
-      (this.input.pointer1.isDown &&
-        !touchingDown &&
-        this.input.pointer1.x > 700)
-    ) {
+      if (upCursor.isDown){
+        this.player.setTexture("jumpingPlayer")
+      }
+    } else if ( (rightCursor.isDown && !touchingDown) ||(this.input.pointer1.isDown &&!touchingDown &&this.input.pointer1.x > 700) ) {
       this.player.setVelocityX(300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = false; // Avatar facing right
+      if (upCursor.isDown){
+        this.player.setTexture("jumpingPlayer")
+      }
+    } else if (upCursor.isDown){
+      this.player.setTexture("jumpingPlayer")
     } else {
       this.player.setVelocityX(0);
     }
@@ -201,7 +207,7 @@ export default class Game extends Phaser.Scene {
     }
 
     //For jumping using up arrow on keyboard
-    const didPressJump = Phaser.Input.Keyboard.JustDown(this.cursors.up);
+    const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
     if (
       didPressJump &&
       !touchingDown &&
@@ -230,8 +236,6 @@ export default class Game extends Phaser.Scene {
       this.registry.destroy(); // destroy registry
       this.events.off(); // disable all active events
       this.scene.restart(); // restart current scene
-      // this.scene.stop();
-      // this.scene.start();
     }
   }
   //Adds the prizes above the platforms
@@ -275,6 +279,7 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
     x += m.width;
   }
 };
+
 //////////**********BACKGROUNDS**********//////////
 //Parallax Mountains Background
 const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";

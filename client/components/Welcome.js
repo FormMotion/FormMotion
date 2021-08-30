@@ -57,7 +57,7 @@ const Welcome = props => {
                   </Button>
                 </Link>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Link to="/oneDrawing" style={{ textDecoration: "none" }}>
                   <Button
                     style={{ backgroundColor: "#86995a" }}
@@ -66,7 +66,7 @@ const Welcome = props => {
                     Play with one drawing!
                   </Button>
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link to={`/about`} style={{ textDecoration: "none" }}>
                   <Button

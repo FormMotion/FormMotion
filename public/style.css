@@ -1,106 +1,184 @@
 body {
-  color: black;
+	color: black;
 }
 
 .container {
-  display: grid;
-  width: 510x;
-  height: 820px;
-  position: relative;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 2px 2px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    '. . head head . .'
-    '. . head head . .'
-    '. leftupperarm torso torso rightupperarm .'
-    '. leftupperarm torso torso rightupperarm .'
-    '. leftlowerarm torso torso rightlowerarm .'
-    '. leftlowerarm leftupperleg rightupperleg rightlowerarm .'
-    '. . leftupperleg rightupperleg . .'
-    '. . leftlowerleg rightlowerleg . .'
-    '. . leftlowerleg rightlowerleg . .';
+	display: grid;
+	grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+	grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+	gap: 0px 0px;
+	position: relative;
+	grid-auto-flow: row;
+	grid-template-areas:
+		'. . . head head head head head head . . .'
+		'. . . head head head head head head . . .'
+		'. . . head head head head head head . . .'
+		'. . . head head head head head head . . .'
+		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+		'leftlowerarm leftlowerarm leftlowerarm torso torso torso torso torso torso rightlowerarm rightlowerarm rightlowerarm'
+		'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
+		'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
+		'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
+		'. . . leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg . . .'
+		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
+		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
+		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
+		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .';
 }
 
 .head {
-  grid-area: head;
-  width: 250px;
-  height: 150px;
-  position: relative;
-}
-
-.leftupperarm {
-  grid-area: leftupperarm;
-  width: 100px;
-  height: 170px;
-  position: relative;
-}
-
-.rightupperarm {
-  width: 100px;
-  height: 170px;
-  grid-area: rightupperarm;
-  position: relative;
-}
-
-.leftlowerarm {
-  width: 100px;
-  height: 180px;
-  grid-area: leftlowerarm;
-  position: relative;
-}
-
-.rightlowerarm {
-  width: 100px;
-  height: 180px;
-  grid-area: rightlowerarm;
-  position: relative;
+	grid-area: head;
+	position: relative;
 }
 
 .torso {
-  width: 250px;
-  height: 280px;
-  grid-area: torso;
-  position: relative;
+	grid-area: torso;
+	position: relative;
 }
 
-.leftupperleg {
-  width: 140px;
-  height: 200px;
-  grid-area: leftupperleg;
-  position: relative;
+.rightupperarm {
+	grid-area: rightupperarm;
+	position: relative;
+}
+
+.rightlowerarm {
+	grid-area: rightlowerarm;
+	position: relative;
 }
 
 .rightupperleg {
-  width: 140px;
-  height: 200px;
-  grid-area: rightupperleg;
-  position: relative;
+	grid-area: rightupperleg;
+	position: relative;
+}
+
+.leftupperleg {
+	grid-area: leftupperleg;
+	position: relative;
 }
 
 .leftlowerleg {
-  width: 140px;
-  height: 200px;
-  grid-area: leftlowerleg;
-  position: relative;
+	grid-area: leftlowerleg;
+	position: relative;
 }
 
 .rightlowerleg {
-  width: 140px;
-  height: 200px;
-  grid-area: rightlowerleg;
-  position: relative;
+	grid-area: rightlowerleg;
+	position: relative;
 }
 
+.leftlowerarm {
+	grid-area: leftlowerarm;
+	position: relative;
+}
+
+.leftupperarm {
+	grid-area: leftupperarm;
+	position: relative;
+}
+
+/* 
+.container {
+	display: grid; */
+/* width: 480x;
+	height: 680px;
+	position: relative;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	gap: 0px 0px;
+	grid-auto-flow: row;
+	grid-template-areas:
+		'. . head head . .'
+		'. . head head . .'
+		'. leftupperarm torso torso rightupperarm .'
+		'. leftupperarm torso torso rightupperarm .'
+		'. leftlowerarm torso torso rightlowerarm .'
+		'. leftlowerarm leftupperleg rightupperleg rightlowerarm .'
+		'. . leftupperleg rightupperleg . .'
+		'. . leftlowerleg rightlowerleg . .'
+		'. . leftlowerleg rightlowerleg . .';
+}
+
+.head {
+	grid-area: head;
+	width: 280px;
+	height: 200px;
+	position: static;
+}
+
+.leftupperarm {
+	grid-area: leftupperarm;
+	width: 100px;
+	height: 180px;
+	position: static;
+}
+
+.rightupperarm {
+	width: 100px;
+	height: 180px;
+	grid-area: rightupperarm;
+	position: static;
+}
+
+.leftlowerarm {
+	width: 100px;
+	height: 180px;
+	grid-area: leftlowerarm;
+	position: static;
+}
+
+.rightlowerarm {
+	width: 100px;
+	height: 180px;
+	grid-area: rightlowerarm;
+	position: static;
+}
+
+.torso {
+	width: 280px;
+	height: 280px;
+	grid-area: torso;
+	position: static;
+}
+
+.leftupperleg {
+	width: 140px;
+	height: 200px;
+	grid-area: leftupperleg;
+	position: static;
+}
+
+.rightupperleg {
+	width: 140px;
+	height: 200px;
+	grid-area: rightupperleg;
+	position: static;
+}
+
+.leftlowerleg {
+	width: 140px;
+	height: 200px;
+	grid-area: leftlowerleg;
+	position: static;
+}
+
+.rightlowerleg {
+	width: 140px;
+	height: 200px;
+	grid-area: rightlowerleg;
+	position: static;
+} */
+
 #phaser-app {
-  display: flex;
+	display: flex;
 }
 
 #gamescreenlink {
-  width: 20%
+	width: 20%;
 }
 
 #game_screen_logo {
-  width: 100%;
+	width: 100%;
 }

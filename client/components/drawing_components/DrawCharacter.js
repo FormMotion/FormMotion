@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 const Atrament = require("atrament");
 import DrawingTools from "./DrawingTools";
 import NavBar from "../NavBar";
+import DefaultOptions from "./DefaultOptions";
 
 // material-ui
 import Grid from "@material-ui/core/Grid";
@@ -69,17 +70,25 @@ const DrawCharacter = props => {
       <Grid
         container
         direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={0}
+        justifyContent="space-evenly"
+        alignItems="flex-start"
       >
         <Grid Item>
+          <DefaultOptions
+            canvases={canvases}
+            history={props.history}
+            names={names}
+            type="character"
+          />
+        </Grid>
+        <Grid Item
+          margin={40}>
           <div className="container">
             <div className="head">
               <canvas
                 id="head"
-                width="250"
-                height="150"
+                width="240px"
+                height="160px"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -93,8 +102,8 @@ const DrawCharacter = props => {
             <div className="leftupperarm">
               <canvas
                 id="leftUpperArm"
-                width="100"
-                height="170"
+                width="120px"
+                height="160px"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -108,8 +117,8 @@ const DrawCharacter = props => {
             <div className="rightupperarm">
               <canvas
                 id="rightUpperArm"
-                width="100"
-                height="170"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -123,8 +132,8 @@ const DrawCharacter = props => {
             <div className="leftlowerarm">
               <canvas
                 id="leftLowerArm"
-                width="100"
-                height="180"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -138,8 +147,8 @@ const DrawCharacter = props => {
             <div className="rightlowerarm">
               <canvas
                 id="rightLowerArm"
-                width="100"
-                height="180"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -153,8 +162,8 @@ const DrawCharacter = props => {
             <div className="torso">
               <canvas
                 id="torso"
-                width="280"
-                height="250"
+                width="240px"
+                height="200px"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -168,8 +177,8 @@ const DrawCharacter = props => {
             <div className="leftupperleg">
               <canvas
                 id="leftUpperLeg"
-                width="140"
-                height="200"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -183,8 +192,8 @@ const DrawCharacter = props => {
             <div className="rightupperleg">
               <canvas
                 id="rightUpperLeg"
-                width="140"
-                height="200"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -198,8 +207,8 @@ const DrawCharacter = props => {
             <div className="leftlowerleg">
               <canvas
                 id="leftLowerLeg"
-                width="140"
-                height="200"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",
@@ -213,8 +222,8 @@ const DrawCharacter = props => {
             <div className="rightlowerleg">
               <canvas
                 id="rightLowerLeg"
-                width="140"
-                height="200"
+                width="120"
+                height="160"
                 style={{
                   borderStyle: "solid",
                   borderColor: "black",

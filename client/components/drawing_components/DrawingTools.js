@@ -3,8 +3,9 @@ const Atrament = require('atrament')
 import { connect } from 'react-redux'
 import { saveImageThunk } from '../../redux/actions'
 import { HexColorPicker } from 'react-colorful'
+import DrawingCharacterModal from './drawing_modals/DrawingCharacterModal'
 
-// material-ui
+// material-ui 
 import { makeStyles } from '@material-ui/core/styles'
 import Slider from '@material-ui/core/Slider'
 import Box from '@material-ui/core/Box'
@@ -17,6 +18,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Grid from '@material-ui/core/Grid'
+
+// start changes
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -36,7 +39,6 @@ const DrawingTools = (props) => {
   const classes = useStyles()
   const [color, setColor] = useState('#aabbcc')
   const [thickness, setThickness] = useState(7)
-  const [allDefault, setAllDefault] = useState(0)
   const [defaultChoices, setDefaultChoices] = useState({})
 
   useEffect(() => {
@@ -270,15 +272,14 @@ const DrawingTools = (props) => {
       container
       direction='column'
       justifyContent='center'
-      alignItems='flex-start'
+      alignItems='center'
     >
       <Grid Item>
         <Grid
           container
           direction="row"
           justifyContent="center"
-          alignItems="flex-start"
-          spacing={0}
+          alignItems="center"
         >
           <Grid Item>
             <Grid
@@ -371,65 +372,6 @@ const DrawingTools = (props) => {
               Clear
             </Button>
           </Grid>
-          <div>
-            {type === 'character' && (
-              <Grid Item>
-                <Typography>
-                  Either draw each canvas or fill all with pre-drawn options:
-                </Typography>
-                <FormControl className={classes.formControl}>
-                  <NativeSelect
-                    onChange={chooseDefault}
-                    className={classes.selectEmpty}
-                  >
-                    <option value={0}>Draw character</option>
-                    <option value={1}>Character 1</option>
-                    <option value={2}>Character 2</option>
-                    <option value={3}>Character 3</option>
-                    <option value={4}>Surprise me!</option>
-                  </NativeSelect>
-                  <FormHelperText>
-                    Draw, choose one of the provided options, or be surprised!
-                  </FormHelperText>
-                </FormControl>
-              </Grid>
-            )}
-          </div>
-          <Grid Item>
-            <Typography>
-              Draw each canvas or use a default!
-            </Typography>
-          </Grid>
-          <div>
-            {(allDefault === '0' || allDefault === 0) && (
-              <div>
-                {Object.keys(canvases).map((canvas, index) => (
-                  <Grid Item key={index}>
-                    <FormControl>
-                      <FormControl className={classes.formControl}>
-                        <NativeSelect
-                          onChange={chooseDefaultOrDraw}
-                          className={classes.selectEmpty}
-                        >
-                          <option value={[0, canvas]}>
-                            Draw {names[canvas]}
-                          </option>
-                          <option value={[1, canvas]}>{names[canvas]} 1</option>
-                          <option value={[2, canvas]}>{names[canvas]} 2</option>
-                          <option value={[3, canvas]}>{names[canvas]} 3</option>
-                          <option value={[4, canvas]}>Surprise me!</option>
-                        </NativeSelect>
-                        <FormHelperText>
-                          Draw, choose one of the provided options, or be
-                          surprised!
-                        </FormHelperText>
-                      </FormControl>
-                    </FormControl>
-                  </Grid>
-                ))}
-              </div>
-            )}
-          </div>
         </Grid>
       </Grid>
     </Grid>

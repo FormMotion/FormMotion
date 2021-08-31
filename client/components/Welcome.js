@@ -15,6 +15,7 @@ const Welcome = props => {
   const { classes } = props;
 
   return (
+<<<<<<< HEAD
     <>
       <div
         className={classes.heroContent}
@@ -77,6 +78,65 @@ const Welcome = props => {
                   </Button>
                 </Link>
               </Grid>
+=======
+    <div className={classes.heroContent}>
+      <Container maxWidth='sm'>
+        <Typography className={classes.specialTypography}>
+          <br></br>
+          Welcome!</Typography>
+        <Typography className={classes.regularTypography}>
+          <br></br>
+          FormMotion is an infinite jumping game that allows you to draw your
+          own avatar, platform, and prize in a customizable world!
+        </Typography>
+        <br></br>
+        <Typography className={classes.regularTypography}>
+          Before the game begins, you have to choose how you want to draw your
+          avatar.
+        </Typography>
+        <br></br>
+        <Typography className={classes.regularTypography}>
+          You can draw your avatar on either one canvas or multiple canvases. If
+          you choose to draw your avatar on one canvas, your avatar will be
+          static throughout the game. Meanwhile, if you choose to draw your
+          avatar on multiple canvases your avatar will have dynamic limbs and
+          change its body position throughout the game. Also, when drawing your
+          avatar on multiple canvases, you will have the option to choose
+          default or random body parts. By opting for default or random body
+          parts, you can make your avatar a frankenstein of some sort.
+        </Typography>
+        <div className={classes.heroButtons}>
+          <Grid container spacing={2} justifyContent='center'>
+            <Grid item>
+              <Link to='/play' style={{ textDecoration: 'none' }}>
+                <Button
+                  style={{ backgroundColor: '#86995a' }}
+                  variant='contained'
+                >
+                  Play!
+                </Button>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to='/oneDrawing' style={{ textDecoration: 'none' }}>
+                <Button
+                  style={{ backgroundColor: '#86995a' }}
+                  variant='contained'
+                >
+                  Play with one drawing!
+                </Button>
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to={`/about`} style={{ textDecoration: 'none' }}>
+                <Button
+                  style={{ backgroundColor: '#86995a' }}
+                  variant='contained'
+                >
+                  Learn more
+                </Button>
+              </Link>
+>>>>>>> drawingformat
             </Grid>
           </div>
         </Container>

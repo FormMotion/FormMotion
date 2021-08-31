@@ -15,8 +15,11 @@ const Welcome = (props) => {
   return (
     <div className={classes.heroContent}>
       <Container maxWidth='sm'>
-        <Typography className={classes.specialTypography}>Welcome!</Typography>
+        <Typography className={classes.specialTypography}>
+          <br></br>
+          Welcome!</Typography>
         <Typography className={classes.regularTypography}>
+          <br></br>
           FormMotion is an infinite jumping game that allows you to draw your
           own avatar, platform, and prize in a customizable world!
         </Typography>

@@ -7,8 +7,6 @@ export default class Game extends React.Component {
     componentDidMount() {
         const config = {
             type: Phaser.AUTO,
-            parent: 'phaser-app',
-            mode: Phaser.Scale.RESIZE,
             width: 1200,
             height: 800,
             physics: {
@@ -29,6 +27,7 @@ export default class Game extends React.Component {
     shouldComponentUpdate() {
         return false;
     }
+    //Why do we need this line? 
     render() {
         return <div id="phaser-game" />;
     }

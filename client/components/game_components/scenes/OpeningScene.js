@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 export default class OpeningScene extends Phaser.Scene {
     constructor() {
         super('OpeningScene');
+        this.player
     }
 
     create() {
@@ -11,29 +12,29 @@ export default class OpeningScene extends Phaser.Scene {
         // Popup box
         this.popup = this.add.graphics();
         this.popup.lineStyle(1, 0x2a275c);
-        this.popup.fillStyle(0x7c8d99, 0.9);
+        this.popup.fillStyle(0xAE8C9B, 0.7);
         this.popup.strokeRect(225,125,750,550);
         this.popup.fillRect(225,125,750,550);
 
         // Start button square
         this.button = this.add.graphics();
         this.button.lineStyle(1, 0x2a275c);
-        this.button.fillStyle(0xf6304, 0.5);
+        this.button.fillStyle(0xD9E6A1, 1);
         this.button.strokeRect(540, 500, 150, 50);
         this.button.fillRect(540, 500, 150, 50);
 
         // Show the Avatar in the pop up box
         this.player = this.add
-        .sprite(350, 350, 'standingAvatar')
+        .sprite(600, 350, 'standingPlayer')
         .setScale(0.25)
-        .setOrigin(1.8, 0.02) // player placement
+        .setOrigin(2.0, 0.50) // player placement
 
         // Add title
         this.add
             .text(600, 200, 'FormMotion', {
-                fill: '#fff',
-                fontSize: '60px',
-                fontStyle: 'bold',
+                fill: '#473A3F',
+                fontSize: '30px',
+                fontFamily: 'arial narrow',
             })
             .setOrigin(0.5);
 
@@ -43,9 +44,10 @@ export default class OpeningScene extends Phaser.Scene {
                 320,
                 'Hop around your world, from one platform to another, be sure to collect your prizes to earn points!',
                 {
-                    fill: '#fff',
-                    fontSize: '20px',
+                    fill: '#251E20',
+                    fontSize: '26px',
                     align: 'right',
+                    fontFamily: 'arial narrow',
                     wordWrap: {width: 480, height: 445, useAdvancedWrap: true},
                 }
             )
@@ -54,8 +56,8 @@ export default class OpeningScene extends Phaser.Scene {
         // Add instructions
         this.add
             .text(750, 400, '<= => to move | ^ to jump', {
-                fill: '#fff',
-                fontSize: '20px',
+                fill: '#251E20',
+                fontSize: '26px',
                 align: 'right',
             })
             .setOrigin(0.5)
@@ -63,9 +65,9 @@ export default class OpeningScene extends Phaser.Scene {
         //Start Button 
         this.startButton = this.add
             .text(615, 525, 'Start', {
-                fill: '#fff', // white text
+                fill: '#251E20',
                 fontSize: '30px',
-                fontStyle: 'bold'
+                fontFamily: 'arial narrow'
             })
             .setOrigin(0.5);
 

@@ -7,7 +7,8 @@ export default class PauseScene extends Phaser.Scene {
         this.spaceBar;
         this.player;
         this.physics;
-
+        this.registry;
+        this.events;
     };
 
     // Goals: needs to pause, restart, go back to drawing for a new character
@@ -19,100 +20,140 @@ export default class PauseScene extends Phaser.Scene {
         // this.physics.pause() // this does not work.
         console.log('Begin Pause Scene - code running inside Pause Scene create method')
 
-            // Popup box
-            this.popup = this.add.graphics();
-            this.popup.lineStyle(1, 0x2a275c);
-            this.popup.fillStyle(0x7c8d99, 0.9);
-            this.popup.strokeRect(225,125,750,550);
-            this.popup.fillRect(225,125,750,550);
-            this.physics.pause()
+        // Popup box
+        this.popup = this.add.graphics();
+        this.popup.lineStyle(1, 0x2a275c);
+        this.popup.fillStyle(0xAE8C9B, 0.7);
+        this.popup.strokeRect(225,125,750,550);
+        this.popup.fillRect(225,125,750,550);
+        this.physics.pause()
 
-            // Menu button squares
-            this.button = this.add.graphics();
-            this.button.lineStyle(1, 0x2a275c);
-            this.button.fillStyle(0xf6304, 0.5);
-            this.button.strokeRect(540, 500, 150, 50);
-            this.button.fillRect(540, 500, 150, 50);
+        // Menu button squares
 
-            // Add Menu Title
-            this.add
-                .text(600, 200, 'Menu', {
-                    fill: '#fff',
-                    fontSize: '60px',
-                    fontStyle: 'bold',
-                })
-                .setOrigin(0.5);
+        // Resume Current Game Button Square
+        this.button1 = this.add.graphics()
+        .lineStyle(1, 0x2a275c)
+        .fillStyle(0xD9E6A1, 1)
+        .strokeRect(252, 600, 200, 60)
+        .fillRect(252, 600, 200, 60)
+        // x, y , width, height DO NOT MOVE THESE!
+   
+        // Restart new game with Current Character Button Square
+        this.button2 = this.add.graphics()
+        .lineStyle(1, 0x2a275c)
+        .fillStyle(0xD9E6A1, 1)
+        .strokeRect(500, 600, 200, 60)
+        .fillRect(500, 600, 200, 60)
 
-            // Add description of game
-            this.add
-                .text(700,
-                    320,
-                    'Paused',
+        // Redraw new character Button Square
+        this.button3 = this.add.graphics()
+        .lineStyle(1, 0x2a275c)
+        .fillStyle(0xD9E6A1, 1)
+        .strokeRect(735, 600, 200, 60)
+        .fillRect(735, 600, 200, 60)
+
+
+        // Add Menu Title
+        this.add
+            .text(600, 200, 'Pause Menu', {
+                fill: '#251E20',
+                fontSize: '60px',
+                fontFamily: 'arial narrow',
+            })
+            .setOrigin(0.5);
+
+
+               // Add description of game 1
+                this.add
+                .text(600,
+                    300,
+                    'Resume the game to continue with this character.',
                     {
-                        fill: '#fff',
-                        fontSize: '20px',
-                        align: 'right',
-                        wordWrap: {width: 480, height: 445, useAdvancedWrap: true},
+                        fill: '#251E20',
+                        fontSize: '26px',
+                        align: 'center',
+                        fontFamily: 'arial',
+                        wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
                     }
                 )
                 .setOrigin(0.5);
 
-  // Resume Game Button
-  this.resumeGameButton = this.add
-  .text(615, 525, 'Resume Game', {
-    fill: '#fff', // white text
-    fontSize: '30px',
-    fontStyle: 'bold',
-  })
-  .setOrigin(1.5);
+                // Add description of game 2
+                this.add
+                .text(600,
+                    400,
+                    'Restart the game to start over with the current character.',
+                    {
+                        fill: '#251E20',
+                        fontSize: '26px',
+                        align: 'center',
+                        fontFamily: 'arial',
+                        wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
+                    }
+                )
+                .setOrigin(0.5);
 
-this.resumeGameButton.setInteractive();
-this.resumeGameButton.on('pointerdown', () => {
-  this.scene.resume('MainScene');
-  this.scene.stop();
-});
+                // Add description of game 3
+                this.add
+                .text(600,
+                    500,
+                    'Redraw to create a new character to play.',
+                    {
+                        fill: '#251E20',
+                        fontSize: '26px',
+                        align: 'center',
+                        fontFamily: 'arial',
+                        wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
+                    }
+                )
+                .setOrigin(0.5);
 
-this.spaceBar = this.input.keyboard.addKey(
-  Phaser.Input.Keyboard.KeyCodes.SPACE
-);
+    // Buttons
+    
+        //Resume Game Button
 
-const spaceBarPressed = this.spaceBar.isDown;
+                this.resumeGameButton = this.add
+                .text(615, 650, 'Resume Game', {
+                    fill: '#473A3F',
+                    fontSize: '26px',
+                    fontFamily: 'arial',
+                })
+                .setOrigin(2.0, 1.25);
 
-if (spaceBarPressed) {
-  console.log('SpaceBar was pressed - inside MainScene');
-
-  this.scene.resume('MainScene');
-  this.scene.stop();
-}
-
-
-            // New Game Button
-                // SAME CHARACTER
-             this.newGameButton = this.add
-             .text(615, 525, 'Start New Game', {
-                 fill: '#fff', // white text
-                 fontSize: '30px',
-                 fontStyle: 'bold'
-             })
-             .setOrigin(0.02);
-
-         this.newGameButton.setInteractive();
-         this.newGameButton.on(
-             'pointerdown',
-             () => {
-
-                 // Below was taken from the MainScene Game Over Restart() code : line 257 !! Does not work yet.
-
-                this.registry.destroy(); // destroy registry
-                this.events.off(); // disable all active events
-                this.scene.resume('MainScene'); // restart the MainScene
+                this.resumeGameButton.setInteractive();
+                this.resumeGameButton.on('pointerdown', () => {
+                this.scene.resume('MainScene');
                 this.scene.stop();
-                 
-                 console.log("New Game button clicked")
-             },
-             this
-         );
+                });
+
+               
+//---------------------------------------------------------------------------
+
+        // New Game Button
+                // SAME CHARACTER
+                this.restartGameButton = this.add
+                .text(840, 650, 'Restart Game', {
+                    fill: '#473A3F',
+                    fontSize: '26px',
+                    fontFamily: 'arial',
+                })
+                .setOrigin(2.0, 1.25);
+
+                this.restartGameButton.setInteractive();
+                this.restartGameButton.on('pointerdown', () => {
+                    this.registry.destroy(); // destroy registry
+                    this.events.off(); // disable all active events
+                    this.scene.restart('MainScene'); // restart current scene
+                    this.scene.stop();
+                console.log('RE-START CURRENT GAME!')
+                });
+
+                this.spaceBar = this.input.keyboard.addKey(
+                Phaser.Input.Keyboard.KeyCodes.SPACE
+                );
+
+         
+
     
     }// end of Create Function
-
 }

@@ -172,17 +172,17 @@ export default class Game extends Phaser.Scene {
   update() {
 // Space Pause
 
-this.spaceBar = this.input.keyboard.addKey(
-  Phaser.Input.Keyboard.KeyCodes.SPACE
-);
+  this.spaceBar = this.input.keyboard.addKey(
+    Phaser.Input.Keyboard.KeyCodes.SPACE
+  );
 
-const spaceBarPressed = this.spaceBar.isDown;
+  const spaceBarPressed = this.spaceBar.isDown;
 
-if (spaceBarPressed) {
-  console.log('SpaceBar was pressed - inside MainScene');
-  this.scene.pause();
-  this.scene.launch('PauseScene');
-}
+  if (spaceBarPressed) {
+    console.log('SpaceBar was pressed - inside MainScene');
+    this.scene.pause();
+    this.scene.launch('PauseScene');
+  }
 
     //Player Movement
     const touchingDown = this.player.body.touching.down;

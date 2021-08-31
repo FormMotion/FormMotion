@@ -96,12 +96,12 @@ export default class Game extends Phaser.Scene {
 
 
   create() {
+    // Opening Scene Window & Launch
     this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
     const width = this.scale.width;
     const height = this.scale.height;
     const totalWidth = width * 1000;
-
 
     //Background
     //This allows for parallax scrolling
@@ -170,25 +170,25 @@ export default class Game extends Phaser.Scene {
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
   }
   update() {
-// Space Pause
+// SpaceBar Pause MainScene
     this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-
+    
       const spaceBarPressed = this.spaceBar.isDown
       if(spaceBarPressed){
-        console.log('SpaceBar was pressed !!!! 001 ')
+        console.log('SpaceBar was pressed - inside MainScene')
+        
+        this.physics.pause() // this pauses the jumping - arms & legs still wiggle
+        console.log('this.physics is paused inside PauseScene')
+
         this.scene.pause('MainScene')
         this.scene.launch('PauseScene')
+
+
+        //this.player = this.physics.pause() 
+              // ^^^^ above pauses jump but does not go forward to the PauseScene, probably not a valid use of the this.physics
+              //ERROR in CONSOLE "cannot read "touching" of undefined."
+              // adding an else {this.physics.resume()}  does not work
       }
-
-      // if(spaceBarPressed){
-      //   this.input.once("spaceBar", function(){     
-      //     console.log('SpaceBar was pressed !!!! 001 ')   
-      //     this.scene.pause()
-      //     this.scene.launch('PauseScene')
-      //   }, this)
-
-      // }
-
 
     //Player Movement
     const touchingDown = this.player.body.touching.down;
@@ -199,8 +199,6 @@ export default class Game extends Phaser.Scene {
     } else if (!touchingDown & (this.player.y < this.justLanded - 50)) {
       this.player.setTexture('standingPlayer');
     }
- 
-
 
     if (
       (this.cursors.left.isDown && !touchingDown) ||
@@ -269,7 +267,9 @@ export default class Game extends Phaser.Scene {
       // this.scene.stop();
       // this.scene.start();
     }
-  }
+
+}
+
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {
     //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide

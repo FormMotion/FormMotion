@@ -5,12 +5,17 @@ export default class PauseScene extends Phaser.Scene {
     constructor() {
         super('PauseScene');
         this.spaceBar;
-    }
+        this.player;
+        this.physics;
 
-    // needs to pause, restart, save character
+    };
+
+    // Goals: needs to pause, restart, go back to drawing for a new character
 
     create() {
-        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE) 
+        // this.physics.pause() // this does not work.
+        console.log('Begin Pause Scene - code running inside Pause Scene create method')
 
             // Popup box
             this.popup = this.add.graphics();
@@ -27,8 +32,6 @@ export default class PauseScene extends Phaser.Scene {
             this.button.fillRect(540, 500, 150, 50);
 
             // Add Menu Title
-
-            
             this.add
                 .text(600, 200, 'Menu', {
                     fill: '#fff',
@@ -58,19 +61,51 @@ export default class PauseScene extends Phaser.Scene {
                     fontSize: '30px',
                     fontStyle: 'bold'
                 })
-                .setOrigin(0.5);
+                .setOrigin(1.5);
 
             this.resumeGameButton.setInteractive();
             this.resumeGameButton.on(
                 'pointerdown',
                 () => {
-                    console.log("resumeGame")
+                    //this.player = this.physics.resume()       // this does not work on any level
+                    
                     this.scene.resume('MainScene')
                     this.scene.stop();
+                    this.physics.resume()       // for no good reason, this does not resume the movement!
+                    
+                    console.log("resumeGame button clicked")
                 },
                 this
             );
 
-    }
+
+            // New Game Button
+                // SAME CHARACTER
+             this.newGameButton = this.add
+             .text(615, 525, 'Start New Game', {
+                 fill: '#fff', // white text
+                 fontSize: '30px',
+                 fontStyle: 'bold'
+             })
+             .setOrigin(0.02);
+
+         this.newGameButton.setInteractive();
+         this.newGameButton.on(
+             'pointerdown',
+             () => {
+
+                 // Below was taken from the MainScene Game Over Restart() code : line 257 !! Does not work yet.
+
+                this.registry.destroy(); // destroy registry
+                this.events.off(); // disable all active events
+                this.scene.restart('MainScene'); // restart the MainScene
+                this.scene.stop();
+                 
+                 console.log("New Game button clicked")
+             },
+             this
+         );
+
+    }// end of Create Function
 
 }

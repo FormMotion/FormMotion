@@ -14,7 +14,7 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
 }
 export default class Game extends Phaser.Scene {
   constructor() {
-    super('game');
+    super('MainScene');
     this.player;
     this.cursors;
     this.spaceBar;
@@ -170,25 +170,19 @@ export default class Game extends Phaser.Scene {
     this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
   }
   update() {
-// SpaceBar Pause MainScene
-    this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
-    
-      const spaceBarPressed = this.spaceBar.isDown
-      if(spaceBarPressed){
-        console.log('SpaceBar was pressed - inside MainScene')
-        
-        this.physics.pause() // this pauses the jumping - arms & legs still wiggle
-        console.log('this.physics is paused inside PauseScene')
+// Space Pause
 
-        this.scene.pause('MainScene')
-        this.scene.launch('PauseScene')
+this.spaceBar = this.input.keyboard.addKey(
+  Phaser.Input.Keyboard.KeyCodes.SPACE
+);
 
+const spaceBarPressed = this.spaceBar.isDown;
 
-        //this.player = this.physics.pause() 
-              // ^^^^ above pauses jump but does not go forward to the PauseScene, probably not a valid use of the this.physics
-              //ERROR in CONSOLE "cannot read "touching" of undefined."
-              // adding an else {this.physics.resume()}  does not work
-      }
+if (spaceBarPressed) {
+  console.log('SpaceBar was pressed - inside MainScene');
+  this.scene.pause();
+  this.scene.launch('PauseScene');
+}
 
     //Player Movement
     const touchingDown = this.player.body.touching.down;

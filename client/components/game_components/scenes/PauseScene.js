@@ -13,7 +13,9 @@ export default class PauseScene extends Phaser.Scene {
     // Goals: needs to pause, restart, go back to drawing for a new character
 
     create() {
-        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE) 
+        this.physics.pause()
+        //this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE) 
+       
         // this.physics.pause() // this does not work.
         console.log('Begin Pause Scene - code running inside Pause Scene create method')
 
@@ -23,6 +25,7 @@ export default class PauseScene extends Phaser.Scene {
             this.popup.fillStyle(0x7c8d99, 0.9);
             this.popup.strokeRect(225,125,750,550);
             this.popup.fillRect(225,125,750,550);
+            this.physics.pause()
 
             // Menu button squares
             this.button = this.add.graphics();
@@ -54,29 +57,33 @@ export default class PauseScene extends Phaser.Scene {
                 )
                 .setOrigin(0.5);
 
-            // Resume Game Button
-            this.resumeGameButton = this.add
-                .text(615, 525, 'Resume Game', {
-                    fill: '#fff', // white text
-                    fontSize: '30px',
-                    fontStyle: 'bold'
-                })
-                .setOrigin(1.5);
+  // Resume Game Button
+  this.resumeGameButton = this.add
+  .text(615, 525, 'Resume Game', {
+    fill: '#fff', // white text
+    fontSize: '30px',
+    fontStyle: 'bold',
+  })
+  .setOrigin(1.5);
 
-            this.resumeGameButton.setInteractive();
-            this.resumeGameButton.on(
-                'pointerdown',
-                () => {
-                    //this.player = this.physics.resume()       // this does not work on any level
-                    
-                    this.scene.resume('MainScene')
-                    this.scene.stop();
-                    this.physics.resume()       // for no good reason, this does not resume the movement!
-                    
-                    console.log("resumeGame button clicked")
-                },
-                this
-            );
+this.resumeGameButton.setInteractive();
+this.resumeGameButton.on('pointerdown', () => {
+  this.scene.resume('MainScene');
+  this.scene.stop();
+});
+
+this.spaceBar = this.input.keyboard.addKey(
+  Phaser.Input.Keyboard.KeyCodes.SPACE
+);
+
+const spaceBarPressed = this.spaceBar.isDown;
+
+if (spaceBarPressed) {
+  console.log('SpaceBar was pressed - inside MainScene');
+
+  this.scene.resume('MainScene');
+  this.scene.stop();
+}
 
 
             // New Game Button
@@ -98,14 +105,14 @@ export default class PauseScene extends Phaser.Scene {
 
                 this.registry.destroy(); // destroy registry
                 this.events.off(); // disable all active events
-                this.scene.restart('MainScene'); // restart the MainScene
+                this.scene.resume('MainScene'); // restart the MainScene
                 this.scene.stop();
                  
                  console.log("New Game button clicked")
              },
              this
          );
-
+    
     }// end of Create Function
 
 }

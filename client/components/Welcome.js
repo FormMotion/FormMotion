@@ -57,16 +57,7 @@ const Welcome = props => {
                   </Button>
                 </Link>
               </Grid>
-              <Grid item>
-                <Link to="/oneDrawing" style={{ textDecoration: "none" }}>
-                  <Button
-                    style={{ backgroundColor: "#86995a" }}
-                    variant="contained"
-                  >
-                    Play with one drawing!
-                  </Button>
-                </Link>
-              </Grid>
+              
               <Grid item>
                 <Link to={`/about`} style={{ textDecoration: "none" }}>
                   <Button

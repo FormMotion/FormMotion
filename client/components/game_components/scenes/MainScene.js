@@ -10,6 +10,19 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
     this.setScale(0.7);
   }
 }
+
+// class MovingPlatform extends Phaser.Physics.Matter.Image {
+//   constructor(scene, x, y, texture, options) {
+//     super(scene.matter.world, x, y, texture, 0, options)
+//     scene.add.existing(this)
+//     this.startY = y
+//   }
+
+
+// }
+
+
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super("game");
@@ -21,6 +34,7 @@ export default class Game extends Phaser.Scene {
     this.prizesText = "Grace Hopping Along!";
     this.pickupPrize;
     this.justLanded;
+    this.powerUp = false
   }
   preload() {
     //Static images hosted within assets folder
@@ -91,12 +105,16 @@ export default class Game extends Phaser.Scene {
 
   create() {
     //Opening Scene launch pop-up
-    this.scene.launch("OpeningScene");
-    this.scene.pause("MainScene");
+
+    //PAUSED FOR DEV REASONS, REMEMBER TO UNCOMMENT
+    // this.scene.launch("OpeningScene");
+    // this.scene.pause("MainScene");
+
+
+    //Background
     const width = this.scale.width;
     const height = this.scale.height;
     const totalWidth = width * 1000;
-    //Background
     //This allows for parallax scrolling
     this.add
       .image(width * 0.5, height * 0.5, "bg-10")
@@ -111,7 +129,13 @@ export default class Game extends Phaser.Scene {
     createAligned(this, totalWidth, "bg-3", 1.4, bgscale);
     createAligned(this, totalWidth, "bg-2", 1.6, bgscale),
       createAligned(this, totalWidth, "bg-1", 1.8, bgscale);
+
+
     //Platforms
+
+    //1. Create moving platforms
+    //2. Set it up so that they will alternate moving and not moving when spawning - can tweak X and Y so they only appear in certain areas
+
     this.platforms = this.physics.add.staticGroup();
     for (let i = 1; i < 5; i++) {
       const x = 300 * i;
@@ -123,10 +147,25 @@ export default class Game extends Phaser.Scene {
       body.updateFromGameObject();
     }
 
+    const movingPlatform = this.physics.add.image(100, 200, 'platform').setImmovable(true)
+    movingPlatform.body.setAllowGravity(false)
+
+    this.tweens.timeline({
+      targets: movingPlatform.body.velocity,
+      loop: -1,
+      tweens: [
+        { x:    0, y: -300, duration: 2000, ease: 'Stepped' },
+        { x:    0, y:  300, duration: 2000, ease: 'Stepped' },
+      ]
+    })
+
+    
+
     //Avatar / Player Character
     this.player = this.physics.add
       .sprite(300, 10, "standingPlayer")
       .setScale(0.25);
+
 
     //Prize
     this.prizes = this.physics.add.group({
@@ -134,13 +173,15 @@ export default class Game extends Phaser.Scene {
     });
     const style = { color: "#fff", fontSize: 24 };
     this.prizesText = this.add
-      .text(600, 10, "Grace Hopping Along!", style)
+      .text(600, 10, " ", style)
       .setScrollFactor(0)
       .setOrigin(0.5, 0);
+
 
     //Colliders
     this.physics.add.collider(this.platforms, this.player);
     this.physics.add.collider(this.platforms, this.prizes);
+    this.physics.add.collider(movingPlatform, this.player)
     this.physics.add.overlap(
       this.player,
       this.prizes,
@@ -152,22 +193,30 @@ export default class Game extends Phaser.Scene {
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
 
+
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
     this.input.addPointer(2);
 
+
     //Camera
     this.cameras.main.startFollow(this.player);
+
 
     //Sounds
     this.pickupPrize = this.sound.add("pickup", { volume: 0.5, loop: false });
   }
+
+
   update() {
+    
+    //Player Movement
     const leftCursor = this.cursors.left;
     const rightCursor = this.cursors.right;
     const upCursor = this.cursors.up;
+    const pointer1 = this.input.pointer1
+    const pointer2 = this.input.pointer2
 
-    //Player Movement
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
@@ -178,14 +227,14 @@ export default class Game extends Phaser.Scene {
       this.player.setTexture("standingPlayer");
     }
 
-    if ( (leftCursor.isDown && !touchingDown) || (this.input.pointer1.isDown && !touchingDown && this.input.pointer1.x < 500)) {
+    if ( (leftCursor.isDown && !touchingDown) || (pointer1.isDown && !touchingDown && pointer1.x < 500)) {
       this.player.setVelocityX(-300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = true; // Avatar facing left
       if (upCursor.isDown){
         this.player.setTexture("jumpingPlayer")
       }
-    } else if ( (rightCursor.isDown && !touchingDown) ||(this.input.pointer1.isDown &&!touchingDown &&this.input.pointer1.x > 700) ) {
+    } else if ( (rightCursor.isDown && !touchingDown) ||(pointer1.isDown &&!touchingDown && pointer1.x > 700) ) {
       this.player.setVelocityX(300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = false; // Avatar facing right
@@ -200,8 +249,8 @@ export default class Game extends Phaser.Scene {
 
     //Player needs to hold down second input (finger) to float/jump on touchscreen
     if (
-      this.input.pointer1.isDown &&
-      this.input.pointer2.isDown &&
+      pointer1.isDown &&
+      pointer2.isDown &&
       this.player.y > -75 &&
       this.player.y < 400
     ) {
@@ -219,6 +268,7 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityY(-300);
     }
 
+
     //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {
       const platform = child;
@@ -229,6 +279,7 @@ export default class Game extends Phaser.Scene {
         this.addPrizeAbove(platform);
       }
     });
+
     //Ends game if player falls below bottom of screen
     if (this.player.y > 900) {
       const style = { color: "#fff", fontSize: 80 };
@@ -240,6 +291,7 @@ export default class Game extends Phaser.Scene {
       this.scene.restart(); // restart current scene
     }
   }
+
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {
     //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide
@@ -266,6 +318,7 @@ export default class Game extends Phaser.Scene {
     this.prizesText.text = `You found ${this.prizesCollected}!`;
   }
 }
+
 //this will allow us to have an infinite background
 const createAligned = (scene, totalWidth, texture, scrollFactor) => {
   //Let's look at this to figure out why the background disappears
@@ -280,19 +333,22 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
       .setScale(4);
     x += m.width;
   }
+
+
 };
 
 
 //////////**********BACKGROUNDS**********//////////
-//Parallax Mountains Background
-const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
+
+
+const bg10 = "assets/backgrounds/Field/Field Layer 01.png";
 const bg9 =
-  "assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png";
+  "assets/backgrounds/Field/Field Layer 02.png";
 const bg8 =
-  "assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png";
-const bg7 = "assets/backgrounds/parallax_mountains/parallax-mountain-trees.png";
+  "assets/backgrounds/Field/Field Layer 03.png";
+const bg7 = "assets/backgrounds/Field/Field Layer 04.png";
 const bg6 =
-  "assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png";
+  "assets/backgrounds/Field/Field Layer 05.png";
 const bg5 = "assets/transparent_background_500_x_800.png";
 const bg4 = "assets/transparent_background_500_x_800.png";
 const bg3 = "assets/transparent_background_500_x_800.png";

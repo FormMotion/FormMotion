@@ -64,7 +64,6 @@ const DrawCharacter = props => {
   }
 
   return (
-<<<<<<< HEAD
     <>
       <NavBar />
       <Grid
@@ -226,31 +225,6 @@ const DrawCharacter = props => {
                 }}
               ></canvas>
             </div>
-=======
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="flex-start"
-      spacing={0}
-    >
-      <Grid Item>
-        <div className="container">
-          <div className="head">
-            <canvas
-              id="head"
-              width="250"
-              height="150"
-              style={{
-                borderStyle: 'solid',
-                borderColor: 'black',
-                backgroundImage: `url(${canvas_image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            ></canvas>
->>>>>>> drawingformat
           </div>
         </Grid>
         <Grid Item>

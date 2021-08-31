@@ -5,7 +5,7 @@ import { saveImageThunk } from '../../redux/actions'
 import { HexColorPicker } from 'react-colorful'
 import DrawingCharacterModal from './drawing_modals/DrawingCharacterModal'
 
-// material-ui
+// material-ui 
 import { makeStyles } from '@material-ui/core/styles'
 import Slider from '@material-ui/core/Slider'
 import Box from '@material-ui/core/Box'

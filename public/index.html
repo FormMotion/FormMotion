@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-	<meta charset="UTF-8" />
-	<link rel="icon" type="image/png" href="./images/TransparentLogo.png" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<meta name="theme-color" content="#000000" />
-	<meta name="description" content="PWA drawing game React application" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-	<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&display=swap" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet" />
-	<Link rel="apple-touch-icon" href="./images/TransparentLogo.png" />
-	<Link rel="manifest" href="./manifest.json" />
-	<title>FormMation</title>
-	<script src="/bundle.js" defer></script>
-</head>
-
-<body>
-	<div id="app"></div>
-	<script>
-		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', () => {
-				navigator.serviceWorker.register('./serviceworker.js').then((registration) => console.log('success: ', registration.scope))
-					.catch((err) => console.log('failure: ', err))
-			})
-		}
-	</script>
-</body>
-
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/png" href="./images/TransparentLogo.png" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<meta name="description" content="PWA drawing game React application" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Klee+One:wght@600&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="apple-touch-icon" href="./images/TransparentLogo.png" />
+		<link rel="manifest" href="./manifest.json" />
+		<title>FormMation</title>
+		<script src="/bundle.js" defer></script>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script>
+			if ('serviceWorker' in navigator) {
+				window.addEventListener('load', () => {
+					navigator.serviceWorker
+						.register('./serviceworker.js')
+						.then((registration) =>
+							console.log('success: ', registration.scope)
+						)
+						.catch((err) => console.log('failure: ', err))
+				})
+			}
+		</script>
+	</body>
 </html>

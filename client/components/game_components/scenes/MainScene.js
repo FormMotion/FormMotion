@@ -11,15 +11,6 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
   }
 }
 
-// class MovingPlatform extends Phaser.Physics.Matter.Image {
-//   constructor(scene, x, y, texture, options) {
-//     super(scene.matter.world, x, y, texture, 0, options)
-//     scene.add.existing(this)
-//     this.startY = y
-//   }
-
-
-// }
 
 
 
@@ -36,6 +27,8 @@ export default class Game extends Phaser.Scene {
     this.justLanded;
     this.powerUp = false
   }
+
+
   preload() {
     //Static images hosted within assets folder
     this.load.image("bg-10", bg10);
@@ -106,7 +99,7 @@ export default class Game extends Phaser.Scene {
   create() {
     //Opening Scene launch pop-up
 
-    //PAUSED FOR DEV REASONS, REMEMBER TO UNCOMMENT
+    //PAUSED FOR DEV REASONS, REMEMBER TO UNCOMMENT <-----------------------------------------------------------------------
     // this.scene.launch("OpeningScene");
     // this.scene.pause("MainScene");
 
@@ -115,6 +108,7 @@ export default class Game extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
     const totalWidth = width * 1000;
+
     //This allows for parallax scrolling
     this.add
       .image(width * 0.5, height * 0.5, "bg-10")
@@ -123,47 +117,47 @@ export default class Game extends Phaser.Scene {
     createAligned(this, totalWidth, "bg-9", 0.2, bgscale);
     createAligned(this, totalWidth, "bg-8", 0.4, bgscale);
     createAligned(this, totalWidth, "bg-7", 0.6, bgscale),
-      createAligned(this, totalWidth, "bg-6", 0.8, bgscale);
+    createAligned(this, totalWidth, "bg-6", 0.8, bgscale);
     createAligned(this, totalWidth, "bg-5", 1, bgscale);
     createAligned(this, totalWidth, "bg-4", 1.2, bgscale);
     createAligned(this, totalWidth, "bg-3", 1.4, bgscale);
     createAligned(this, totalWidth, "bg-2", 1.6, bgscale),
-      createAligned(this, totalWidth, "bg-1", 1.8, bgscale);
+    createAligned(this, totalWidth, "bg-1", 1.8, bgscale);
 
 
     //Platforms
 
-    //1. Create moving platforms
-    //2. Set it up so that they will alternate moving and not moving when spawning - can tweak X and Y so they only appear in certain areas
+    this.platforms = this.physics.add.group({immovable: true, allowGravity: false})
 
-    this.platforms = this.physics.add.staticGroup();
+   
+
     for (let i = 1; i < 5; i++) {
-      const x = 300 * i;
-      const y = Phaser.Math.Between(150, 450);
+      const x = 400 * i;
+      const y = Phaser.Math.Between(300, 450);
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
-      const platform = this.platforms.create(x, y, "platform");
-      platform.scale = 1;
-      const body = platform.body;
-      body.updateFromGameObject();
+
+      const platform = this.platforms.create(x, y, "platform")
+
+        const tweenY = 500
+        const tweenDuration = Phaser.Math.Between(500, 1000)
+        
+        this.tweens.timeline({
+          targets: platform.body.velocity,
+          loop: -1,
+          yoyo: true,
+          tweens: [
+            { x: 0, y: -tweenY, duration: tweenDuration },
+            { x: 0, y: tweenY, duration: tweenDuration },
+          ]})
+          
+        
+          platform.body.updateFromGameObject();
     }
-
-    const movingPlatform = this.physics.add.image(100, 200, 'platform').setImmovable(true)
-    movingPlatform.body.setAllowGravity(false)
-
-    this.tweens.timeline({
-      targets: movingPlatform.body.velocity,
-      loop: -1,
-      tweens: [
-        { x:    0, y: -300, duration: 2000, ease: 'Stepped' },
-        { x:    0, y:  300, duration: 2000, ease: 'Stepped' },
-      ]
-    })
-
-    
+  
 
     //Avatar / Player Character
     this.player = this.physics.add
-      .sprite(300, 10, "standingPlayer")
+      .sprite(400, 0, "standingPlayer")
       .setScale(0.25);
 
 
@@ -181,7 +175,7 @@ export default class Game extends Phaser.Scene {
     //Colliders
     this.physics.add.collider(this.platforms, this.player);
     this.physics.add.collider(this.platforms, this.prizes);
-    this.physics.add.collider(movingPlatform, this.player)
+
     this.physics.add.overlap(
       this.player,
       this.prizes,
@@ -189,9 +183,9 @@ export default class Game extends Phaser.Scene {
       undefined, //this is for a process callback that we are not using
       this
     );
-    this.player.body.checkCollision.up = false;
-    this.player.body.checkCollision.left = false;
-    this.player.body.checkCollision.right = false;
+    // this.player.body.checkCollision.up = false;
+    // this.player.body.checkCollision.left = false;
+    // this.player.body.checkCollision.right = false;
 
 
     //Cursors
@@ -220,21 +214,21 @@ export default class Game extends Phaser.Scene {
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
-      this.player.setVelocityY(-500);
+     // this.player.setVelocityY(-300);
       this.player.setTexture("landingPlayer");
       this.justLanded = this.player.y;
-    } else if (!touchingDown & (this.player.y < this.justLanded - 50)) {
+    } else if (!touchingDown & (this.player.y < this.justLanded - 5)) {
       this.player.setTexture("standingPlayer");
     }
 
-    if ( (leftCursor.isDown && !touchingDown) || (pointer1.isDown && !touchingDown && pointer1.x < 500)) {
+    if ( (leftCursor.isDown ) || (pointer1.isDown  && pointer1.x < 500)) {
       this.player.setVelocityX(-300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = true; // Avatar facing left
       if (upCursor.isDown){
         this.player.setTexture("jumpingPlayer")
       }
-    } else if ( (rightCursor.isDown && !touchingDown) ||(pointer1.isDown &&!touchingDown && pointer1.x > 700) ) {
+    } else if ( (rightCursor.isDown ) ||(pointer1.isDown && pointer1.x > 700) ) {
       this.player.setVelocityX(300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = false; // Avatar facing right
@@ -251,21 +245,20 @@ export default class Game extends Phaser.Scene {
     if (
       pointer1.isDown &&
       pointer2.isDown &&
-      this.player.y > -75 &&
+      this.player.y > -100 &&
       this.player.y < 400
     ) {
-      this.player.setVelocityY(-300);
+      this.player.setVelocityY(-400);
     }
 
     //For jumping using up arrow on keyboard
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
     if (
       didPressJump &&
-      !touchingDown &&
-      this.player.y > -75 &&
+      this.player.y > -100 &&
       this.player.y < 400
     ) {
-      this.player.setVelocityY(-300);
+      this.player.setVelocityY(-400);
     }
 
 
@@ -274,14 +267,17 @@ export default class Game extends Phaser.Scene {
       const platform = child;
       const scrollX = this.cameras.main.scrollX;
       if (platform.x <= scrollX - 100) {
-        platform.x = this.player.x + Phaser.Math.Between(650, 850);
-        platform.body.updateFromGameObject();
+        platform.x =  this.player.x + 200; 
+        //Phaser.Math.Between(50, 350)
+        platform.body.updateFromGameObject(); 
         this.addPrizeAbove(platform);
+        console.log('PLATFORM.X:', platform.x)
       }
     });
 
+
     //Ends game if player falls below bottom of screen
-    if (this.player.y > 900) {
+    if (this.player.y > 1000) {
       const style = { color: "#fff", fontSize: 80 };
       this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
     }
@@ -295,8 +291,10 @@ export default class Game extends Phaser.Scene {
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {
     //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide
-    const y = sprite.y - sprite.displayHeight * 2;
+    const y = sprite.y - 500
     const prize = this.prizes.get(sprite.x, y, "prize");
+
+    console.log('PRIZE X', prize.x)
     //makes active and visible so we can reuse prizes - otherwise they disappear and don't come back after our player collects them
     prize.setActive(true);
     prize.setVisible(true);
@@ -341,15 +339,15 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
 //////////**********BACKGROUNDS**********//////////
 
 
-const bg10 = "assets/backgrounds/Field/Field Layer 01.png";
+const bg10 = "assets/backgrounds/Snow/Snow Layer 01.png";
 const bg9 =
-  "assets/backgrounds/Field/Field Layer 02.png";
+  "assets/backgrounds/Snow/Snow Layer 02.png";
 const bg8 =
-  "assets/backgrounds/Field/Field Layer 03.png";
-const bg7 = "assets/backgrounds/Field/Field Layer 04.png";
+  "assets/backgrounds/Snow/Snow Layer 03.png";
+const bg7 = "assets/backgrounds/Snow/Snow Layer 04.png";
 const bg6 =
-  "assets/backgrounds/Field/Field Layer 05.png";
-const bg5 = "assets/transparent_background_500_x_800.png";
+  "assets/backgrounds/Snow/Snow Layer 05.png";
+const bg5 = "assets/backgrounds/Snow/Snow Layer 06.png";
 const bg4 = "assets/transparent_background_500_x_800.png";
 const bg3 = "assets/transparent_background_500_x_800.png";
 const bg2 = "assets/transparent_background_500_x_800.png";

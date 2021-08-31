@@ -34,3 +34,4 @@ class Routes extends Component {
 const mapState = () => ({});
 const mapDispatch = () => ({});
 export default withRouter(connect(mapState, mapDispatch)(Routes));
+

@@ -127,8 +127,6 @@ export default class Game extends Phaser.Scene {
 
     this.platforms = this.physics.add.group({immovable: true, allowGravity: false})
 
-   
-
     for (let i = 1; i < 5; i++) {
       const x = 400 * i;
       const y = Phaser.Math.Between(300, 450);
@@ -137,7 +135,7 @@ export default class Game extends Phaser.Scene {
       const platform = this.platforms.create(x, y, "platform")
 
         const tweenY = 500
-        const tweenDuration = Phaser.Math.Between(500, 1000)
+        const tweenDuration = Phaser.Math.Between(400, 1200)
         
         this.tweens.timeline({
           targets: platform.body.velocity,
@@ -181,10 +179,6 @@ export default class Game extends Phaser.Scene {
       undefined, //this is for a process callback that we are not using
       this
     );
-    // this.player.body.checkCollision.up = false;
-    // this.player.body.checkCollision.left = false;
-    // this.player.body.checkCollision.right = false;
-
 
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -193,6 +187,8 @@ export default class Game extends Phaser.Scene {
 
     //Camera
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.setLerp(1, 0)
+
 
 
     //Sounds
@@ -231,14 +227,14 @@ export default class Game extends Phaser.Scene {
       this.player.setTexture("standingPlayer");
     }
 
-    if ( (leftCursor.isDown ) || (pointer1.isDown  && pointer1.x < 500)) {
+    if ( (leftCursor.isDown) || (pointer1.isDown  && pointer1.x < 500)) {
       this.player.setVelocityX(-300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = true; // Avatar facing left
       if (upCursor.isDown){
         this.player.setTexture("jumpingPlayer")
       }
-    } else if ( (rightCursor.isDown ) ||(pointer1.isDown && pointer1.x > 700) ) {
+    } else if ( (rightCursor.isDown) ||(pointer1.isDown && pointer1.x > 700) ) {
       this.player.setVelocityX(300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = false; // Avatar facing right
@@ -255,7 +251,7 @@ export default class Game extends Phaser.Scene {
     if (
       pointer1.isDown &&
       pointer2.isDown &&
-      this.player.y > -100 &&
+      this.player.y > -400 &&
       this.player.y < 400
     ) {
       this.player.setVelocityY(-400);
@@ -265,7 +261,7 @@ export default class Game extends Phaser.Scene {
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
     if (
       didPressJump &&
-      this.player.y > -100 &&
+      this.player.y > -400 &&
       this.player.y < 400
     ) {
       this.player.setVelocityY(-400);
@@ -302,7 +298,7 @@ export default class Game extends Phaser.Scene {
   addPrizeAbove(sprite) {
     //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide
     const y = sprite.y - 500
-    const prize = this.prizes.get(sprite.x, y, "prize");
+    const prize = this.prizes.get(sprite.x + 450, y, "prize");
 
     console.log('PRIZE X', prize.x)
     //makes active and visible so we can reuse prizes - otherwise they disappear and don't come back after our player collects them

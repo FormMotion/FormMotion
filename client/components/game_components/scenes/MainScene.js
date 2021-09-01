@@ -198,7 +198,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.platforms, this.prizes);
     this.physics.add.collider(this.platforms, this.slime);
     this.physics.add.collider(this.platforms, this.player);
-    this.physics.add.collider(this.player, this.slime);
+    //this.physics.add.collider(this.player, this.slime);
 
     this.physics.add.overlap(
       this.player,
@@ -392,6 +392,7 @@ export default class Game extends Phaser.Scene {
   }
 
   handleCollectSlime() {
+    this.player.setTexture("slimePlayer")
     const style = { color: "#fff", fontSize: 80 };
     this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
     this.gameOverAudio.play();

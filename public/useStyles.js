@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core/styles'
 
 const useStyles = (theme) => ({
     specialTypography: {
-        fontFamily: ['Klee One', 'cursive'].join(','),
-        fontWeight: 600,
+        fontFamily: ['Roboto', 'sans-serif'].join(','),
+        fontWeight: 500,
     },
     regularTypography: {
         fontFamily: ['Roboto', 'sans-serif'].join(','),

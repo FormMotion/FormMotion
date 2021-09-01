@@ -6,18 +6,21 @@ import { HexColorPicker } from 'react-colorful'
 import DrawingCharacterModal from './drawing_modals/DrawingCharacterModal'
 
 // material-ui
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 import Select from '@material-ui/core/Select'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import NativeSelect from '@material-ui/core/NativeSelect'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Grid from '@material-ui/core/Grid'
+import { createTheme } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-}))
+}));
 
 const DefaultOptions = (props) => {
     const canvases = props.canvases ?? []
@@ -37,6 +40,12 @@ const DefaultOptions = (props) => {
     const classes = useStyles()
     const [allDefault, setAllDefault] = useState(0)
     const [defaultChoices, setDefaultChoices] = useState({})
+    const [checked, setChecked] = React.useState(false);
+
+    // for advanced options toggle
+    const toggleChecked = () => {
+        setChecked((prev) => !prev);
+    };
 
     const chooseDefault = (e) => {
         let choice = e.target.value
@@ -211,8 +220,8 @@ const DefaultOptions = (props) => {
             <Grid Item>
                 {type === 'character' && (
                     <div>
-                        <Typography>
-                            Either draw each canvas or fill all with pre-drawn options:
+                        <Typography style={{ fontWeight: 500 }}>
+                            Choose one of our pre-drawn avatars:
                         </Typography>
                         <FormControl className={classes.formControl}>
                             <NativeSelect
@@ -233,41 +242,52 @@ const DefaultOptions = (props) => {
                 )}
             </Grid>
             <Grid Item>
-                <Typography>
-                    Draw each canvas or use a default!
-                </Typography>
-            </Grid>
-            <Grid Item>
                 {(allDefault === '0' || allDefault === 0) && (
                     <div>
-                        {Object.keys(canvases).map((canvas, index) => (
-                            <Grid Item key={index}>
-                                <FormControl>
-                                    <FormControl className={classes.formControl}>
-                                        <NativeSelect
-                                            onChange={chooseDefaultOrDraw}
-                                            className={classes.selectEmpty}
-                                        >
-                                            <option value={[0, canvas]}>
-                                                Draw {names[canvas]}
-                                            </option>
-                                            <option value={[1, canvas]}>{names[canvas]} 1</option>
-                                            <option value={[2, canvas]}>{names[canvas]} 2</option>
-                                            <option value={[3, canvas]}>{names[canvas]} 3</option>
-                                            <option value={[4, canvas]}>Surprise me!</option>
-                                        </NativeSelect>
-                                        <FormHelperText>
-                                            Draw, choose one of the provided options, or be
-                                            surprised!
-                                        </FormHelperText>
-                                    </FormControl>
-                                </FormControl>
-                            </Grid>
-                        ))}
+                        <Typography style={{ fontWeight: 500 }}>
+                            <br></br>
+                            Or draw your own avatar!
+                        </Typography>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    onChange={toggleChecked}
+                                    color="primary"
+                                />
+                            }
+                            label="Advanced options"
+                        />
+                        {checked && (
+                            <div>
+                                {
+                                    Object.keys(canvases).map((canvas, index) => (
+                                        <Grid Item key={index}>
+                                            <FormControl>
+                                                <FormControl className={classes.formControl}>
+                                                    <NativeSelect
+                                                        onChange={chooseDefaultOrDraw}
+                                                        className={classes.selectEmpty}
+                                                    >
+                                                        <option value={[0, canvas]}>Draw {names[canvas]}</option>
+                                                        <option value={[1, canvas]}>{names[canvas]} 1</option>
+                                                        <option value={[2, canvas]}>{names[canvas]} 2</option>
+                                                        <option value={[3, canvas]}>{names[canvas]} 3</option>
+                                                        <option value={[4, canvas]}>Surprise me!</option>
+                                                    </NativeSelect>
+                                                    <FormHelperText>
+                                                        Draw, choose one of the provided options, or be surprised!
+                                                    </FormHelperText>
+                                                </FormControl>
+                                            </FormControl>
+                                        </Grid>
+                                    ))
+                                }
+                            </div>
+                        )}
                     </div>
                 )}
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
 

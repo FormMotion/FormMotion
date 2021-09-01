@@ -82,27 +82,27 @@ export default function Landing() {
         //BACKGROUND
         { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
         //HEAD
-        { src: head, x: 130, y: 0 },
+        { src: head, x: 140, y: 50 },
         //TORSO
-        { src: torso, x: 120, y: 150 },
+        { src: torso, x: 140, y: 220 },
         //Left LEG (from user perspective)
-        { src: rotatedLegLeftUpper, x: 20, y: 380 },
-        { src: rotatedLegLeftLower, x: 20, y: 510 },
+        { src: rotatedLegLeftUpper, x: 40, y: 390 },
+        { src: rotatedLegLeftLower, x: 30, y: 540 },
         //Right LEG (from user perspective)
-        { src: rotatedLegRightUpper, x: 270, y: 380 },
-        { src: rotatedLegRightLower, x: 270, y: 520 },
+        { src: rotatedLegRightUpper, x: 250, y: 410 },
+        { src: rotatedLegRightLower, x: 235, y: 550 },
         //Left ARM (from user perspective)
-        { src: armLeftUpper, x: 20, y: 150 },
-        { src: rotatedArmLeftLower, x: 0, y: 310 },
+        { src: armLeftUpper, x: 20, y: 225 },
+        { src: rotatedArmLeftLower, x: 0, y: 365 },
         //Right ARM (from user perspective)
-        { src: armRightUpper, x: 380, y: 170 },
-        { src: rotatedArmRightLower, x: 280, y: 340 },
+        { src: armRightUpper, x: 380, y: 220 },
+        { src: rotatedArmRightLower, x: 310, y: 360 },
       ]).then((res) => setAvatar(res));
     }
   
     if (avatar){
         localStorage.setItem('landingAvatar', avatar)
     }
-  
+
     return <div></div>;
 }

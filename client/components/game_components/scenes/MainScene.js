@@ -24,6 +24,11 @@ export default class Game extends Phaser.Scene {
     this.prizesCollected = 0;
     this.prizesText = "Grace Hopping Along!";
     this.pickupPrize;
+    this.jumpNoise;
+    this.landNoise;
+    this.gameOverAudio;
+    this.directionAudio;
+    this.downNoise;
     this.justLanded;
     this.powerUp = false
   }
@@ -93,11 +98,18 @@ export default class Game extends Phaser.Scene {
     prizeData.src = drawnPrize;
     this.textures.addBase64("prize", drawnPrize, prizeData);
 
-    this.load.audio("pickup", "assets/kalimba_chime.mp3");
+
+    // Sounds
+    this.load.audio("pickup", "assets/sounds/kalimba_chime.mp3");
+    this.load.audio("jump", "assets/sounds/jump-3.wav")
+    this.load.audio("land", "assets/sounds/bonk-4.wav")
+    this.load.audio("gameOver", "assets/sounds/lose-5.wav")
+    this.load.audio("down", "assets/sounds/bonk-1.wav")
+    this.load.audio("direction", "assets/sounds/bonk-5.wav")
   }
 
   create() {
-    //Opening Scene launch pop-up
+    //Opening Scene launch pop-up 
     this.scene.launch("OpeningScene");
     this.scene.pause("MainScene");
 
@@ -128,14 +140,15 @@ export default class Game extends Phaser.Scene {
     this.platforms = this.physics.add.group({immovable: true, allowGravity: false})
 
     for (let i = 1; i < 5; i++) {
-      const x = 400 * i;
+      const x = 450 * i;
       const y = Phaser.Math.Between(300, 450);
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, "platform")
 
-        const tweenY = 500
-        const tweenDuration = Phaser.Math.Between(400, 1200)
+        const tweenY = 400
+        const tweenX = Phaser.Math.Between(100, 400)
+        const tweenDuration = Phaser.Math.Between(350, 1200)
         
         this.tweens.timeline({
           targets: platform.body.velocity,
@@ -143,7 +156,9 @@ export default class Game extends Phaser.Scene {
           yoyo: true,
           tweens: [
             { x: 0, y: -tweenY, duration: tweenDuration },
-            { x: 0, y: tweenY, duration: tweenDuration },
+            { x: tweenX, y: tweenY, duration: tweenDuration },
+            { x: 0, y: -tweenY, duration: tweenDuration },
+            { x: -tweenX, y: tweenY, duration: tweenDuration },
           ]})
           
         
@@ -153,7 +168,7 @@ export default class Game extends Phaser.Scene {
 
     //Avatar / Player Character
     this.player = this.physics.add
-      .sprite(400, 0, "standingPlayer")
+      .sprite(450, 0, "standingPlayer")
       .setScale(0.25);
 
 
@@ -161,7 +176,7 @@ export default class Game extends Phaser.Scene {
     this.prizes = this.physics.add.group({
       classType: Prize,
     });
-    const style = { color: "#fff", fontSize: 24 };
+    const style = { color: "#D35400", fontSize: 30 };
     this.prizesText = this.add
       .text(600, 10, " ", style)
       .setScrollFactor(0)
@@ -179,6 +194,9 @@ export default class Game extends Phaser.Scene {
       undefined, //this is for a process callback that we are not using
       this
     );
+    this.player.body.checkCollision.up = false;
+    this.player.body.checkCollision.left = false;
+    this.player.body.checkCollision.right = false;
 
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -193,6 +211,11 @@ export default class Game extends Phaser.Scene {
 
     //Sounds
     this.pickupPrize = this.sound.add("pickup", { volume: 0.5, loop: false });
+    this.jumpNoise= this.sound.add("jump", { volume: 1, loop: false})
+    this.landNoise = this.sound.add("land", {volume: 1, loop: false})
+    this.gameOverAudio = this.sound.add("gameOver", {volume: 1, loop: false})
+    this.directionAudio = this.sound.add("direction", {volume: 1, loop: false})
+    this.downNoise = this.sound.add("down", {volume: 1, loop: false})
   }
 
 
@@ -214,13 +237,15 @@ export default class Game extends Phaser.Scene {
     const leftCursor = this.cursors.left;
     const rightCursor = this.cursors.right;
     const upCursor = this.cursors.up;
+    const downCursor = this.cursors.down;
     const pointer1 = this.input.pointer1
     const pointer2 = this.input.pointer2
 
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
-     // this.player.setVelocityY(-300);
+      this.landNoise.play()
+      this.player.setVelocityY(-500);
       this.player.setTexture("landingPlayer");
       this.justLanded = this.player.y;
     } else if (!touchingDown & (this.player.y < this.justLanded - 5)) {
@@ -251,7 +276,7 @@ export default class Game extends Phaser.Scene {
     if (
       pointer1.isDown &&
       pointer2.isDown &&
-      this.player.y > -400 &&
+      this.player.y > -350 &&
       this.player.y < 400
     ) {
       this.player.setVelocityY(-400);
@@ -261,12 +286,29 @@ export default class Game extends Phaser.Scene {
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
     if (
       didPressJump &&
-      this.player.y > -400 &&
+      this.player.y > -350 &&
       this.player.y < 400
     ) {
+      this.jumpNoise.play()
       this.player.setVelocityY(-400);
     }
 
+    //For jumping down
+    const didPressDown = Phaser.Input.Keyboard.JustDown(downCursor)
+    if (
+      didPressDown &&
+      this.player.y > -350 &&
+      this.player.y < 400
+    ) {
+      this.downNoise.play()
+      this.player.setVelocityY(500);
+    }
+
+    //For left and right sound effects
+    const didPressLeft = Phaser.Input.Keyboard.JustDown(leftCursor)
+    const didPressRight = Phaser.Input.Keyboard.JustDown(rightCursor)
+    if (didPressLeft){this.directionAudio.play()}
+    if (didPressRight){this.directionAudio.play()}
 
     //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {
@@ -286,8 +328,7 @@ export default class Game extends Phaser.Scene {
     if (this.player.y > 1000) {
       const style = { color: "#fff", fontSize: 80 };
       this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
-    }
-    if (this.player.y > 2500) {
+      this.gameOverAudio.play()
       this.registry.destroy(); // destroy registry
       this.events.off(); // disable all active events
       this.scene.restart(); // restart current scene
@@ -319,7 +360,7 @@ export default class Game extends Phaser.Scene {
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
     this.prizesCollected++;
-    this.prizesText.text = `You found ${this.prizesCollected}!`;
+    this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
 }
 
@@ -343,8 +384,9 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
 
 
 //////////**********BACKGROUNDS**********//////////
+//Eventually, the player will be able to choose which background they want. Right now, the dev should just comment them in and out as desired. :)
 
-
+////////Snow Covered Mountains/////////////////
 const bg10 = "assets/backgrounds/Snow/Snow Layer 01.png";
 const bg9 =
   "assets/backgrounds/Snow/Snow Layer 02.png";
@@ -359,3 +401,21 @@ const bg3 = "assets/transparent_background_500_x_800.png";
 const bg2 = "assets/transparent_background_500_x_800.png";
 const bg1 = "assets/transparent_background_500_x_800.png";
 const bgscale = 3;
+
+
+
+///////Purple Desert Mountains////////////////////
+// const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
+// const bg9 =
+//   "assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png";
+// const bg8 =
+//   "assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png";
+// const bg7 =
+//   "assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png";
+// const bg6 = "assets/backgrounds/parallax_mountains/parallax-mountain-trees.png";
+// const bg5 = "assets/transparent_background_500_x_800.png";
+// const bg4 = "assets/transparent_background_500_x_800.png";
+// const bg3 = "assets/transparent_background_500_x_800.png";
+// const bg2 = "assets/transparent_background_500_x_800.png";
+// const bg1 = "assets/transparent_background_500_x_800.png";
+// const bgscale = 3;

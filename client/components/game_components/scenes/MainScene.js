@@ -27,6 +27,8 @@ export default class Game extends Phaser.Scene {
     this.jumpNoise;
     this.landNoise;
     this.gameOverAudio;
+    this.directionAudio;
+    this.downNoise;
     this.justLanded;
     this.powerUp = false
   }
@@ -99,13 +101,15 @@ export default class Game extends Phaser.Scene {
 
     // Sounds
     this.load.audio("pickup", "assets/sounds/kalimba_chime.mp3");
-    this.load.audio("jump", "assets/sounds/bonk-1.wav")
+    this.load.audio("jump", "assets/sounds/jump-3.wav")
     this.load.audio("land", "assets/sounds/bonk-4.wav")
     this.load.audio("gameOver", "assets/sounds/lose-5.wav")
+    this.load.audio("down", "assets/sounds/bonk-1.wav")
+    this.load.audio("direction", "assets/sounds/bonk-5.wav")
   }
 
   create() {
-    //Opening Scene launch pop-up
+    //Opening Scene launch pop-up 
     this.scene.launch("OpeningScene");
     this.scene.pause("MainScene");
 
@@ -172,7 +176,7 @@ export default class Game extends Phaser.Scene {
     this.prizes = this.physics.add.group({
       classType: Prize,
     });
-    const style = { color: "#D35400", fontSize: 50 };
+    const style = { color: "#D35400", fontSize: 30 };
     this.prizesText = this.add
       .text(600, 10, " ", style)
       .setScrollFactor(0)
@@ -190,6 +194,9 @@ export default class Game extends Phaser.Scene {
       undefined, //this is for a process callback that we are not using
       this
     );
+    this.player.body.checkCollision.up = false;
+    this.player.body.checkCollision.left = false;
+    this.player.body.checkCollision.right = false;
 
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -207,6 +214,8 @@ export default class Game extends Phaser.Scene {
     this.jumpNoise= this.sound.add("jump", { volume: 1, loop: false})
     this.landNoise = this.sound.add("land", {volume: 1, loop: false})
     this.gameOverAudio = this.sound.add("gameOver", {volume: 1, loop: false})
+    this.directionAudio = this.sound.add("direction", {volume: 1, loop: false})
+    this.downNoise = this.sound.add("down", {volume: 1, loop: false})
   }
 
 
@@ -284,6 +293,22 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityY(-400);
     }
 
+    //For jumping down
+    const didPressDown = Phaser.Input.Keyboard.JustDown(downCursor)
+    if (
+      didPressDown &&
+      this.player.y > -350 &&
+      this.player.y < 400
+    ) {
+      this.downNoise.play()
+      this.player.setVelocityY(500);
+    }
+
+    //For left and right sound effects
+    const didPressLeft = Phaser.Input.Keyboard.JustDown(leftCursor)
+    const didPressRight = Phaser.Input.Keyboard.JustDown(rightCursor)
+    if (didPressLeft){this.directionAudio.play()}
+    if (didPressRight){this.directionAudio.play()}
 
     //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {
@@ -335,7 +360,7 @@ export default class Game extends Phaser.Scene {
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
     this.prizesCollected++;
-    this.prizesText.text = `You found ${this.prizesCollected}!`;
+    this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
 }
 

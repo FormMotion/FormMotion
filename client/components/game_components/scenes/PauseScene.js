@@ -14,6 +14,10 @@ export default class PauseScene extends Phaser.Scene {
     // Goals: needs to pause, restart, go back to drawing for a new character
 
     create() {
+        this.spaceBar = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+          );
+
         this.physics.pause()
 
         // Popup box
@@ -59,7 +63,7 @@ export default class PauseScene extends Phaser.Scene {
             .setOrigin(0.5);
 
 
-               // Add description of game 1
+        // Add description of game 1
                 this.add
                 .text(600,
                     300,
@@ -78,7 +82,7 @@ export default class PauseScene extends Phaser.Scene {
                 this.add
                 .text(600,
                     400,
-                    'Restart the game to start over with the current character.',
+                    'Toggle the sound effects Off/On',
                     {
                         fill: '#251E20',
                         fontSize: '26px',
@@ -93,7 +97,7 @@ export default class PauseScene extends Phaser.Scene {
                 this.add
                 .text(600,
                     500,
-                    'Redraw to create a new character to play.',
+                    'Toggle the music Off/On',
                     {
                         fill: '#251E20',
                         fontSize: '26px',
@@ -106,50 +110,97 @@ export default class PauseScene extends Phaser.Scene {
 
     // Buttons
     
-        //Resume Game Button
+    //Resume Game Button
 
-                this.resumeGameButton = this.add
-                .text(615, 650, 'Resume Game', {
-                    fill: '#473A3F',
-                    fontSize: '26px',
-                    fontFamily: 'arial',
-                })
-                .setOrigin(2.0, 1.25);
+            this.resumeGameButton = this.add
+            .text(615, 650, 'Resume Game', {
+                fill: '#473A3F',
+                fontSize: '26px',
+                fontFamily: 'arial',
+            })
+            .setOrigin(2.0, 1.25);
 
-                this.resumeGameButton.setInteractive();
-                this.resumeGameButton.on('pointerdown', () => {
-                this.scene.resume('MainScene');
-                this.scene.stop();
-                });
+            this.resumeGameButton.setInteractive();
+            this.resumeGameButton.on('pointerdown', () => {
+            this.scene.resume('MainScene');
+            this.scene.stop();
+            });
+
+            this.spaceBar = this.input.keyboard.addKey(
+                Phaser.Input.Keyboard.KeyCodes.SPACE
+            );
+
+         //Sound Effect Off On Button
+
+            this.soundEffectsButton = this.add
+            .text(860, 650, 'Sounds Off/On', {
+                fill: '#473A3F',
+                fontSize: '26px',
+                fontFamily: 'arial',
+            })
+            .setOrigin(2.0, 1.25);
+
+            this.soundEffectsButton.setInteractive();
+            this.soundEffectsButton.on('pointerdown', () => {
+            console.log("Sound effects off/on")
+            });
+
+            this.spaceBar = this.input.keyboard.addKey(
+                Phaser.Input.Keyboard.KeyCodes.SPACE
+            );
+
+        //Toggle Music Off On  Button
+
+            this.musicButton = this.add
+            .text(1050, 650, 'Music Off/On', {
+                fill: '#473A3F',
+                fontSize: '26px',
+                fontFamily: 'arial',
+            })
+            .setOrigin(2.0, 1.25);
+
+            this.musicButton.setInteractive();
+            this.musicButton.on('pointerdown', () => {
+            console.log("Music off/on")
+            });
+
+            this.spaceBar = this.input.keyboard.addKey(
+                Phaser.Input.Keyboard.KeyCodes.SPACE
+            );
 
                
 //---------------------------------------------------------------------------
+ // Restart Game Button
 
-        // New Game Button
-                // SAME CHARACTER
-                this.restartGameButton = this.add
-                .text(840, 650, 'Restart Game', {
-                    fill: '#473A3F',
-                    fontSize: '26px',
-                    fontFamily: 'arial',
-                })
-                .setOrigin(2.0, 1.25);
+// HOLD OFF ON RESTART FOR NOW. Difficult to restart a scene from within another scene
+            // this.restartGameButton = this.add
+            // .text(840, 650, 'Restart Game', {
+            //     fill: '#473A3F',
+            //     fontSize: '26px',
+            //     fontFamily: 'arial',
+            // })
+            // .setOrigin(2.0, 1.25);
 
-                this.restartGameButton.setInteractive();
-                this.restartGameButton.on('pointerdown', () => {
-                    this.registry.destroy(); // destroy registry
-                    this.events.off(); // disable all active events
-                    this.scene.restart('MainScene'); // restart current scene
-                    this.scene.stop();
-                console.log('RE-START CURRENT GAME!')
-                });
+            // this.restartGameButton.setInteractive();
+            // this.restartGameButton.on('pointerdown', () => {
 
-                this.spaceBar = this.input.keyboard.addKey(
-                Phaser.Input.Keyboard.KeyCodes.SPACE
-                );
-
-         
-
+            //     this.registry.destroy('MainScene'); // destroy registry
+            //     this.events.off('MainScene'); // disable all active events
+            //     this.scene.restart('MainScene'); // restart current scene
+            //     this.scene.stop();
+            // console.log('RE-START CURRENT GAME!')
+            // });
     
-    }// end of Create Function
+}
+
+    update() {
+        // Space Bar to Resume the Game
+        const spaceBarPressed = this.spaceBar.isDown;
+  
+        if (spaceBarPressed) {
+        console.log('SpaceBar was pressed - inside MainScene');
+        this.scene.resume('MainScene');
+        this.scene.stop();
+        }
+    }
 }

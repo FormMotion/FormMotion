@@ -16,7 +16,7 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
 
 export default class Game extends Phaser.Scene {
   constructor() {
-    super("game");
+    super("MainScene");
     this.player;
     this.cursors;
     this.platforms;
@@ -98,10 +98,8 @@ export default class Game extends Phaser.Scene {
 
   create() {
     //Opening Scene launch pop-up
-
-    //PAUSED FOR DEV REASONS, REMEMBER TO UNCOMMENT <-----------------------------------------------------------------------
-    // this.scene.launch("OpeningScene");
-    // this.scene.pause("MainScene");
+    this.scene.launch("OpeningScene");
+    this.scene.pause("MainScene");
 
 
     //Background
@@ -203,6 +201,18 @@ export default class Game extends Phaser.Scene {
 
 
   update() {
+
+    this.spaceBar = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
+  
+    const spaceBarPressed = this.spaceBar.isDown;
+  
+    if (spaceBarPressed) {
+      console.log('SpaceBar was pressed - inside MainScene');
+      this.scene.pause();
+      this.scene.launch('PauseScene');
+    }
     
     //Player Movement
     const leftCursor = this.cursors.left;

@@ -1,9 +1,6 @@
 import Phaser from "phaser";
 import React from "react";
 
-
-
-//This is a separate class so we can set up internal configuration details for the prize Sprite here
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
@@ -11,8 +8,12 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
   }
 }
 
-
-
+class Slime extends Phaser.Physics.Arcade.Sprite {
+  constructor(scene, x, y, texture) {
+    super(scene, x, y, texture);
+    this.setScale(0.5);
+  }
+}
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -24,15 +25,15 @@ export default class Game extends Phaser.Scene {
     this.prizesCollected = 0;
     this.prizesText = "Grace Hopping Along!";
     this.pickupPrize;
+    this.slime;
     this.jumpNoise;
     this.landNoise;
     this.gameOverAudio;
     this.directionAudio;
     this.downNoise;
     this.justLanded;
-    this.powerUp = false
+    this.powerUp = false;
   }
-
 
   preload() {
     //Static images hosted within assets folder
@@ -47,6 +48,8 @@ export default class Game extends Phaser.Scene {
     this.load.image("bg-2", bg2);
     this.load.image("bg-1", bg1);
 
+    this.load.image("slime", "assets/single_slime.png");
+
     //Loaded from localStorage - user drawn images
     let drawnCharacter = localStorage.getItem("playerDrawnCharacter");
     let drawnPlatform = localStorage.getItem("playerDrawnPlatform");
@@ -55,6 +58,7 @@ export default class Game extends Phaser.Scene {
     const landing = localStorage.getItem("landingAvatar");
     const forward = localStorage.getItem("forwardMovementAvatar");
     const jumping = localStorage.getItem("jumpingMovementAvatar");
+    const slimed = localStorage.getItem("slimeAvatar");
 
     //Default Character
     let defaultCharacter = new Image();
@@ -82,6 +86,11 @@ export default class Game extends Phaser.Scene {
       const jumpingAvatar = new Image();
       jumpingAvatar.src = jumping;
       this.textures.addBase64("jumpingPlayer", jumping, jumpingAvatar);
+
+      //Slimed!
+      const slimeAvatar = new Image();
+      slimeAvatar.src = slimed;
+      this.textures.addBase64("slimePlayer", slimed, slimeAvatar);
     } else {
       this.load.image("defaultCharacter", "assets/eyeChar.png");
     }
@@ -98,21 +107,19 @@ export default class Game extends Phaser.Scene {
     prizeData.src = drawnPrize;
     this.textures.addBase64("prize", drawnPrize, prizeData);
 
-
     // Sounds
     this.load.audio("pickup", "assets/sounds/kalimba_chime.mp3");
-    this.load.audio("jump", "assets/sounds/jump-3.wav")
-    this.load.audio("land", "assets/sounds/bonk-4.wav")
-    this.load.audio("gameOver", "assets/sounds/lose-5.wav")
-    this.load.audio("down", "assets/sounds/bonk-1.wav")
-    this.load.audio("direction", "assets/sounds/bonk-5.wav")
+    this.load.audio("jump", "assets/sounds/jump-3.wav");
+    this.load.audio("land", "assets/sounds/bonk-4.wav");
+    this.load.audio("gameOver", "assets/sounds/lose-5.wav");
+    this.load.audio("down", "assets/sounds/bonk-1.wav");
+    this.load.audio("direction", "assets/sounds/bonk-5.wav");
   }
 
   create() {
-    //Opening Scene launch pop-up 
+    //Opening Scene launch pop-up
     this.scene.launch("OpeningScene");
     this.scene.pause("MainScene");
-
 
     //Background
     const width = this.scale.width;
@@ -127,50 +134,50 @@ export default class Game extends Phaser.Scene {
     createAligned(this, totalWidth, "bg-9", 0.2, bgscale);
     createAligned(this, totalWidth, "bg-8", 0.4, bgscale);
     createAligned(this, totalWidth, "bg-7", 0.6, bgscale),
-    createAligned(this, totalWidth, "bg-6", 0.8, bgscale);
+      createAligned(this, totalWidth, "bg-6", 0.8, bgscale);
     createAligned(this, totalWidth, "bg-5", 1, bgscale);
     createAligned(this, totalWidth, "bg-4", 1.2, bgscale);
     createAligned(this, totalWidth, "bg-3", 1.4, bgscale);
     createAligned(this, totalWidth, "bg-2", 1.6, bgscale),
-    createAligned(this, totalWidth, "bg-1", 1.8, bgscale);
-
+      createAligned(this, totalWidth, "bg-1", 1.8, bgscale);
 
     //Platforms
 
-    this.platforms = this.physics.add.group({immovable: true, allowGravity: false})
+    this.platforms = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    });
 
     for (let i = 1; i < 5; i++) {
       const x = 450 * i;
       const y = Phaser.Math.Between(300, 450);
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
-      const platform = this.platforms.create(x, y, "platform")
+      const platform = this.platforms.create(x, y, "platform");
 
-        const tweenY = 400
-        const tweenX = Phaser.Math.Between(100, 400)
-        const tweenDuration = Phaser.Math.Between(350, 1200)
-        
-        this.tweens.timeline({
-          targets: platform.body.velocity,
-          loop: -1,
-          yoyo: true,
-          tweens: [
-            { x: 0, y: -tweenY, duration: tweenDuration },
-            { x: tweenX, y: tweenY, duration: tweenDuration },
-            { x: 0, y: -tweenY, duration: tweenDuration },
-            { x: -tweenX, y: tweenY, duration: tweenDuration },
-          ]})
-          
-        
-          platform.body.updateFromGameObject();
+      const tweenY = 400;
+      const tweenX = Phaser.Math.Between(100, 400);
+      const tweenDuration = Phaser.Math.Between(350, 1200);
+
+      this.tweens.timeline({
+        targets: platform.body.velocity,
+        loop: -1,
+        yoyo: true,
+        tweens: [
+          { x: 0, y: -tweenY, duration: tweenDuration },
+          { x: tweenX, y: tweenY, duration: tweenDuration },
+          { x: 0, y: -tweenY, duration: tweenDuration },
+          { x: -tweenX, y: tweenY, duration: tweenDuration },
+        ],
+      });
+
+      platform.body.updateFromGameObject();
     }
-  
 
     //Avatar / Player Character
     this.player = this.physics.add
       .sprite(450, 0, "standingPlayer")
       .setScale(0.25);
-
 
     //Prize
     this.prizes = this.physics.add.group({
@@ -182,10 +189,16 @@ export default class Game extends Phaser.Scene {
       .setScrollFactor(0)
       .setOrigin(0.5, 0);
 
+    //Slime Enemy
+    this.slime = this.physics.add.group({
+      classType: Slime,
+    });
 
     //Colliders
-    this.physics.add.collider(this.platforms, this.player);
     this.physics.add.collider(this.platforms, this.prizes);
+    this.physics.add.collider(this.platforms, this.slime);
+    this.physics.add.collider(this.platforms, this.player);
+    this.physics.add.collider(this.player, this.slime);
 
     this.physics.add.overlap(
       this.player,
@@ -194,6 +207,15 @@ export default class Game extends Phaser.Scene {
       undefined, //this is for a process callback that we are not using
       this
     );
+
+    this.physics.add.overlap(
+      this.player,
+      this.slime,
+      this.handleCollectSlime,
+      undefined,
+      this
+    );
+
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
@@ -202,49 +224,46 @@ export default class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.input.addPointer(2);
 
-
     //Camera
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setLerp(1, 0)
-
-
+    this.cameras.main.setLerp(1, 0);
 
     //Sounds
     this.pickupPrize = this.sound.add("pickup", { volume: 0.5, loop: false });
-    this.jumpNoise= this.sound.add("jump", { volume: 1, loop: false})
-    this.landNoise = this.sound.add("land", {volume: 1, loop: false})
-    this.gameOverAudio = this.sound.add("gameOver", {volume: 1, loop: false})
-    this.directionAudio = this.sound.add("direction", {volume: 1, loop: false})
-    this.downNoise = this.sound.add("down", {volume: 1, loop: false})
+    this.jumpNoise = this.sound.add("jump", { volume: 1, loop: false });
+    this.landNoise = this.sound.add("land", { volume: 1, loop: false });
+    this.gameOverAudio = this.sound.add("gameOver", { volume: 1, loop: false });
+    this.directionAudio = this.sound.add("direction", {
+      volume: 1,
+      loop: false,
+    });
+    this.downNoise = this.sound.add("down", { volume: 1, loop: false });
   }
 
-
   update() {
-
     this.spaceBar = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
-  
+
     const spaceBarPressed = this.spaceBar.isDown;
-  
+
     if (spaceBarPressed) {
-      console.log('SpaceBar was pressed - inside MainScene');
       this.scene.pause();
-      this.scene.launch('PauseScene');
+      this.scene.launch("PauseScene");
     }
-    
+
     //Player Movement
     const leftCursor = this.cursors.left;
     const rightCursor = this.cursors.right;
     const upCursor = this.cursors.up;
     const downCursor = this.cursors.down;
-    const pointer1 = this.input.pointer1
-    const pointer2 = this.input.pointer2
+    const pointer1 = this.input.pointer1;
+    const pointer2 = this.input.pointer2;
 
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
-      this.landNoise.play()
+      this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture("landingPlayer");
       this.justLanded = this.player.y;
@@ -252,22 +271,22 @@ export default class Game extends Phaser.Scene {
       this.player.setTexture("standingPlayer");
     }
 
-    if ( (leftCursor.isDown) || (pointer1.isDown  && pointer1.x < 500)) {
+    if (leftCursor.isDown || (pointer1.isDown && pointer1.x < 500)) {
       this.player.setVelocityX(-300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = true; // Avatar facing left
-      if (upCursor.isDown){
-        this.player.setTexture("jumpingPlayer")
+      if (upCursor.isDown) {
+        this.player.setTexture("jumpingPlayer");
       }
-    } else if ( (rightCursor.isDown) ||(pointer1.isDown && pointer1.x > 700) ) {
+    } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
       this.player.setVelocityX(300);
       this.player.setTexture("forwardPlayer");
       this.player.flipX = false; // Avatar facing right
-      if (upCursor.isDown){
-        this.player.setTexture("jumpingPlayer")
+      if (upCursor.isDown) {
+        this.player.setTexture("jumpingPlayer");
       }
-    } else if (upCursor.isDown){
-      this.player.setTexture("jumpingPlayer")
+    } else if (upCursor.isDown) {
+      this.player.setTexture("jumpingPlayer");
     } else {
       this.player.setVelocityX(0);
     }
@@ -282,53 +301,47 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityY(-400);
     }
 
-    //For jumping using up arrow on keyboard
+    //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
-    if (
-      didPressJump &&
-      this.player.y > -350 &&
-      this.player.y < 400
-    ) {
-      this.jumpNoise.play()
+    if (didPressJump && this.player.y > -350 && this.player.y < 400) {
+      this.jumpNoise.play();
       this.player.setVelocityY(-400);
     }
 
     //For jumping down
-    const didPressDown = Phaser.Input.Keyboard.JustDown(downCursor)
-    if (
-      didPressDown &&
-      this.player.y > -350 &&
-      this.player.y < 400
-    ) {
-      this.downNoise.play()
+    const didPressDown = Phaser.Input.Keyboard.JustDown(downCursor);
+    if (didPressDown) {
+      this.downNoise.play();
       this.player.setVelocityY(500);
     }
 
     //For left and right sound effects
-    const didPressLeft = Phaser.Input.Keyboard.JustDown(leftCursor)
-    const didPressRight = Phaser.Input.Keyboard.JustDown(rightCursor)
-    if (didPressLeft){this.directionAudio.play()}
-    if (didPressRight){this.directionAudio.play()}
+    const didPressLeft = Phaser.Input.Keyboard.JustDown(leftCursor);
+    const didPressRight = Phaser.Input.Keyboard.JustDown(rightCursor);
+    if (didPressLeft) {
+      this.directionAudio.play();
+    }
+    if (didPressRight) {
+      this.directionAudio.play();
+    }
 
     //Platform Infinite Scrolling
     this.platforms.children.iterate(child => {
       const platform = child;
       const scrollX = this.cameras.main.scrollX;
       if (platform.x <= scrollX - 100) {
-        platform.x =  this.player.x + 200; 
-        //Phaser.Math.Between(50, 350)
-        platform.body.updateFromGameObject(); 
+        platform.x = this.player.x + 200;
+        platform.body.updateFromGameObject();
         this.addPrizeAbove(platform);
-        console.log('PLATFORM.X:', platform.x)
+        this.addSlimeAbove(platform);
       }
     });
 
-
     //Ends game if player falls below bottom of screen
-    if (this.player.y > 1000) {
+    if (this.player.y > 800) {
       const style = { color: "#fff", fontSize: 80 };
       this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
-      this.gameOverAudio.play()
+      this.gameOverAudio.play();
       this.registry.destroy(); // destroy registry
       this.events.off(); // disable all active events
       this.scene.restart(); // restart current scene
@@ -338,10 +351,9 @@ export default class Game extends Phaser.Scene {
   //Adds the prizes above the platforms
   addPrizeAbove(sprite) {
     //this will add the prize instance above the given sprite (in this case, it will be a platform) using the sprite's display height as a guide
-    const y = sprite.y - 500
+    const y = sprite.y - 500;
     const prize = this.prizes.get(sprite.x + 450, y, "prize");
 
-    console.log('PRIZE X', prize.x)
     //makes active and visible so we can reuse prizes - otherwise they disappear and don't come back after our player collects them
     prize.setActive(true);
     prize.setVisible(true);
@@ -362,6 +374,31 @@ export default class Game extends Phaser.Scene {
     this.prizesCollected++;
     this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
+
+  addSlimeAbove(sprite) {
+    const y = sprite.y - Phaser.Math.Between(300, 700);
+    const slime = this.slime.get(
+      sprite.x + Phaser.Math.Between(500, 750),
+      y,
+      "slime"
+    );
+
+    slime.setActive(true);
+    slime.setVisible(true);
+    this.add.existing(slime);
+    slime.body.setSize(slime.width, slime.height);
+    this.physics.world.enable(slime);
+    return slime;
+  }
+
+  handleCollectSlime() {
+    const style = { color: "#fff", fontSize: 80 };
+    this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
+    this.gameOverAudio.play();
+    this.registry.destroy(); // destroy registry
+    this.events.off(); // disable all active events
+    this.scene.restart(); // restart current scene
+  }
 }
 
 //this will allow us to have an infinite background
@@ -378,31 +415,23 @@ const createAligned = (scene, totalWidth, texture, scrollFactor) => {
       .setScale(4);
     x += m.width;
   }
-
-
 };
-
 
 //////////**********BACKGROUNDS**********//////////
 //Eventually, the player will be able to choose which background they want. Right now, the dev should just comment them in and out as desired. :)
 
 ////////Snow Covered Mountains/////////////////
 const bg10 = "assets/backgrounds/Snow/Snow Layer 01.png";
-const bg9 =
-  "assets/backgrounds/Snow/Snow Layer 02.png";
-const bg8 =
-  "assets/backgrounds/Snow/Snow Layer 03.png";
+const bg9 = "assets/backgrounds/Snow/Snow Layer 02.png";
+const bg8 = "assets/backgrounds/Snow/Snow Layer 03.png";
 const bg7 = "assets/backgrounds/Snow/Snow Layer 04.png";
-const bg6 =
-  "assets/backgrounds/Snow/Snow Layer 05.png";
+const bg6 = "assets/backgrounds/Snow/Snow Layer 05.png";
 const bg5 = "assets/backgrounds/Snow/Snow Layer 06.png";
 const bg4 = "assets/transparent_background_500_x_800.png";
 const bg3 = "assets/transparent_background_500_x_800.png";
 const bg2 = "assets/transparent_background_500_x_800.png";
 const bg1 = "assets/transparent_background_500_x_800.png";
 const bgscale = 3;
-
-
 
 ///////Purple Desert Mountains////////////////////
 // const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";

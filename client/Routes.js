@@ -7,7 +7,7 @@ import Welcome from './components/Welcome';
 import singleCharacterDrawing from './components/drawing_components/singleCharacterDrawing.js';
 import Game from './components/Game';
 import DrawPlatform from './components/drawing_components/DrawPlatform.js';
-import Merge from './components/merge_components/JumpingMovement';
+import Merge from './components/merge_components/Slime';
 import DrawCharacter from './components/drawing_components/DrawCharacter';
 
 class Routes extends Component {

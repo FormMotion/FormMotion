@@ -1,85 +1,94 @@
 body {
-	color: black;
+  color: black;
 }
 
 .container {
-	display: grid;
-	grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
-	grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
-	gap: 0px 0px;
-	position: relative;
-	grid-auto-flow: row;
-	grid-template-areas:
-		'. . . head head head head head head . . .'
-		'. . . head head head head head head . . .'
-		'. . . head head head head head head . . .'
-		'. . . head head head head head head . . .'
-		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
-		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
-		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
-		'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
-		'leftlowerarm leftlowerarm leftlowerarm torso torso torso torso torso torso rightlowerarm rightlowerarm rightlowerarm'
-		'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
-		'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
-		'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
-		'. . . leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg . . .'
-		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
-		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
-		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
-		'. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .';
+  display: grid;
+  grid-template-columns: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+  grid-template-rows: 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px 40px;
+  gap: 0px 0px;
+  position: relative;
+  grid-auto-flow: row;
+  grid-template-areas:
+    '. . . head head head head head head . . .'
+    '. . . head head head head head head . . .'
+    '. . . head head head head head head . . .'
+    '. . . head head head head head head . . .'
+    'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+    'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+    'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+    'leftupperarm leftupperarm leftupperarm torso torso torso torso torso torso rightupperarm rightupperarm rightupperarm'
+    'leftlowerarm leftlowerarm leftlowerarm torso torso torso torso torso torso rightlowerarm rightlowerarm rightlowerarm'
+    'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
+    'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
+    'leftlowerarm leftlowerarm leftlowerarm leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg rightlowerarm rightlowerarm rightlowerarm'
+    '. . . leftupperleg leftupperleg leftupperleg rightupperleg rightupperleg rightupperleg . . .'
+    '. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
+    '. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
+    '. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .'
+    '. . . leftlowerleg leftlowerleg leftlowerleg rightlowerleg rightlowerleg rightlowerleg . . .';
 }
 
 .head {
-	grid-area: head;
-	position: relative;
+  grid-area: head;
+  position: relative;
 }
 
 .torso {
-	grid-area: torso;
-	position: relative;
+  grid-area: torso;
+  position: relative;
 }
 
 .rightupperarm {
-	grid-area: rightupperarm;
-	position: relative;
+  grid-area: rightupperarm;
+  position: relative;
 }
 
 .rightlowerarm {
-	grid-area: rightlowerarm;
-	position: relative;
+  grid-area: rightlowerarm;
+  position: relative;
 }
 
 .rightupperleg {
-	grid-area: rightupperleg;
-	position: relative;
+  grid-area: rightupperleg;
+  position: relative;
 }
 
 .leftupperleg {
-	grid-area: leftupperleg;
-	position: relative;
+  grid-area: leftupperleg;
+  position: relative;
 }
 
 .leftlowerleg {
-	grid-area: leftlowerleg;
-	position: relative;
+  grid-area: leftlowerleg;
+  position: relative;
 }
 
 .rightlowerleg {
-	grid-area: rightlowerleg;
-	position: relative;
+  grid-area: rightlowerleg;
+  position: relative;
 }
 
 .leftlowerarm {
-	grid-area: leftlowerarm;
-	position: relative;
+  grid-area: leftlowerarm;
+  position: relative;
 }
 
 .leftupperarm {
-	grid-area: leftupperarm;
-	position: relative;
+  grid-area: leftupperarm;
+  position: relative;
 }
 
-/* 
+.canvas {
+  display: block;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*
 .container {
 	display: grid; */
 /* width: 480x;
@@ -172,13 +181,13 @@ body {
 } */
 
 #phaser-app {
-	display: flex;
+  display: flex;
 }
 
 #gamescreenlink {
-	width: 20%;
+  width: 20%;
 }
 
 #game_screen_logo {
-	width: 100%;
+  width: 100%;
 }

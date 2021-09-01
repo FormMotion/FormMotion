@@ -1,31 +1,31 @@
 import Phaser from 'phaser';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainScene from './scenes/MainScene';
 import OpeningScene from './scenes/OpeningScene';
 import PauseScene from './scenes/PauseScene';
 
-export default class Game extends React.Component {
-  componentDidMount() {
-    const config = {
-      type: Phaser.AUTO,
-      width: 1200,
-      height: 800,
-      className: 'canvas',
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { y: 550 },
-          debug: false,
-        },
-      },
-      scale: {
-        // mode: Phaser.Scale.FIT,
-        parent: 'game-container',
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
-      },
-      scene: [MainScene, OpeningScene, PauseScene],
-    };
+const config = {
+  type: Phaser.AUTO,
+  width: 1200,
+  height: 800,
+  className: 'canvas',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 550 },
+      debug: true,
+    },
+  },
+  scale: {
+    // mode: Phaser.Scale.FIT,
+    parent: 'game-container',
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+  },
+  scene: [MainScene, OpeningScene, PauseScene],
+};
 
+const Game = () => {
+  useEffect(() => {
     function resize() {
       const canvas = document.querySelector('canvas');
       const width = window.innerWidth;
@@ -40,17 +40,22 @@ export default class Game extends React.Component {
         canvas.style.height = height + 'px';
       }
     }
+    new Phaser.Game(config);
+    resize();
+    window.addEventListener('resize', resize, false);
 
-    window.onload = function () {
-      new Phaser.Game(config);
-      resize();
-      window.addEventListener('resize', resize, false);
+    return () => {
+      window.removeEventListener('resize', resize, false);
     };
-  }
-  shouldComponentUpdate() {
-    return false;
-  }
-  render() {
-    return <div id="phaser-game" />;
-  }
-}
+  }, []);
+
+  // window.onload = function () {
+  //   new Phaser.Game(config);
+  //   resize();
+  //   window.addEventListener('resize', resize, false);
+  // };
+
+  return <div id="phaser-game" />;
+};
+
+export default Game;

@@ -105,7 +105,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    //Opening Scene launch pop-up
+    //Opening Scene launch pop-up 
     this.scene.launch("OpeningScene");
     this.scene.pause("MainScene");
 
@@ -172,7 +172,7 @@ export default class Game extends Phaser.Scene {
     this.prizes = this.physics.add.group({
       classType: Prize,
     });
-    const style = { color: "#D35400", fontSize: 50 };
+    const style = { color: "#D35400", fontSize: 30 };
     this.prizesText = this.add
       .text(600, 10, " ", style)
       .setScrollFactor(0)
@@ -190,6 +190,9 @@ export default class Game extends Phaser.Scene {
       undefined, //this is for a process callback that we are not using
       this
     );
+    this.player.body.checkCollision.up = false;
+    this.player.body.checkCollision.left = false;
+    this.player.body.checkCollision.right = false;
 
     //Cursors
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -335,7 +338,7 @@ export default class Game extends Phaser.Scene {
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
     this.prizesCollected++;
-    this.prizesText.text = `You found ${this.prizesCollected}!`;
+    this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
 }
 

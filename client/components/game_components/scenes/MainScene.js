@@ -172,7 +172,7 @@ export default class Game extends Phaser.Scene {
     this.prizes = this.physics.add.group({
       classType: Prize,
     });
-    const style = { color: "#fff", fontSize: 24 };
+    const style = { color: "#D35400", fontSize: 50 };
     this.prizesText = this.add
       .text(600, 10, " ", style)
       .setScrollFactor(0)

@@ -9,9 +9,17 @@ export default class PauseScene extends Phaser.Scene {
         this.physics;
         this.registry;
         this.events;
+        this.musicPaused;
+        this.soundPaused;
     };
 
     // Goals: needs to pause, restart, go back to drawing for a new character
+
+    init(data) {
+        console.log('data', data)
+        this.soundPaused = data.soundPaused
+        this.musicPaused = data.musicPaused
+    }
 
     create() {
         this.spaceBar = this.input.keyboard.addKey(
@@ -19,6 +27,7 @@ export default class PauseScene extends Phaser.Scene {
           );
 
         this.physics.pause()
+        
 
         // Popup box
         this.popup = this.add.graphics();
@@ -38,19 +47,19 @@ export default class PauseScene extends Phaser.Scene {
         .fillRect(252, 600, 200, 60)
         // x, y , width, height DO NOT MOVE THESE!
    
-        // Restart new game with Current Character Button Square
-        this.button2 = this.add.graphics()
-        .lineStyle(1, 0x2a275c)
-        .fillStyle(0xD9E6A1, 1)
-        .strokeRect(500, 600, 200, 60)
-        .fillRect(500, 600, 200, 60)
+        // // Restart new game with Current Character Button Square
+        // this.button2 = this.add.graphics()
+        // .lineStyle(1, 0x2a275c)
+        // .fillStyle(0xD9E6A1, 1)
+        // .strokeRect(500, 600, 200, 60)
+        // .fillRect(500, 600, 200, 60)
 
-        // Redraw new character Button Square
-        this.button3 = this.add.graphics()
-        .lineStyle(1, 0x2a275c)
-        .fillStyle(0xD9E6A1, 1)
-        .strokeRect(735, 600, 200, 60)
-        .fillRect(735, 600, 200, 60)
+        // // Redraw new character Button Square
+        // this.button3 = this.add.graphics()
+        // .lineStyle(1, 0x2a275c)
+        // .fillStyle(0xD9E6A1, 1)
+        // .strokeRect(735, 600, 200, 60)
+        // .fillRect(735, 600, 200, 60)
 
 
         // Add Menu Title
@@ -78,35 +87,35 @@ export default class PauseScene extends Phaser.Scene {
                 )
                 .setOrigin(0.5);
 
-                // Add description of game 2
-                this.add
-                .text(600,
-                    400,
-                    'Toggle the sound effects Off/On',
-                    {
-                        fill: '#251E20',
-                        fontSize: '26px',
-                        align: 'center',
-                        fontFamily: 'arial',
-                        wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
-                    }
-                )
-                .setOrigin(0.5);
+                // // Add description of game 2
+                // this.add
+                // .text(600,
+                //     400,
+                //     'Toggle the sound effects Off/On',
+                //     {
+                //         fill: '#251E20',
+                //         fontSize: '26px',
+                //         align: 'center',
+                //         fontFamily: 'arial',
+                //         wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
+                //     }
+                // )
+                // .setOrigin(0.5);
 
-                // Add description of game 3
-                this.add
-                .text(600,
-                    500,
-                    'Toggle the music Off/On',
-                    {
-                        fill: '#251E20',
-                        fontSize: '26px',
-                        align: 'center',
-                        fontFamily: 'arial',
-                        wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
-                    }
-                )
-                .setOrigin(0.5);
+                // // Add description of game 3
+                // this.add
+                // .text(600,
+                //     500,
+                //     'Toggle the music Off/On',
+                //     {
+                //         fill: '#251E20',
+                //         fontSize: '26px',
+                //         align: 'center',
+                //         fontFamily: 'arial',
+                //         wordWrap: {width: 600, height: 400, useAdvancedWrap: true},
+                //     }
+                // )
+                // .setOrigin(0.5);
 
     // Buttons
     
@@ -122,8 +131,9 @@ export default class PauseScene extends Phaser.Scene {
 
             this.resumeGameButton.setInteractive();
             this.resumeGameButton.on('pointerdown', () => {
-            this.scene.resume('MainScene');
-            this.scene.stop();
+                this.scene.resume('MainScene');
+                this.scene.stop();
+                            
             });
 
             this.spaceBar = this.input.keyboard.addKey(
@@ -132,41 +142,44 @@ export default class PauseScene extends Phaser.Scene {
 
          //Sound Effect Off On Button
 
-            this.soundEffectsButton = this.add
-            .text(860, 650, 'Sounds Off/On', {
-                fill: '#473A3F',
-                fontSize: '26px',
-                fontFamily: 'arial',
-            })
-            .setOrigin(2.0, 1.25);
+            // this.soundEffectsButton = this.add
+            // .text(860, 650, 'Sounds Off/On', {
+            //     fill: '#473A3F',
+            //     fontSize: '26px',
+            //     fontFamily: 'arial',
+            // })
+            // .setOrigin(2.0, 1.25);
 
-            this.soundEffectsButton.setInteractive();
-            this.soundEffectsButton.on('pointerdown', () => {
-            console.log("Sound effects off/on")
-            });
+            // this.soundEffectsButton.setInteractive();
+            // this.soundEffectsButton.on('pointerdown', () => {
+            // this.soundPaused = !this.soundPaused
+            // console.log("Sound effects off/on")
 
-            this.spaceBar = this.input.keyboard.addKey(
-                Phaser.Input.Keyboard.KeyCodes.SPACE
-            );
+            // });
+
+            // this.spaceBar = this.input.keyboard.addKey(
+            //     Phaser.Input.Keyboard.KeyCodes.SPACE
+            // );
 
         //Toggle Music Off On  Button
 
-            this.musicButton = this.add
-            .text(1050, 650, 'Music Off/On', {
-                fill: '#473A3F',
-                fontSize: '26px',
-                fontFamily: 'arial',
-            })
-            .setOrigin(2.0, 1.25);
+            // this.musicButton = this.add
+            // .text(1050, 650, 'Music Off/On', {
+            //     fill: '#473A3F',
+            //     fontSize: '26px',
+            //     fontFamily: 'arial',
+            // })
+            // .setOrigin(2.0, 1.25);
 
-            this.musicButton.setInteractive();
-            this.musicButton.on('pointerdown', () => {
-            console.log("Music off/on")
-            });
+            // this.musicButton.setInteractive();
+            // this.musicButton.on('pointerdown', () => {
+            // this.musicPaused = !this.musicPaused
+            // console.log("this.musicPaused Pause SCENE", this.musicPaused)
+            // });
 
-            this.spaceBar = this.input.keyboard.addKey(
-                Phaser.Input.Keyboard.KeyCodes.SPACE
-            );
+            // this.spaceBar = this.input.keyboard.addKey(
+            //     Phaser.Input.Keyboard.KeyCodes.SPACE
+            // );
 
                
 //---------------------------------------------------------------------------
@@ -199,7 +212,7 @@ export default class PauseScene extends Phaser.Scene {
   
         if (spaceBarPressed) {
         console.log('SpaceBar was pressed - inside MainScene');
-        this.scene.resume('MainScene');
+        this.scene.resume('MainScene',{ soundPaused: this.soundPaused, musicPaused: this.musicPaused });
         this.scene.stop();
         }
     }

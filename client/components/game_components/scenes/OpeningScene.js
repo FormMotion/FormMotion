@@ -7,7 +7,9 @@ export default class OpeningScene extends Phaser.Scene {
     }
 
     create() {
-
+        this.spaceBar = this.input.keyboard.addKey(
+            Phaser.Input.Keyboard.KeyCodes.SPACE
+        );
 
         // Popup box
         this.popup = this.add.graphics();
@@ -34,7 +36,7 @@ export default class OpeningScene extends Phaser.Scene {
             .text(600, 200, 'FormMotion', {
                 fill: '#473A3F',
                 fontSize: '30px',
-                fontFamily: 'arial narrow',
+                fontFamily: 'arial',
             })
             .setOrigin(0.5);
 
@@ -47,7 +49,7 @@ export default class OpeningScene extends Phaser.Scene {
                     fill: '#251E20',
                     fontSize: '26px',
                     align: 'right',
-                    fontFamily: 'arial narrow',
+                    fontFamily: 'arial',
                     wordWrap: {width: 480, height: 445, useAdvancedWrap: true},
                 }
             )
@@ -67,7 +69,7 @@ export default class OpeningScene extends Phaser.Scene {
             .text(615, 525, 'Start', {
                 fill: '#251E20',
                 fontSize: '30px',
-                fontFamily: 'arial narrow'
+                fontFamily: 'arial'
             })
             .setOrigin(0.5);
 
@@ -80,6 +82,17 @@ export default class OpeningScene extends Phaser.Scene {
             },
             this
         );
+    }
+
+        update() {
+        // Space Bar to Resume the Game
+        const spaceBarPressed = this.spaceBar.isDown;
+  
+        if (spaceBarPressed) {
+        console.log('SpaceBar was pressed - inside MainScene');
+        this.scene.resume('MainScene',{ soundPaused: this.soundPaused, musicPaused: this.musicPaused });
+        this.scene.stop();
+        }
     }
 
 }

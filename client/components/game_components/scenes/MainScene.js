@@ -31,8 +31,24 @@ export default class Game extends Phaser.Scene {
     this.downNoise;
     this.justLanded;
     this.powerUp = false
+    this.soundPaused;
+    this.musicPaused;
   }
 
+
+  init(data) {
+    console.log("data", data)
+    if(data){
+
+      this.soundPaused = data.soundPaused
+      this.musicPaused = data.musicPaused
+    } else {
+      this.soundPaused = false;
+      this.musicPaused = false;
+
+    }
+
+  }
 
   preload() {
     //Static images hosted within assets folder
@@ -106,9 +122,15 @@ export default class Game extends Phaser.Scene {
     this.load.audio("gameOver", "assets/sounds/lose-5.wav")
     this.load.audio("down", "assets/sounds/bonk-1.wav")
     this.load.audio("direction", "assets/sounds/bonk-5.wav")
+
+    // Background Music
+    this.load.audio('spinningOut', "assets/music/spinningOut.wav")
+    
   }
 
   create() {
+    
+    
     //Opening Scene launch pop-up 
     this.scene.launch("OpeningScene");
     this.scene.pause("MainScene");
@@ -216,11 +238,32 @@ export default class Game extends Phaser.Scene {
     this.gameOverAudio = this.sound.add("gameOver", {volume: 1, loop: false})
     this.directionAudio = this.sound.add("direction", {volume: 1, loop: false})
     this.downNoise = this.sound.add("down", {volume: 1, loop: false})
+    this.soundPaused = false;
+
+    //Background Music
+    this.spinningOut = this.sound.add("spinningOut", { volume: 0.5, loop: true })
+    this.spinningOut.play();
+    this.musicPaused = false;
   }
 
 
   update() {
+    
+    // Background Music
+    if(!this.musicPaused) {
+      this.spinningOut.resume()
+    } 
 
+    // if(this.musicPaused){
+    //   this.
+    // }
+
+    // SoundEffects
+    // if(!this.soundPaused) {
+    //   this.spinningOut.play()
+    // } 
+
+    //Space bar & Pause Scene
     this.spaceBar = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
@@ -230,7 +273,9 @@ export default class Game extends Phaser.Scene {
     if (spaceBarPressed) {
       console.log('SpaceBar was pressed - inside MainScene');
       this.scene.pause();
-      this.scene.launch('PauseScene');
+      this.spinningOut.pause()
+      this.scene.launch('PauseScene', { musicPaused: this.musicPaused, soundPaused: this.soundPaused });
+      console.log('this.musicPaused & this.soundPaused: ', this.soundPaused, this.musicPaused)
     }
     
     //Player Movement

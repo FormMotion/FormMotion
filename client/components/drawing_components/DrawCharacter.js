@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 const Atrament = require('atrament');
 import DrawingTools from './DrawingTools';
-import NavBar from '../NavBar';'
+import NavBar from '../NavBar';
 
 // material-ui
 import Grid from '@material-ui/core/Grid';

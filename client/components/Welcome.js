@@ -32,6 +32,7 @@ const Welcome = props => {
           />
 
           <Typography className={classes.regularTypography}>
+            <br></br>
             FormMotion is an infinite jumping game that allows you to draw your
             own avatar, platform, and prize in a customizable world!
           </Typography>
@@ -57,7 +58,7 @@ const Welcome = props => {
                   </Button>
                 </Link>
               </Grid>
-              
+
               <Grid item>
                 <Link to={`/about`} style={{ textDecoration: "none" }}>
                   <Button

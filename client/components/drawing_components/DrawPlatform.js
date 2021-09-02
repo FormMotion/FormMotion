@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 const Atrament = require('atrament');
 import DrawingTools from './DrawingTools';
-import DefaultOptions from './DefaultOptions';
 import NavBar from '../NavBar';
 
 import StandingAvatar from '../merge_components/MergeMain';
 import LandingAvatar from '../merge_components/Landing';
 import ForwardMovement from '../merge_components/ForwardMovement';
 import JumpingMovement from '../merge_components/JumpingMovement.js';
+import Slime from '../merge_components/Slime';
 
 // material-ui
 import Grid from '@material-ui/core/Grid';
@@ -84,19 +84,12 @@ const DrawPlatform = (props) => {
             }}
           ></canvas>
         </Grid>
-        <Grid Item>
-          <DefaultOptions
-            canvases={canvases}
-            history={props.history}
-            names={names}
-            type="platformAndPrize"
-          />
-        </Grid>
         {/* This is here so that the merged avatars are loaded into localStorage before we get to the game */}
         <StandingAvatar />
         <LandingAvatar />
         <ForwardMovement />
         <JumpingMovement />
+        <Slime />
       </Grid>
     </>
   );

@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import About from './components/About';
@@ -7,7 +6,7 @@ import Welcome from './components/Welcome';
 import singleCharacterDrawing from './components/drawing_components/singleCharacterDrawing.js';
 import Game from './components/Game';
 import DrawPlatform from './components/drawing_components/DrawPlatform.js';
-import Merge from './components/merge_components/JumpingMovement';
+import Merge from './components/merge_components/Slime';
 import DrawCharacter from './components/drawing_components/DrawCharacter';
 
 class Routes extends Component {
@@ -31,7 +30,5 @@ class Routes extends Component {
   }
 }
 
-const mapState = () => ({});
-const mapDispatch = () => ({});
-export default withRouter(connect(mapState, mapDispatch)(Routes));
+export default withRouter(Routes);
 

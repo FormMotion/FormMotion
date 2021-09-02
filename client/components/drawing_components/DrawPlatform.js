@@ -85,14 +85,14 @@ const DrawPlatform = (props) => {
             }}
           ></canvas>
         </Grid>
-        <Grid Item>
+        {/* <Grid Item>
           <DefaultOptions
             canvases={canvases}
             history={props.history}
             names={names}
             type="platformAndPrize"
           />
-        </Grid>
+        </Grid> */}
         {/* This is here so that the merged avatars are loaded into localStorage before we get to the game */}
         <StandingAvatar />
         <LandingAvatar />

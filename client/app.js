@@ -1,7 +1,6 @@
 import "../public/style.css";
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 import { BrowserRouter, Router } from "react-router-dom";
 
 import NavBar from "./components/NavBar";
@@ -21,10 +20,8 @@ class App extends Component {
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider store={store}>
       <App />
-    </Provider>
-  </BrowserRouter>,
+    </BrowserRouter>,
   document.getElementById("app")
 );
 

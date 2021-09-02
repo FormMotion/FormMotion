@@ -90,7 +90,7 @@ export default class OpeningScene extends Phaser.Scene {
   
         if (spaceBarPressed) {
         console.log('SpaceBar was pressed - inside MainScene');
-        this.scene.resume('MainScene',{ soundPaused: this.soundPaused, musicPaused: this.musicPaused });
+        this.scene.resume('MainScene',{ soundPaused: false, musicPaused: false});
         this.scene.stop();
         }
     }

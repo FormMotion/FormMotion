@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import About from './components/About';
@@ -31,7 +30,5 @@ class Routes extends Component {
   }
 }
 
-const mapState = () => ({});
-const mapDispatch = () => ({});
-export default withRouter(connect(mapState, mapDispatch)(Routes));
+export default withRouter(Routes);
 

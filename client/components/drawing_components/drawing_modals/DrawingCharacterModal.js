@@ -57,10 +57,7 @@ export default function DrawingCharacterModal() {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2 id='transition-modal-title'>
-                            On this page you draw your own character!
-                        </h2>
-                        <p id='transition-modal-description'>Insert instructions here</p>
+                        <img src="images/formmotion_instructions_1.png" />
                     </div>
                 </Fade>
             </Modal>

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 const Atrament = require('atrament');
-import { connect } from 'react-redux';
-import { saveImageThunk } from '../../redux/actions';
 import { HexColorPicker } from 'react-colorful';
 import DrawingCharacterModal from './drawing_modals/DrawingCharacterModal';
 
@@ -461,10 +459,4 @@ const DrawingTools = (props) => {
   );
 };
 
-const mapDispatch = (dispatch) => {
-  return {
-    saveImage: (name, dataUrl) => dispatch(saveImageThunk(name, dataUrl)),
-  };
-};
-
-export default connect(null, mapDispatch)(DrawingTools);
+export default DrawingTools;

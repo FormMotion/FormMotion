@@ -11,8 +11,6 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api', require('./api'));
-
 app.get('*', function (req, res, next) {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });

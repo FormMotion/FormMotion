@@ -1,7 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { logout } from '../store'
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -58,6 +56,4 @@ const Navbar = () => {
   )
 }
 
-const mapState = () => ({})
-const mapDispatch = () => ({})
-export default connect(mapState, mapDispatch)(Navbar)
+export default Navbar

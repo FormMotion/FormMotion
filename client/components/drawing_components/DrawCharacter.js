@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 const Atrament = require('atrament');
 import DrawingTools from './DrawingTools';
-import NavBar from '../NavBar';
-import DefaultOptions from './DefaultOptions';
+import NavBar from '../NavBar';'
 
 // material-ui
 import Grid from '@material-ui/core/Grid';
@@ -555,14 +554,6 @@ const DrawCharacter = (props) => {
             </Box>
           </div>
         </Grid>
-        {/* <Grid Item>
-          <DefaultOptions
-            canvases={canvases}
-            history={props.history}
-            names={names}
-            type='character'
-          />
-        </Grid> */}
       </Grid>
     </>
   );

@@ -32,7 +32,7 @@ export default function StandingAvatar() {
       //BACKGROUND
       { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
       //HEAD
-      { src: head, x: 140, y: 50 },
+      { src: head, x: 140, y: 60 },
       //TORSO
       { src: torso, x: 140, y: 220 },
       //Left LEG (from user perspective)

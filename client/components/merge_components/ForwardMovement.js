@@ -67,23 +67,24 @@ export default function ForwardMovement() {
       //BACKGROUND
       { src: "assets/transparent_background_600_x_800.png", x: 0, y: 0 },
       //HEAD
-      { src: head, x: 140, y: 50 },
+      { src: head, x: 140, y: 60 },
       //TORSO
       { src: torso, x: 140, y: 220 },
       //Left LEG (from user perspective)
-      { src: legLeftUpper, x: 150, y: 400 },
-      { src: legLeftLower, x: 150, y: 545 },
+      { src: legLeftUpper, x: 150, y: 410 },
+      { src: legLeftLower, x: 150, y: 555 },
       //Right LEG (from user perspective)
-      { src: rotatedLegRightUpper, x: 290, y: 345 },
-      { src: legRightLower, x: 430, y: 420 },
+      { src: rotatedLegRightUpper, x: 290, y: 340 },
+      { src: legRightLower, x: 420, y: 410 },
       //Left ARM (from user perspective)
       { src: armLeftUpper, x: 30, y: 225 },
       { src: armLeftLower, x: 30, y: 375 },
       //Right ARM (from user perspective)
       { src: rotatedArmRightUpper, x: 320, y: 180 },
-      { src: rotatedArmRightLower, x: 440, y: 115 },
+      { src: rotatedArmRightLower, x: 410, y: 125 },
     ]).then(res => setAvatar(res));
   }
+
 
   if (avatar) {
     localStorage.setItem("forwardMovementAvatar", avatar);

@@ -51,8 +51,7 @@ export default function DrawingPlatformModal() {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2 id="transition-modal-title">Transition modal</h2>
-                        <p id="transition-modal-description">react-transition-group animates me.</p>
+                        <img src="images/formmotion_instructions_1.png" />  
                     </div>
                 </Fade>
             </Modal>

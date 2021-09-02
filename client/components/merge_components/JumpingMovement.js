@@ -82,8 +82,8 @@ export default function JumpingMovement() {
       { src: legLeftUpper, x: 150, y: 400 },
       { src: rotatedLegLeftLower, x: 150, y: 500 },
       //Right LEG (from user perspective)
-      { src: rotatedLegRightUpper, x: 290, y: 345 },
-      { src: legRightLower, x: 430, y: 420 },
+      { src: rotatedLegRightUpper, x: 290, y: 340 },
+      { src: legRightLower, x: 420, y: 410 },
       //Left ARM (from user perspective)
       { src: armLeftUpper, x: 30, y: 225 },
       { src: armLeftLower, x: 30, y: 375 },

@@ -120,7 +120,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/head_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -164,7 +164,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/left_upper_arm_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -208,7 +208,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/right_upper_arm_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -252,7 +252,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/left_lower_arm_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -296,7 +296,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/right_lower_arm_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -340,7 +340,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/torso_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -384,7 +384,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/left_upper_leg_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -428,7 +428,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/left_upper_leg_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -472,7 +472,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/left_lower_leg_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -516,7 +516,7 @@ const DrawCharacter = (props) => {
                 style={{
                   borderStyle: 'solid',
                   borderColor: 'black',
-                  backgroundImage: `url(${canvas_image})`,
+                  backgroundImage: `url(images/right_lower_leg_template.png)`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',

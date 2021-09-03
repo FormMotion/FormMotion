@@ -321,9 +321,6 @@ const DrawingTools = (props) => {
       )}
       {advancedChecked ? (
         <Grid Container>
-          <Typography align='center' style={{ fontWeight: 500 }}>
-            Choose some of our pre-drawn body parts:
-          </Typography>
           <Grid
             container
             direction='row'
@@ -336,29 +333,39 @@ const DrawingTools = (props) => {
               borderRadius={16}
               style={{ backgroundColor: '#f5f5f5' }}
             >
-              {Object.keys(canvases).map((canvas, index) => (
-                <Grid Item key={index}>
-                  <FormControl>
-                    <FormControl className={classes.formControl}>
-                      <NativeSelect
-                        onChange={chooseDefaultOrDraw}
-                        className={classes.selectEmpty}
-                      >
-                        <option value={[0, canvas]}>
-                          Draw {names[canvas]}
-                        </option>
-                        <option value={[1, canvas]}>iMan's {names[canvas]}</option>
-                        <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
-                        <option value={[3, canvas]}>Flora's {names[canvas]}</option>
-                        <option value={[4, canvas]}>Surprise me!</option>
-                      </NativeSelect>
-                      <FormHelperText>
-                        Draw, choose a default, or be surprised!
-                      </FormHelperText>
+              <Typography align='center' style={{ fontWeight: 500 }}>
+                Choose some of our pre-drawn body parts:
+              </Typography>
+              <Grid
+                container
+                direction='column'
+                justifyContent='center'
+                alignItems='center'
+              >
+                {Object.keys(canvases).map((canvas, index) => (
+                  <Grid Item key={index}>
+                    <FormControl>
+                      <FormControl className={classes.formControl}>
+                        <NativeSelect
+                          onChange={chooseDefaultOrDraw}
+                          className={classes.selectEmpty}
+                        >
+                          <option value={[0, canvas]}>
+                            Draw {names[canvas]}
+                          </option>
+                          <option value={[1, canvas]}>iMan's {names[canvas]}</option>
+                          <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
+                          <option value={[3, canvas]}>Flora's {names[canvas]}</option>
+                          <option value={[4, canvas]}>Surprise me!</option>
+                        </NativeSelect>
+                        <FormHelperText>
+                          Draw, choose a default, or be surprised!
+                        </FormHelperText>
+                      </FormControl>
                     </FormControl>
-                  </FormControl>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
+              </Grid>
             </Box>
           </Grid>
         </Grid>
@@ -498,7 +505,7 @@ const DrawingTools = (props) => {
         >
           <Grid Item>
             <Button
-              style={{ backgroundColor: '#86995a', margin: 10 }}
+              style={{ backgroundColor: '#D9E6A1', margin: 10 }}
               variant='contained'
               onClick={handleExport}
             >

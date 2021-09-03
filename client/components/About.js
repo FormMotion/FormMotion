@@ -83,22 +83,6 @@ const About = props => {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography className={classes.heading}>Why FormMotion?</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-
-          <Accordion>
-            <AccordionSummary
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
               <Typography className={classes.heading}>About Us / Contact</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -108,7 +92,9 @@ const About = props => {
                 <h3>Links</h3>
                 <ul>
                   <li><a href="https://github.com/FormMotion/FormMotion">GitHub Repo</a></li>
+                </ul>
                   <h5>Developer LinkedIn Profiles</h5>
+                <ul>
                   <li><a href="https://www.linkedin.com/in/kathleen-connaghan/">Kathleen Connaghan</a></li>
                   <li><a href="https://www.linkedin.com/in/juliacro/">Julia Crooijmans</a></li>
                   <li><a href="https://www.linkedin.com/in/nate-metrick/">Nate Metrick</a></li>

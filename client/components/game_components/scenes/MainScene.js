@@ -438,7 +438,6 @@ export default class Game extends Phaser.Scene {
   }
 
   addSlimeAbove(sprite) {
-<<<<<<< HEAD
     if (this.prizesCollected >= 5) {
 
       let xPlus = Phaser.Math.Between(500, 1500)
@@ -466,27 +465,6 @@ export default class Game extends Phaser.Scene {
     this.player.setTexture("slimePlayer");
     const style = { color: "#fff", fontSize: 80 };
     this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
-=======
-    const y = sprite.y - Phaser.Math.Between(300, 700);
-    const slime = this.slime.get(
-      sprite.x + Phaser.Math.Between(500, 750),
-      y,
-      'slime'
-    );
-
-    slime.setActive(true);
-    slime.setVisible(true);
-    this.add.existing(slime);
-    slime.body.setSize(slime.width, slime.height);
-    this.physics.world.enable(slime);
-    return slime;
-  }
-
-  handleCollectSlime() {
-    this.player.setTexture('slimePlayer');
-    const style = { color: '#fff', fontSize: 80 };
-    this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
->>>>>>> 32f39f4592a1445820ca9c626c5487fc9fffaaf0
     this.gameOverAudio.play();
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events

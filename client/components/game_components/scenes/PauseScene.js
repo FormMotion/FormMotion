@@ -217,15 +217,7 @@ export default class PauseScene extends Phaser.Scene {
     );
     const spaceBarPressed = this.spaceBar.isDown;
     if (spaceBarPressed) {
-      console.log(
-        'SpaceBar was pressed - inside PauseScene',
-        this.soundPaused,
-        this.musicPaused
-      );
-      this.scene.resume('MainScene', {
-        soundPaused: this.soundPaused,
-        musicPaused: this.musicPaused,
-      });
+      this.scene.resume('MainScene');
       this.scene.stop();
     }
   }

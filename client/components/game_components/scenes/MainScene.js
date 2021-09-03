@@ -242,22 +242,27 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setLerp(1, 0);
 
-    //Sounds
-    this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
-    this.jumpNoise = this.sound.add('jump', { volume: 1, loop: false });
-    this.landNoise = this.sound.add('land', { volume: 1, loop: false });
-    this.gameOverAudio = this.sound.add('gameOver', { volume: 1, loop: false });
-    this.directionAudio = this.sound.add('direction', {
-      volume: 1,
-      loop: false,
-    });
-    this.downNoise = this.sound.add('down', { volume: 1, loop: false });
+    if (!this.alreadyPlaying) {
+      //Sounds
+      this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
+      this.jumpNoise = this.sound.add('jump', { volume: 1, loop: false });
+      this.landNoise = this.sound.add('land', { volume: 1, loop: false });
+      this.gameOverAudio = this.sound.add('gameOver', {
+        volume: 1,
+        loop: false,
+      });
+      this.directionAudio = this.sound.add('direction', {
+        volume: 1,
+        loop: false,
+      });
+      this.downNoise = this.sound.add('down', { volume: 1, loop: false });
 
-    //Background Music
-    this.spinningOut = this.sound.add('spinningOut', {
-      volume: 0.5,
-      loop: true,
-    });
+      //Background Music
+      this.spinningOut = this.sound.add('spinningOut', {
+        volume: 0.5,
+        loop: true,
+      });
+    }
 
     // this gets rid of errors when we're trying to play music before it's possible to play music,
     // and checking to make sure there isn't already music playing from a previous game before playing
@@ -316,9 +321,7 @@ export default class Game extends Phaser.Scene {
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
-      if (!this.alreadyPlaying) {
-        this.landNoise.play();
-      }
+      this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture('landingPlayer');
       this.justLanded = this.player.y;
@@ -359,28 +362,24 @@ export default class Game extends Phaser.Scene {
     //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
     if (didPressJump && this.player.y > -350 && this.player.y < 400) {
-      if (!this.alreadyPlaying) {
-        this.jumpNoise.play();
-      }
+      this.jumpNoise.play();
       this.player.setVelocityY(-400);
     }
 
     //For jumping down
     const didPressDown = Phaser.Input.Keyboard.JustDown(downCursor);
     if (didPressDown) {
-      if (!this.alreadyPlaying) {
-        this.downNoise.play();
-      }
+      this.downNoise.play();
       this.player.setVelocityY(500);
     }
 
     //For left and right sound effects
     const didPressLeft = Phaser.Input.Keyboard.JustDown(leftCursor);
     const didPressRight = Phaser.Input.Keyboard.JustDown(rightCursor);
-    if (didPressLeft && !this.alreadyPlaying) {
+    if (didPressLeft) {
       this.directionAudio.play();
     }
-    if (didPressRight && !this.alreadyPlaying) {
+    if (didPressRight) {
       this.directionAudio.play();
     }
 
@@ -400,9 +399,7 @@ export default class Game extends Phaser.Scene {
     if (this.player.y > 800) {
       const style = { color: '#fff', fontSize: 80 };
       this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
-      if (!this.alreadyPlaying) {
-        this.gameOverAudio.play();
-      }
+      this.gameOverAudio.play();
       this.registry.destroy(); // destroy registry
       this.events.off(); // disable all active events
       // if restarting, let the new game know if music is already playing so it
@@ -432,9 +429,7 @@ export default class Game extends Phaser.Scene {
   //Handles what happens when the player interacts with a prize sprite
   handleCollectPrize(player, prize) {
     //Bleep noise when we pick up a prize!
-    if (!this.alreadyPlaying) {
-      this.pickupPrize.play();
-    }
+    this.pickupPrize.play();
     //this hides the prize from display and disables the physics
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
@@ -462,9 +457,7 @@ export default class Game extends Phaser.Scene {
     this.player.setTexture('slimePlayer');
     const style = { color: '#fff', fontSize: 80 };
     this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
-    if (!this.alreadyPlaying) {
-      this.gameOverAudio.play();
-    }
+    this.gameOverAudio.play();
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
     this.scene.restart({

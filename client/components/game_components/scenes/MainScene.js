@@ -35,6 +35,7 @@ export default class Game extends Phaser.Scene {
     this.powerUp = false;
     this.spaceBar;
     this.alreadyPlaying;
+    this.pauseButton;
   }
 
   // find out if music/sounds are already playing from a previous game
@@ -59,6 +60,9 @@ export default class Game extends Phaser.Scene {
       this.load.image('bg-1', bg1);
 
       this.load.image('slime', 'assets/single_slime.png');
+
+      //loading button images
+      this.load.image('pause-button', 'assets/game-buttons/Pause-Button.png');
 
       //Loaded from localStorage - user drawn images
       let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
@@ -101,8 +105,6 @@ export default class Game extends Phaser.Scene {
         const slimeAvatar = new Image();
         slimeAvatar.src = slimed;
         this.textures.addBase64('slimePlayer', slimed, slimeAvatar);
-      } else {
-        this.load.image('defaultCharacter', 'assets/eyeChar.png');
       }
 
       // PLATFORM DRAWN
@@ -276,26 +278,16 @@ export default class Game extends Phaser.Scene {
       }
     }
 
-    //Pause Button
-    this.button1 = this.add
-      .graphics()
-      .lineStyle(1, 0x2a275c)
-      .fillStyle(0xd9e6a1, 1)
-      .strokeRect(2, 700, 200, 60)
-      .fillRect(2, 700, 200, 60);
+    // pause button
 
     this.pauseButton = this.add
-      .text(615, 650, 'Resume Game', {
-        fill: '#473A3F',
-        fontSize: '26px',
-        fontFamily: 'arial',
-      })
-      .setOrigin(2.0, 1.25);
-    this.pauseButton.setInteractive();
-    this.pauseButton.on('pointerdown', () => {
-      this.scene.pause();
-      this.scene.launch('pauseScene');
-    });
+      .image(2, 20, 'pause-button')
+      .setScale(0.5)
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.scene.pause();
+        this.scene.launch('PauseScene');
+      });
   }
 
   update() {

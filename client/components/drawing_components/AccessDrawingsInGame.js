@@ -23,44 +23,60 @@ const AccessDrawingsInGame = (props) => {
   return (
     <Grid
       container
-      direction="row"
+      direction="column"
       justifyContent="space-evenly"
       alignItems="flex-start"
       spacing={2}
     >
-      <Grid Item>
-        <Button
-          style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-          onClick={() => downloadImage('Character')}
-        >
-          Download character
-        </Button>
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-evenly"
+        alignItems="flex-start"
+        spacing={2}
+      >
+        <Grid Item>
+          <Button
+            style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+            onClick={() => downloadImage('Character')}
+          >
+            Download character
+          </Button>
+        </Grid>
+        <Grid Item>
+          <Button
+            style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+            onClick={() => downloadImage('Platform')}
+          >
+            Download platform
+          </Button>
+        </Grid>
+        <Grid Item>
+          <Button
+            style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+            onClick={() => downloadImage('Prize')}
+          >
+            Download prize
+          </Button>
+        </Grid>
+        <Grid Item>
+          <Button
+            style={{ backgroundColor: 'teal', margin: 5 }}
+            onClick={() => props.history.push('./play')}
+          >
+            Draw a new character
+          </Button>
+        </Grid>
+        <Grid Item></Grid>
       </Grid>
-      <Grid Item>
+      {/* <Grid Item>
         <Button
-          style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-          onClick={() => downloadImage('Platform')}
+          style={{ backgroundColor: 'orange', margin: 5 }}
+          onClick={}
         >
-          Download platform
+          Pause game
         </Button>
-      </Grid>
-      <Grid Item>
-        <Button
-          style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-          onClick={() => downloadImage('Prize')}
-        >
-          Download prize
-        </Button>
-      </Grid>
-      <Grid Item>
-        <Button
-          style={{ backgroundColor: 'teal', margin: 5 }}
-          onClick={() => props.history.push('./play')}
-        >
-          Draw a new character
-        </Button>
-      </Grid>
-      <Grid Item></Grid>
+      </Grid> */}
     </Grid>
   );
 };

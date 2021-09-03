@@ -41,12 +41,12 @@ const DrawingTools = (props) => {
   const [color, setColor] = useState('#aabbcc')
   const [thickness, setThickness] = useState(7)
   const [defaultChoices, setDefaultChoices] = useState({})
-  const [checked, setChecked] = React.useState(false)
+  const [advancedChecked, setAdvancedChecked] = React.useState(false)
   const [allDefault, setAllDefault] = useState('0')
 
-  // advanced options toggle
-  const toggleChecked = () => {
-    setChecked((prev) => !prev)
+  // for advanced options toggle
+  const advancedToggleChecked = () => {
+    setAdvancedChecked((prev) => !prev)
   }
 
   useEffect(() => {
@@ -278,7 +278,7 @@ const DrawingTools = (props) => {
           p={1}
           m={1}
           borderRadius={16}
-          style={{ backgroundColor: '#ebebeb' }}
+          style={{ backgroundColor: '#f5f5f5' }}
         >
           <Grid Container>
             <Grid
@@ -303,9 +303,9 @@ const DrawingTools = (props) => {
                         <option value={[0, canvas]}>
                           Draw {names[canvas]}
                         </option>
-                        <option value={[1, canvas]}>{names[canvas]} 1</option>
-                        <option value={[2, canvas]}>{names[canvas]} 2</option>
-                        <option value={[3, canvas]}>{names[canvas]} 3</option>
+                        <option value={[1, canvas]}>iMan's {names[canvas]}</option>
+                        <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
+                        <option value={[3, canvas]}>Flora's {names[canvas]}</option>
                         <option value={[4, canvas]}>Surprise me!</option>
                       </NativeSelect>
                       <FormHelperText>
@@ -319,15 +319,23 @@ const DrawingTools = (props) => {
           </Grid>
         </Box>
       )}
-      {checked ? (
+      {advancedChecked ? (
         <Grid Container>
+          <Typography align='center' style={{ fontWeight: 500 }}>
+            Choose some of our pre-drawn body parts:
+          </Typography>
           <Grid
             container
             direction='row'
             justifyContent='center'
             alignItems='flex-start'
           >
-            <Box>
+            <Box
+              p={1}
+              m={1}
+              borderRadius={16}
+              style={{ backgroundColor: '#f5f5f5' }}
+            >
               {Object.keys(canvases).map((canvas, index) => (
                 <Grid Item key={index}>
                   <FormControl>
@@ -339,9 +347,9 @@ const DrawingTools = (props) => {
                         <option value={[0, canvas]}>
                           Draw {names[canvas]}
                         </option>
-                        <option value={[1, canvas]}>{names[canvas]} 1</option>
-                        <option value={[2, canvas]}>{names[canvas]} 2</option>
-                        <option value={[3, canvas]}>{names[canvas]} 3</option>
+                        <option value={[1, canvas]}>iMan's {names[canvas]}</option>
+                        <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
+                        <option value={[3, canvas]}>Flora's {names[canvas]}</option>
                         <option value={[4, canvas]}>Surprise me!</option>
                       </NativeSelect>
                       <FormHelperText>
@@ -361,7 +369,7 @@ const DrawingTools = (props) => {
               p={1}
               m={1}
               borderRadius={16}
-              style={{ backgroundColor: '#ebebeb' }}
+              style={{ backgroundColor: '#f5f5f5' }}
             >
               <Grid Item>
                 <Typography align='center' style={{ fontWeight: 500 }}>
@@ -373,9 +381,9 @@ const DrawingTools = (props) => {
                     className={classes.selectEmpty}
                   >
                     <option value={0}>Draw character</option>
-                    <option value={1}>Character 1</option>
-                    <option value={2}>Character 2</option>
-                    <option value={3}>Character 3</option>
+                    <option value={1}>iMan</option>
+                    <option value={2}>Skeletron</option>
+                    <option value={3}>Flora</option>
                     <option value={4}>Surprise me!</option>
                   </NativeSelect>
                   <FormHelperText>
@@ -389,7 +397,7 @@ const DrawingTools = (props) => {
             p={1}
             m={1}
             borderRadius={16}
-            style={{ backgroundColor: '#ebebeb' }}
+            style={{ backgroundColor: '#f5f5f5' }}
           >
             <Grid Item>
               {type === 'character' ? (
@@ -438,7 +446,6 @@ const DrawingTools = (props) => {
                         align='center'
                         gutterBottom
                       >
-                        <br></br>
                         <br></br>
                         Thickness
                       </Typography>
@@ -513,23 +520,32 @@ const DrawingTools = (props) => {
         </Grid>
       </Grid>
       {type === 'character' && (
-        <Box
-          p={1}
-          m={1}
-          borderRadius={16}
-          style={{ backgroundColor: '#ebebeb' }}
-        >
-          <Grid Item>
-            {(allDefault === '0' || allDefault === 0) && (
-              <div>
-                <FormControlLabel
-                  control={<Switch onChange={toggleChecked} color='primary' />}
-                  label='Advanced options'
-                />
-              </div>
-            )}
+        <Grid Item>
+          <Grid
+            container
+            direction='row'
+            justifyContent='space-evenly'
+            alignItems='flex-start'
+          >
+            <Box
+              p={1}
+              m={1}
+              borderRadius={16}
+              style={{ backgroundColor: '#f5f5f5' }}
+            >
+              <Grid Item>
+                {(allDefault === '0' || allDefault === 0) && (
+                  <div>
+                    <FormControlLabel
+                      control={<Switch onChange={advancedToggleChecked} color='primary' />}
+                      label='Advanced options'
+                    />
+                  </div>
+                )}
+              </Grid>
+            </Box>
           </Grid>
-        </Box>
+        </Grid>
       )}
     </Grid>
   )

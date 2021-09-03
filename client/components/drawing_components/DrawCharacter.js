@@ -8,6 +8,9 @@ import Grid from '@material-ui/core/Grid'
 import Popover from '@material-ui/core/Popover'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +62,9 @@ const names = {
 }
 
 const DrawCharacter = (props) => {
+
+  const [allDefault, setAllDefault] = useState('0')
+
   useEffect(() => {
     Object.keys(canvases).forEach((canvas) => {
       if (canvases[canvas] === null) {
@@ -76,7 +82,7 @@ const DrawCharacter = (props) => {
     canvas.height = parent.offsetHeight
   }
 
-  // for material-UI mouse over interaction popover
+  // for mouse over popovers
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [openedPopoverId, setOpenedPopoverId] = React.useState(null)
@@ -93,8 +99,15 @@ const DrawCharacter = (props) => {
 
   const open = Boolean(anchorEl)
 
+  // for toggle to disable popovers
+  const [popoverChecked, setPopoverChecked] = React.useState(true)
+
+  const popoverToggleChecked = () => {
+    setPopoverChecked((prev) => !prev)
+  }
+
   return (
-    <>
+    <div>
       <NavBar />
       <Grid
         container
@@ -126,27 +139,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='head-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'head'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a head here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='head-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'head'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a head here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='leftupperarm'
@@ -170,27 +185,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='left-upper-arm-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'leftupperarm'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a left upper arm here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='left-upper-arm-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'leftupperarm'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a left upper arm here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='rightupperarm'
@@ -214,27 +231,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='right-upper-arm-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'rightupperarm'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a right upper arm here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='right-upper-arm-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'rightupperarm'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a right upper arm here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='leftlowerarm'
@@ -258,27 +277,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='left-lower-arm-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'leftlowerarm'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a left lower arm here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='left-lower-arm-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'leftlowerarm'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a left lower arm here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='rightlowerarm'
@@ -302,27 +323,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='right-lower-arm-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'rightlowerarm'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a right lower arm here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='right-lower-arm-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'rightlowerarm'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a right lower arm here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='torso'
@@ -346,27 +369,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='torso-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'torso'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a torso here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='torso-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'torso'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a torso here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='leftupperleg'
@@ -390,27 +415,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='left-upper-leg-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'leftupperleg'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a left upper leg here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='left-upper-leg-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'leftupperleg'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a left upper leg here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='rightupperleg'
@@ -434,27 +461,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='right-upper-leg-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'rightupperleg'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a right upper leg here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='right-upper-leg-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'rightupperleg'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a right upper leg here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='leftlowerleg'
@@ -478,27 +507,29 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='left-lower-leg-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'leftlowerleg'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a left lower leg here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='left-lower-leg-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'leftlowerleg'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a left lower leg here!</Typography>
+                </Popover>
+              )}
             </Box>
             <Box
               className='rightlowerleg'
@@ -522,40 +553,68 @@ const DrawCharacter = (props) => {
                   backgroundRepeat: 'no-repeat',
                 }}
               ></canvas>
-              <Popover
-                id='right-lower-leg-popover'
-                className={classes.popover}
-                classes={{
-                  paper: classes.paper,
-                }}
-                open={openedPopoverId === 'rightlowerleg'}
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                onClose={handlePopoverClose}
-                disableRestoreFocus
-              >
-                <Typography>Draw a right lower leg here!</Typography>
-              </Popover>
+              {popoverChecked && (
+                <Popover
+                  id='right-lower-leg-popover'
+                  className={classes.popover}
+                  classes={{
+                    paper: classes.paper,
+                  }}
+                  open={openedPopoverId === 'rightlowerleg'}
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  onClose={handlePopoverClose}
+                  disableRestoreFocus
+                >
+                  <Typography>Draw a right lower leg here!</Typography>
+                </Popover>
+              )}
             </Box>
           </div>
         </Grid>
         <Grid Item>
-          <DrawingTools
-            canvases={canvases}
-            history={props.history}
-            names={names}
-            type='character'
-          />
+          <Grid
+            container
+            direction='column'
+            justifyContent='center'
+            alignItems='center'
+          >
+            <Grid Item>
+              <DrawingTools
+                canvases={canvases}
+                history={props.history}
+                names={names}
+                type='character'
+              />
+            </Grid>
+            <Grid Item>
+              <Box
+                p={1}
+                m={1}
+                borderRadius={16}
+                style={{ backgroundColor: '#f5f5f5' }}
+              >
+                {(allDefault === '0' || allDefault === 0) && (
+                  <div>
+                    <FormControlLabel
+                      control={<Switch onChange={popoverToggleChecked} color='primary' />}
+                      label='Disable popups'
+                    />
+                  </div>
+                )}
+              </Box>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
-    </>
+    </div>
   )
 }
 

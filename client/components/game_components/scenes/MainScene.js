@@ -184,14 +184,14 @@ export default class Game extends Phaser.Scene {
 
     for (let i = 1; i < 5; i++) {
       const x = 450 * i;
-      const y = Phaser.Math.Between(300, 450);
+      const y = 300;
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, 'platform');
 
-      const tweenY = 400;
+      const tweenY = 375;
       const tweenX = Phaser.Math.Between(100, 400);
-      const tweenDuration = Phaser.Math.Between(350, 1200);
+      const tweenDuration = Phaser.Math.Between(200, 1200);
 
       this.tweens.timeline({
         targets: platform.body.velocity,
@@ -365,14 +365,14 @@ export default class Game extends Phaser.Scene {
     }
 
     if (leftCursor.isDown || (pointer1.isDown && pointer1.x < 500)) {
-      this.player.setVelocityX(-300);
+      this.player.setVelocityX(-450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = true; // Avatar facing left
       if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
     } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
-      this.player.setVelocityX(300);
+      this.player.setVelocityX(450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = false; // Avatar facing right
       if (upCursor.isDown) {
@@ -512,7 +512,7 @@ export default class Game extends Phaser.Scene {
 
   addPowerUp() {
     if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
-      const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup")
+      const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
       powerUp.setActive(true)
       powerUp.setVisible(true)
       this.add.existing(powerUp)
@@ -525,7 +525,6 @@ export default class Game extends Phaser.Scene {
   handlePowerUp(){
 
     this.poweredUp = true;
-
     this.player.setTint(0xffdb22)
     this.player.setScale(0.45)
 
@@ -536,7 +535,6 @@ export default class Game extends Phaser.Scene {
     }
 
     this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this)
-    
   }
 
 }

@@ -511,7 +511,7 @@ export default class Game extends Phaser.Scene {
   }
 
   addPowerUp() {
-    if (this.prizesCollected % 10 === 0 ) {
+    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
       const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup")
       powerUp.setActive(true)
       powerUp.setVisible(true)

@@ -57,7 +57,7 @@ export default function DrawingCharacterModal() {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <img src="images/formmotion_instructions_1.png" />
+                        <img src="images/character_instructions.png" />
                     </div>
                 </Fade>
             </Modal>

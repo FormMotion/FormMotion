@@ -28,8 +28,8 @@ const Game = () => {
   useEffect(() => {
     function resize() {
       const canvas = document.querySelector('canvas');
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const width = window.innerWidth - 30;
+      const height = window.innerHeight - 30;
       const wratio = width / height;
       const ratio = Number(config.width) / Number(config.height);
       if (wratio < ratio) {

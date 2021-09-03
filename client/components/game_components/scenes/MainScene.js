@@ -438,25 +438,33 @@ export default class Game extends Phaser.Scene {
   }
 
   addSlimeAbove(sprite) {
-    const y = sprite.y - Phaser.Math.Between(300, 700);
-    const slime = this.slime.get(
-      sprite.x + Phaser.Math.Between(500, 750),
-      y,
-      'slime'
-    );
+    if (this.prizesCollected >= 5) {
 
-    slime.setActive(true);
-    slime.setVisible(true);
-    this.add.existing(slime);
-    slime.body.setSize(slime.width, slime.height);
-    this.physics.world.enable(slime);
-    return slime;
+      let xPlus = Phaser.Math.Between(500, 1500)
+
+      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {xPlus = Phaser.Math.Between(500, 1000)}
+      if (this.prizesCollected >= 15) {xPlus =  Phaser.Math.Between(500, 750)}
+
+      const y = sprite.y - Phaser.Math.Between(300, 700);
+      const slime = this.slime.get(
+        sprite.x + xPlus,
+        y,
+        "slime"
+      );
+
+      slime.setActive(true);
+      slime.setVisible(true);
+      this.add.existing(slime);
+      slime.body.setSize(slime.width, slime.height);
+      this.physics.world.enable(slime);
+      return slime;
+    }
   }
 
   handleCollectSlime() {
-    this.player.setTexture('slimePlayer');
-    const style = { color: '#fff', fontSize: 80 };
-    this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
+    this.player.setTexture("slimePlayer");
+    const style = { color: "#fff", fontSize: 80 };
+    this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
     this.gameOverAudio.play();
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events

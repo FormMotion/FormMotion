@@ -62,6 +62,9 @@ const names = {
 }
 
 const DrawCharacter = (props) => {
+
+  const [allDefault, setAllDefault] = useState('0')
+
   useEffect(() => {
     Object.keys(canvases).forEach((canvas) => {
       if (canvases[canvas] === null) {

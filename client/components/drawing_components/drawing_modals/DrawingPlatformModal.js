@@ -51,7 +51,7 @@ export default function DrawingPlatformModal() {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <img src="images/formmotion_instructions_1.png" />  
+                        <img src="images/platform_instructions.png" />  
                     </div>
                 </Fade>
             </Modal>

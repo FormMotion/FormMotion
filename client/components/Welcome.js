@@ -53,7 +53,7 @@ const Welcome = props => {
               <Grid item>
                 <Link to="/play" style={{ textDecoration: "none" }}>
                   <Button
-                    style={{ backgroundColor: "#86995a" }}
+                    style={{ backgroundColor: "#D9E6A1" }}
                     variant="contained"
                   >
                     Play!
@@ -64,7 +64,7 @@ const Welcome = props => {
               <Grid item>
                 <Link to={`/about`} style={{ textDecoration: "none" }}>
                   <Button
-                    style={{ backgroundColor: "#86995a" }}
+                    style={{ backgroundColor: "#D9E6A1" }}
                     variant="contained"
                   >
                     Learn more

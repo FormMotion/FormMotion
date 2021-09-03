@@ -125,8 +125,8 @@ const DrawingTools = (props) => {
             type === 'character'
               ? `url(assets/group-chars/${choice}/${canvas}.png)`
               : type === 'platformAndPrize'
-              ? `url(assets/platforms-prizes/${choice}/${canvas}.png)`
-              : `url(assets/single-chars/${choice}.png)`;
+                ? `url(assets/platforms-prizes/${choice}/${canvas}.png)`
+                : `url(assets/single-chars/${choice}.png)`;
         }
         setDefaultChoices((prevChoices) => {
           return { ...prevChoices, [canvas]: choice };
@@ -162,8 +162,8 @@ const DrawingTools = (props) => {
           type === 'character'
             ? `url(assets/group-chars/${choice}/${canvas}.png)`
             : type === 'platformAndPrize'
-            ? `url(assets/platforms-prizes/${choice}/${canvas}.png)`
-            : `url(assets/single-chars/${choice}.png)`;
+              ? `url(assets/platforms-prizes/${choice}/${canvas}.png)`
+              : `url(assets/single-chars/${choice}.png)`;
       } else {
         canvases[
           canvas
@@ -243,8 +243,8 @@ const DrawingTools = (props) => {
           type === 'character'
             ? `assets/group-chars/${choice}/${canvas}.png`
             : type === 'platformAndPrize'
-            ? `assets/platforms-prizes/${choice}/${canvas}.png`
-            : `assets/single-chars/${choice}.png`;
+              ? `assets/platforms-prizes/${choice}/${canvas}.png`
+              : `assets/single-chars/${choice}.png`;
         setDataUrl(url, (dataURL) => {
           localStorage.setItem(
             `playerDrawn${canvas[0].toUpperCase() + canvas.slice(1)}`,
@@ -322,9 +322,6 @@ const DrawingTools = (props) => {
       )}
       {advancedChecked ? (
         <Grid Container>
-          <Typography align="center" style={{ fontWeight: 500 }}>
-            Choose some of our pre-drawn body parts:
-          </Typography>
           <Grid
             container
             direction="row"
@@ -337,35 +334,39 @@ const DrawingTools = (props) => {
               borderRadius={16}
               style={{ backgroundColor: '#f5f5f5' }}
             >
-              {Object.keys(canvases).map((canvas, index) => (
-                <Grid Item key={index}>
-                  <FormControl>
-                    <FormControl className={classes.formControl}>
-                      <NativeSelect
-                        onChange={chooseDefaultOrDraw}
-                        className={classes.selectEmpty}
-                      >
-                        <option value={[0, canvas]}>
-                          Draw {names[canvas]}
-                        </option>
-                        <option value={[1, canvas]}>
-                          iMan's {names[canvas]}
-                        </option>
-                        <option value={[2, canvas]}>
-                          Skeletron's {names[canvas]}
-                        </option>
-                        <option value={[3, canvas]}>
-                          Flora's {names[canvas]}
-                        </option>
-                        <option value={[4, canvas]}>Surprise me!</option>
-                      </NativeSelect>
-                      <FormHelperText>
-                        Draw, choose a default, or be surprised!
-                      </FormHelperText>
+              <Typography align='center' style={{ fontWeight: 500 }}>
+                Choose some of our pre-drawn body parts:
+              </Typography>
+              <Grid
+                container
+                direction='column'
+                justifyContent='center'
+                alignItems='center'
+              >
+                {Object.keys(canvases).map((canvas, index) => (
+                  <Grid Item key={index}>
+                    <FormControl>
+                      <FormControl className={classes.formControl}>
+                        <NativeSelect
+                          onChange={chooseDefaultOrDraw}
+                          className={classes.selectEmpty}
+                        >
+                          <option value={[0, canvas]}>
+                            Draw {names[canvas]}
+                          </option>
+                          <option value={[1, canvas]}>iMan's {names[canvas]}</option>
+                          <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
+                          <option value={[3, canvas]}>Flora's {names[canvas]}</option>
+                          <option value={[4, canvas]}>Surprise me!</option>
+                        </NativeSelect>
+                        <FormHelperText>
+                          Draw, choose a default, or be surprised!
+                        </FormHelperText>
+                      </FormControl>
                     </FormControl>
-                  </FormControl>
-                </Grid>
-              ))}
+                  </Grid>
+                ))}
+              </Grid>
             </Box>
           </Grid>
         </Grid>
@@ -479,7 +480,7 @@ const DrawingTools = (props) => {
                           name="age"
                           className={classes.selectEmpty}
                           style={{ margin: 5 }}
-                          // inputProps={{ 'aria-label': 'age' }}
+                        // inputProps={{ 'aria-label': 'age' }}
                         >
                           <option value={'draw'}>Draw</option>
                           <option value={'fill'}>Fill</option>
@@ -505,8 +506,8 @@ const DrawingTools = (props) => {
         >
           <Grid Item>
             <Button
-              style={{ backgroundColor: '#86995a', margin: 10 }}
-              variant="contained"
+              style={{ backgroundColor: '#D9E6A1', margin: 10 }}
+              variant='contained'
               onClick={handleExport}
             >
               Next

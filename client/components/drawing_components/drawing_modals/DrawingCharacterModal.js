@@ -36,7 +36,7 @@ export default function DrawingCharacterModal() {
     return (
         <div>
             <Button
-                style={{ backgroundColor: '#86995a', margin: 10 }}
+                style={{ backgroundColor: '#7bb4ed', margin: 10 }}
                 variant='contained'
                 type='button'
                 onClick={handleOpen}

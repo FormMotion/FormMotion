@@ -62,7 +62,6 @@ const names = {
 }
 
 const DrawCharacter = (props) => {
-
   const [allDefault, setAllDefault] = useState('0')
 
   useEffect(() => {
@@ -604,7 +603,12 @@ const DrawCharacter = (props) => {
                 {(allDefault === '0' || allDefault === 0) && (
                   <div>
                     <FormControlLabel
-                      control={<Switch onChange={popoverToggleChecked} color='primary' />}
+                      control={
+                        <Switch
+                          onChange={popoverToggleChecked}
+                          color='primary'
+                        />
+                      }
                       label='Disable popups'
                     />
                   </div>

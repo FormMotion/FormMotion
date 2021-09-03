@@ -88,7 +88,7 @@ const About = props => {
             <AccordionDetails>
               <Typography>
                 <h3>About Us</h3>
-                  <p></p>
+                  <p>Built as a Capstone Project for the Grace Hopper program, cohort 2016, Team 4.</p>
                 <h3>Links</h3>
                 <ul>
                   <li><a href="https://github.com/FormMotion/FormMotion">GitHub Repo</a></li>

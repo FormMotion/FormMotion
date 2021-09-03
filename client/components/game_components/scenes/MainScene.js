@@ -50,6 +50,7 @@ export default class Game extends Phaser.Scene {
 
     //Movement and Misc. 
     this.justLanded;
+    this.justJumped = false;
     this.spaceBar;
     this.alreadyPlaying;
   }
@@ -359,6 +360,7 @@ export default class Game extends Phaser.Scene {
       this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture('landingPlayer');
+      this.justJumped = false;
       this.justLanded = this.player.y;
     } else if (!touchingDown & (this.player.y < this.justLanded - 5)) {
       this.player.setTexture('standingPlayer');
@@ -368,17 +370,17 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(-450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = true; // Avatar facing left
-      if (upCursor.isDown) {
+      if (upCursor.isDown && this.justJumped === false) {
         this.player.setTexture('jumpingPlayer');
       }
     } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
       this.player.setVelocityX(450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = false; // Avatar facing right
-      if (upCursor.isDown) {
+      if (upCursor.isDown && this.justJumped === false) {
         this.player.setTexture('jumpingPlayer');
       }
-    } else if (upCursor.isDown) {
+    } else if (upCursor.isDown && this.justJumped === false) {
       this.player.setTexture('jumpingPlayer');
     } else {
       this.player.setVelocityX(0);
@@ -396,9 +398,10 @@ export default class Game extends Phaser.Scene {
 
     //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
-    if (didPressJump && this.player.y > -350 && this.player.y < 400) {
+    if (didPressJump && this.player.y > -350 && this.player.y < 400 && this.justJumped === false) {
       this.jumpNoise.play();
-      this.player.setVelocityY(-400);
+      this.justJumped = true;
+      this.player.setVelocityY(-500);
     }
 
     //For jumping down

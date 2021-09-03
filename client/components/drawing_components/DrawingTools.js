@@ -304,21 +304,9 @@ const DrawingTools = (props) => {
                         <option value={[0, canvas]}>
                           Draw {names[canvas]}
                         </option>
-<<<<<<< HEAD
                         <option value={[1, canvas]}>EyePunk {names[canvas]}</option>
                         <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
                         <option value={[3, canvas]}>Flora's {names[canvas]}</option>
-=======
-                        <option value={[1, canvas]}>
-                          iMan's {names[canvas]}
-                        </option>
-                        <option value={[2, canvas]}>
-                          Skeletron's {names[canvas]}
-                        </option>
-                        <option value={[3, canvas]}>
-                          Flora's {names[canvas]}
-                        </option>
->>>>>>> ff1a3c4b720db0a19106afd07287e3590f60a569
                         <option value={[4, canvas]}>Surprise me!</option>
                       </NativeSelect>
                       <FormHelperText>

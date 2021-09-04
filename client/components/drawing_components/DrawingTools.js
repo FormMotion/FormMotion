@@ -288,13 +288,13 @@ const DrawingTools = (props) => {
               justifyContent="center"
               alignItems="flex-start"
             >
-              <Grid Item>
+              <Grid>
                 <Typography align="center" style={{ fontWeight: 500 }}>
                   Choose one of our pre-drawn platforms and prizes:
                 </Typography>
               </Grid>
               {Object.keys(canvases).map((canvas, index) => (
-                <Grid Item key={index}>
+                <Grid key={index}>
                   <FormControl>
                     <FormControl className={classes.formControl}>
                       <NativeSelect
@@ -344,7 +344,7 @@ const DrawingTools = (props) => {
                 alignItems='center'
               >
                 {Object.keys(canvases).map((canvas, index) => (
-                  <Grid Item key={index}>
+                  <Grid key={index}>
                     <FormControl>
                       <FormControl className={classes.formControl}>
                         <NativeSelect
@@ -379,7 +379,7 @@ const DrawingTools = (props) => {
               borderRadius={16}
               style={{ backgroundColor: '#f5f5f5' }}
             >
-              <Grid Item>
+              <Grid>
                 <Typography align="center" style={{ fontWeight: 500 }}>
                   Choose one of our pre-drawn avatars:
                 </Typography>
@@ -407,7 +407,7 @@ const DrawingTools = (props) => {
             borderRadius={16}
             style={{ backgroundColor: '#f5f5f5' }}
           >
-            <Grid Item>
+            <Grid>
               {type === 'character' ? (
                 <Typography align="center" style={{ fontWeight: 500 }}>
                   Or draw your own avatar!
@@ -418,14 +418,14 @@ const DrawingTools = (props) => {
                 </Typography>
               )}
             </Grid>
-            <Grid Item>
+            <Grid>
               <Grid
                 container
                 direction="row"
                 justifyContent="space-evenly"
                 alignItems="flex-start"
               >
-                <Grid Item>
+                <Grid>
                   <Typography
                     style={{ margin: 15, fontWeight: 500 }}
                     align="center"
@@ -439,14 +439,14 @@ const DrawingTools = (props) => {
                     onChange={setColor}
                   />
                 </Grid>
-                <Grid Item>
+                <Grid>
                   <Grid
                     container
                     direction="column"
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Grid Item>
+                    <Grid>
                       <Typography
                         id="non-linear-slider"
                         className={classes.specialTypography}
@@ -465,7 +465,7 @@ const DrawingTools = (props) => {
                         step={0.1}
                       />
                     </Grid>
-                    <Grid Item>
+                    <Grid>
                       <Typography
                         className={classes.specialTypography}
                         style={{ fontWeight: 500 }}
@@ -497,14 +497,14 @@ const DrawingTools = (props) => {
           </Box>
         </div>
       )}
-      <Grid Item>
+      <Grid>
         <Grid
           container
           direction="row"
           justifyContent="space-evenly"
           alignItems="flex-start"
         >
-          <Grid Item>
+          <Grid>
             <Button
               style={{ backgroundColor: '#D9E6A1', margin: 10 }}
               variant='contained'
@@ -513,7 +513,7 @@ const DrawingTools = (props) => {
               Next
             </Button>
           </Grid>
-          <Grid Item>
+          <Grid>
             <Button
               style={{ backgroundColor: '#eb6069', margin: 10 }}
               variant="contained"
@@ -522,7 +522,7 @@ const DrawingTools = (props) => {
               Clear
             </Button>
           </Grid>
-          <Grid Item>
+          <Grid>
             {type === 'character' ? (
               <DrawingCharacterModal />
             ) : (
@@ -532,7 +532,7 @@ const DrawingTools = (props) => {
         </Grid>
       </Grid>
       {type === 'character' && (
-        <Grid Item>
+        <Grid>
           <Grid
             container
             direction="row"
@@ -545,7 +545,7 @@ const DrawingTools = (props) => {
               borderRadius={16}
               style={{ backgroundColor: '#f5f5f5' }}
             >
-              <Grid Item>
+              <Grid>
                 {(allDefault === '0' || allDefault === 0) && (
                   <div>
                     <FormControlLabel

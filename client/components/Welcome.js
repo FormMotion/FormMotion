@@ -17,7 +17,7 @@ const Welcome = props => {
 
   return (
     <>
-      <div
+      <div>
         className={classes.heroContent}
         maxWidth="100%"
         justifyContent="center"
@@ -48,9 +48,9 @@ const Welcome = props => {
               unique. Dream big!
             </Typography>
           </Box>
-          <div className={classes.heroButtons}>
+          <Grid className={classes.heroButtons}>
             <Grid container spacing={2} justifyContent="center">
-              <Grid item>
+              <Grid>
                 <Link to="/play" style={{ textDecoration: "none" }}>
                   <Button
                     style={{ backgroundColor: "#D9E6A1" }}
@@ -61,7 +61,7 @@ const Welcome = props => {
                 </Link>
               </Grid>
 
-              <Grid item>
+              <Grid>
                 <Link to={`/about`} style={{ textDecoration: "none" }}>
                   <Button
                     style={{ backgroundColor: "#D9E6A1" }}
@@ -72,7 +72,7 @@ const Welcome = props => {
                 </Link>
               </Grid>
             </Grid>
-          </div>
+          </Grid>
         </Container>
       </div>
     </>

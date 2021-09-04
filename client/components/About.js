@@ -40,7 +40,7 @@ const About = props => {
               <Typography className={classes.heading}>How to Play</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
+              <Typography component={'div'}>
                 <ul>
                   <h3>Create your character!</h3>
                   <li>Using the drawing tools, draw each body part in the appropriate canvas. Be as creative as you want!</li>
@@ -48,7 +48,7 @@ const About = props => {
                   <li>Make sure your character's feet (or paws, or tentacles) touch the bottom of their canvases.</li>
                   <li>You can also choose from our default options. Select the whole character, or under Advanced Options, mix-and-match!</li>
                   <li>Draw some parts, and choose defaults for others. The choice is yours!</li>
-                </ul> 
+                </ul>
                 <ul>
                   <h3>Draw your platform and prize!</h3>
                   <li>Using the drawing tools, create the game platform. Make sure the top of the platform lines up with the top of the canvas.</li>
@@ -66,7 +66,7 @@ const About = props => {
                     <li>Use the up arrow to jump</li>
                     <li>Use the down arrow to move down quickly</li>
                     <li>Use space to pause/restart game, or click the pause button in the upper left corner</li>
-                  
+
                   <h5>If using a touchscreen:</h5>
                     <li>Touch to the left of the character to move left</li>
                     <li>Touch to the right of the character to move right</li>
@@ -86,7 +86,7 @@ const About = props => {
               <Typography className={classes.heading}>About Us / Contact</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
+              <Typography component={'div'}>
                 <h3>About Us</h3>
                   <p>Built as a Capstone Project for the Grace Hopper program, cohort 2016, Team 4.</p>
                 <h3>Links</h3>

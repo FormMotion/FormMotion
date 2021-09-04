@@ -114,7 +114,7 @@ const DrawCharacter = (props) => {
         justifyContent='space-evenly'
         alignItems='stretch'
       >
-        <Grid Item>
+        <Grid>
           <div className='container'>
             <Box
               className='head'
@@ -578,14 +578,14 @@ const DrawCharacter = (props) => {
             </Box>
           </div>
         </Grid>
-        <Grid Item>
+        <Grid>
           <Grid
             container
             direction='column'
             justifyContent='center'
             alignItems='center'
           >
-            <Grid Item>
+            <Grid>
               <DrawingTools
                 canvases={canvases}
                 history={props.history}
@@ -593,7 +593,7 @@ const DrawCharacter = (props) => {
                 type='character'
               />
             </Grid>
-            <Grid Item>
+            <Grid>
               <Box
                 p={1}
                 m={1}

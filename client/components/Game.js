@@ -13,14 +13,6 @@ export default function Game(props) {
       <a href='/' id='gamescreenlink'>
         <img src='/images/TransparentLogo.png' id='game_screen_logo' />
       </a>
-      <a href='/play' id='gamescreenlink' style={{ textDecoration: 'none' }}>
-        <Button
-          style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-          variant='contained'
-        >
-          Draw a new character!
-        </Button>
-      </a>
       <AccessDrawingsInGame history={props.history} />
     </div>
   )

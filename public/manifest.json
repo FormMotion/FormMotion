@@ -3,7 +3,7 @@
   "name": "FormMotion PWA",
   "icons": [
     {
-      "src": "/images/TransparentLogo.png",
+      "src": "/images/Favicon.png",
       "type": "image/png",
       "sizes": "1024x1024",
       "purpose": "any maskable"

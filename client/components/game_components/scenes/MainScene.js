@@ -144,6 +144,18 @@ export default class Game extends Phaser.Scene {
       prizeData.src = drawnPrize;
       this.textures.addBase64('prize', drawnPrize, prizeData);
 
+       //Background Music
+      this.load.audio('spinningOut', 'assets/music/spinningOut.wav');
+    // }
+
+    // if (this.alreadyPlaying) {
+    //   this.sound.removeByKey('pickup');
+    //   this.sound.removeByKey('jump');
+    //   this.sound.removeByKey('land');
+    //   this.sound.removeByKey('gameOver');
+    //   this.sound.removeByKey('down');
+    //   this.sound.removeByKey('direction');
+    // }
       // Sounds
       this.load.audio('pickup', 'assets/sounds/kalimba_chime.mp3');
       this.load.audio('jump', 'assets/sounds/jump-3.wav');
@@ -151,13 +163,11 @@ export default class Game extends Phaser.Scene {
       this.load.audio('gameOver', 'assets/sounds/lose-5.wav');
       this.load.audio('down', 'assets/sounds/bonk-1.wav');
       this.load.audio('direction', 'assets/sounds/bonk-5.wav');
-
-      //Background Music
-      this.load.audio('spinningOut', 'assets/music/spinningOut.wav');
     }
+
   }
 
-  create() {
+   create() {
     //Opening Scene launch pop-up
     this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
@@ -237,14 +247,15 @@ export default class Game extends Phaser.Scene {
 
     //Power Up
     this.powerUp = this.physics.add.group({
-      classType: PowerUp,
+      classType: PowerUp
     });
+
 
     //Colliders
     this.physics.add.collider(this.platforms, this.prizes);
     this.physics.add.collider(this.platforms, this.slime);
     this.physics.add.collider(this.platforms, this.player);
-    this.physics.add.collider(this.platforms, this.powerUp);
+    this.physics.add.collider(this.platforms, this.powerUp)
     //this.physics.add.collider(this.player, this.slime);
 
     this.physics.add.overlap(
@@ -269,7 +280,7 @@ export default class Game extends Phaser.Scene {
       this.handlePowerUp,
       undefined,
       this
-    );
+    )
 
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
@@ -283,7 +294,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setLerp(1, 0);
 
-    if (!this.alreadyPlaying) {
+ if (!this.alreadyPlaying) {
       //Sounds
       this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
       this.jumpNoise = this.sound.add('jump', { volume: 1, loop: false });
@@ -297,6 +308,7 @@ export default class Game extends Phaser.Scene {
         loop: false,
       });
       this.downNoise = this.sound.add('down', { volume: 1, loop: false });
+
 
       //Background Music
       this.spinningOut = this.sound.add('spinningOut', {
@@ -320,10 +332,10 @@ export default class Game extends Phaser.Scene {
     // pause button
 
     this.pauseButton = this.add
-      .image(2, 20, 'pause-button')
+      .image(40, 50, 'pause-button')
+      .setScrollFactor(0)
       .setScale(0.55)
       .setInteractive()
-      .setOrigin(1.8, 5.0)
       .on('pointerdown', () => {
         this.scene.pause();
         this.scene.launch('PauseScene');
@@ -356,7 +368,6 @@ export default class Game extends Phaser.Scene {
       this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture('landingPlayer');
-      this.justJumped = 0;
       this.justLanded = this.player.y;
     } else if (!touchingDown & (this.player.y < this.justLanded - 5)) {
       this.player.setTexture('standingPlayer');
@@ -366,17 +377,17 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(-450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = true; // Avatar facing left
-      if (upCursor.isDown && this.justJumped === 0) {
+      if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
     } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
       this.player.setVelocityX(450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = false; // Avatar facing right
-      if (upCursor.isDown && this.justJumped === 0) {
+      if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
-    } else if (upCursor.isDown && this.justJumped === 0) {
+    } else if (upCursor.isDown) {
       this.player.setTexture('jumpingPlayer');
     } else {
       this.player.setVelocityX(0);
@@ -394,10 +405,9 @@ export default class Game extends Phaser.Scene {
 
     //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
-    if (didPressJump && this.player.y > -350 && this.player.y < 400 && this.justJumped <= 2) {
+    if (didPressJump && this.player.y > -350 && this.player.y < 400) {
       this.jumpNoise.play();
-      this.justJumped++;
-      this.player.setVelocityY(-500);
+      this.player.setVelocityY(-400);
     }
 
     //For jumping down
@@ -426,7 +436,7 @@ export default class Game extends Phaser.Scene {
         platform.body.updateFromGameObject();
         this.addPrizeAbove(platform);
         this.addSlimeAbove(platform);
-        this.addPowerUp();
+        this.addPowerUp()
       }
     });
 
@@ -468,26 +478,25 @@ export default class Game extends Phaser.Scene {
     //this hides the prize from display and disables the physics
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
-    if (this.poweredUp) {
-      this.prizesCollected++;
-    }
-    this.prizesCollected++;
+    if (this.poweredUp){ this.prizesCollected ++ }
+    this.prizesCollected++
     this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
 
   addSlimeAbove(sprite) {
     if (this.prizesCollected >= 5) {
-      let xPlus = Phaser.Math.Between(500, 1500);
 
-      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {
-        xPlus = Phaser.Math.Between(500, 1000);
-      }
-      if (this.prizesCollected >= 15) {
-        xPlus = Phaser.Math.Between(500, 750);
-      }
+      let xPlus = Phaser.Math.Between(500, 1500)
+
+      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {xPlus = Phaser.Math.Between(500, 1000)}
+      if (this.prizesCollected >= 15) {xPlus =  Phaser.Math.Between(500, 750)}
 
       const y = sprite.y - Phaser.Math.Between(300, 700);
-      const slime = this.slime.get(sprite.x + xPlus, y, 'slime');
+      const slime = this.slime.get(
+        sprite.x + xPlus,
+        y,
+        "slime"
+      );
 
       slime.setActive(true);
       slime.setVisible(true);
@@ -499,72 +508,46 @@ export default class Game extends Phaser.Scene {
   }
 
   handleCollectSlime() {
-
-    this.player.setTexture('slimePlayer');
-    const style = { color: '#fff', fontSize: 80 };
-    this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
-
-
-    function immuneToSlimeEvent() {
-      const style = { color: '#fff', fontSize: 80 };
-      this.add.text(100, 400, 'You are currently immune to slime!', style).setScrollFactor(0);
-    }
-
-    if (!this.poweredUp){
-      this.player.setTexture("slimePlayer");
-    const style = { color: "#fff", fontSize: 25 };
+    this.player.setTexture("slimePlayer");
+    const style = { color: "#fff", fontSize: 80 };
     this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
-    this.prizesCollected = 0
     this.gameOverAudio.play();
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
     this.scene.restart({
       alreadyPlaying: true,
-    })
-  } else {
-      this.poweredUpTimer = this.time.delayedCall(3000, immuneToSlimeEvent, [], this)
-    }
+    });
   }
 
   addPowerUp() {
-
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0) {
-      const powerUp = this.powerUp
-        .get(this.player.x + 400, 100, 'powerup')
-        .setScale(1.5);
-      powerUp.setActive(true);
-      powerUp.setVisible(true);
-      this.add.existing(powerUp);
-      powerUp.body.setSize(powerUp.width, powerUp.height);
-      //this.physics.world.enable(powerUp)
-      return powerUp;
-
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 && this.poweredUp === false) {
+    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
       const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
       powerUp.setActive(true)
       powerUp.setVisible(true)
       this.add.existing(powerUp)
       powerUp.body.setSize(powerUp.width, powerUp.height)
-      this.physics.world.enable(powerUp)
+      //this.physics.world.enable(powerUp)
       return powerUp
-
     }
   }
 
-  handlePowerUp() {
+  handlePowerUp(){
+
     this.poweredUp = true;
-    this.player.setTint(0xffdb22);
-    this.player.setScale(0.45);
+    this.player.setTint(0xffdb22)
+    this.player.setScale(0.45)
 
     function onEvent() {
-      this.poweredUp = false;
-      this.player.setTint(0xffffff);
-      this.player.setScale(0.25);
+      this.poweredUp = false
+      this.player.setTint(0xFFFFFF)
+      this.player.setScale(0.25)
     }
 
-    this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this);
+    this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this)
   }
+
 }
+
 
 //this will allow us to have an infinite background
 const createAligned = (scene, totalWidth, texture, scrollFactor) => {

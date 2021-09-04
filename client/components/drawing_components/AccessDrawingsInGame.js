@@ -59,24 +59,8 @@ const AccessDrawingsInGame = (props) => {
             Download prize
           </Button>
         </Grid>
-        {/* <Grid Item>
-          <Button
-            style={{ backgroundColor: 'teal', margin: 5 }}
-            onClick={() => props.history.push('./play')}
-          >
-            Draw a new character
-          </Button>
-        </Grid> */}
         <Grid Item></Grid>
       </Grid>
-      {/* <Grid Item>
-        <Button
-          style={{ backgroundColor: 'orange', margin: 5 }}
-          onClick={}
-        >
-          Pause game
-        </Button>
-      </Grid> */}
     </Grid>
   );
 };

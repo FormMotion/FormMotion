@@ -11,6 +11,13 @@ export default class PauseScene extends Phaser.Scene {
     this.events;
     this.soundEffectsButton;
     this.musicButton;
+    this.pickup;
+    this.spinningOut;
+    this.jump
+    this.land
+    this.gameOver
+    this.direction
+    this.down
   }
 
   preload() {
@@ -45,32 +52,25 @@ export default class PauseScene extends Phaser.Scene {
 
     // Add Sound On/Off Buttons
 
-    // 'pickup' is one sound effect. If one is muted, they're all muted, so we name
+    this.pickup = this.sound.get('pickup');
+    this.jump = this.sound.get('jump');
+    this.land = this.sound.get('land');
+    this.gameOver = this.sound.get('gameOver');
+    this.direction = this.sound.get('direction');
+    this.down = this.sound.get('down');
+
+  //  this.soundEffects = [this.pickup, this.jump, this.land, this.gameOver, this.direction, this.down]
+
+   // 'pickup' is one sound effect. If one is muted, they're all muted, so we name
     // this one so we can check if sound effects are muted before we decide if the button
     // says to turn sound effects off or on
-
-    this.pickup = this.sound.get('pickup');
-
-    this.soundNames = [
-      'pickup',
-      'jump',
-      'land',
-      'gameOver',
-      'direction',
-      'down',
-    ];
-
-    // array of all sound effects
-    this.soundEffects = this.soundNames.map((soundName) => {
-      return this.sound.get(soundName);
-    });
 
     // if sound effects are not muted, button says sound is on
     if (this.pickup.mute === false) {
       this.soundEffectsButton = this.add.image(600, 400, 'sound-on');
     }
     // if sound effects ARE muted,button says sound is off
-    else {
+    if (this.pickup.mute === true) {
       this.soundEffectsButton = this.add.image(600, 400, 'sound-off');
     }
     this.soundEffectsButton
@@ -87,7 +87,7 @@ export default class PauseScene extends Phaser.Scene {
       this.musicButton = this.add.image(600, 575, 'music-on');
     }
     // if music IS muted:
-    else {
+    if (this.spinningOut.mute === true) {
       this.musicButton = this.add.image(600, 575, 'music-off');
     }
 
@@ -106,30 +106,39 @@ export default class PauseScene extends Phaser.Scene {
   toggleSound() {
     // if sound effects are muted, toggle back to ON (turn mute off)
     if (this.pickup.mute === true) {
-      this.soundEffects.forEach((soundEffect) => {
-        soundEffect.mute = false;
-      });
+    this.jump.setMute(false);
+    this.land.setMute(false);
+    this.gameOver.setMute(false);
+    this.direction.setMute(false);
+    this.down.setMute(false);
+    this.pickup.setMute(false);
       this.soundEffectsButton.setTexture('sound-on');
+
     }
     // if sound effects are not muted, toggle back to OFF (turn mute on)
-    else {
-      this.soundEffects.forEach((soundEffect) => {
-        soundEffect.mute = true;
-      });
+    if (this.pickup.mute === false) {
+    this.jump.setMute(true);
+    this.land.setMute(true);
+    this.gameOver.setMute(true);
+    this.direction.setMute(true);
+    this.down.setMute(true);
+    this.pickup.setMute(true);
 
       this.soundEffectsButton.setTexture('sound-off');
+
     }
   }
 
   toggleMusic() {
     // if music is not muted, toggle back to OFF (turn mute on)
     if (this.spinningOut.mute === false) {
-      this.spinningOut.mute = true;
+      this.spinningOut.setMute(true);
       this.musicButton.setTexture('music-off');
     }
+
     // if music is muted, toggle back to ON (turn mute off)
     else {
-      this.spinningOut.mute = false;
+      this.spinningOut.setMute(false);
       this.musicButton.setTexture('music-on');
     }
   }

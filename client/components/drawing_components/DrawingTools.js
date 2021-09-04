@@ -354,7 +354,7 @@ const DrawingTools = (props) => {
                           <option value={[0, canvas]}>
                             Draw {names[canvas]}
                           </option>
-                          <option value={[1, canvas]}>iMan's {names[canvas]}</option>
+                          <option value={[1, canvas]}>EyePunk's {names[canvas]}</option>
                           <option value={[2, canvas]}>Skeletron's {names[canvas]}</option>
                           <option value={[3, canvas]}>Flora's {names[canvas]}</option>
                           <option value={[4, canvas]}>Surprise me!</option>
@@ -389,7 +389,7 @@ const DrawingTools = (props) => {
                     className={classes.selectEmpty}
                   >
                     <option value={0}>Draw character</option>
-                    <option value={1}>iMan</option>
+                    <option value={1}>EyePunk</option>
                     <option value={2}>Skeletron</option>
                     <option value={3}>Flora</option>
                     <option value={4}>Surprise me!</option>

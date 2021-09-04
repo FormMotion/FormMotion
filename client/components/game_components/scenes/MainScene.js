@@ -48,7 +48,7 @@ export default class Game extends Phaser.Scene {
     this.directionAudio;
     this.downNoise;
 
-    //Movement and Misc. 
+    //Movement and Misc.
     this.justLanded;
     this.spaceBar;
     this.alreadyPlaying;
@@ -59,6 +59,10 @@ export default class Game extends Phaser.Scene {
   init(data) {
     if (data) {
       this.alreadyPlaying = data.alreadyPlaying;
+      if(data.alreadyPlaying) {
+        this.prizesCollected = 0;
+        this.poweredUp = false;
+      }
     }
   }
 
@@ -125,7 +129,7 @@ export default class Game extends Phaser.Scene {
       }
 
       //powerUp
-      this.load.image('powerup', 'assets/powerup_basic.png')
+      this.load.image('powerup', 'assets/powerup_basic.png');
 
       // PLATFORM DRAWN
       const platformData = new Image();
@@ -232,15 +236,14 @@ export default class Game extends Phaser.Scene {
 
     //Power Up
     this.powerUp = this.physics.add.group({
-      classType: PowerUp
+      classType: PowerUp,
     });
-
 
     //Colliders
     this.physics.add.collider(this.platforms, this.prizes);
     this.physics.add.collider(this.platforms, this.slime);
     this.physics.add.collider(this.platforms, this.player);
-    this.physics.add.collider(this.platforms, this.powerUp)
+    this.physics.add.collider(this.platforms, this.powerUp);
     //this.physics.add.collider(this.player, this.slime);
 
     this.physics.add.overlap(
@@ -265,7 +268,7 @@ export default class Game extends Phaser.Scene {
       this.handlePowerUp,
       undefined,
       this
-    )
+    );
 
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
@@ -317,8 +320,9 @@ export default class Game extends Phaser.Scene {
 
     this.pauseButton = this.add
       .image(2, 20, 'pause-button')
-      .setScale(0.5)
+      .setScale(0.55)
       .setInteractive()
+      .setOrigin(1.8, 5.0)
       .on('pointerdown', () => {
         this.scene.pause();
         this.scene.launch('PauseScene');
@@ -419,7 +423,7 @@ export default class Game extends Phaser.Scene {
         platform.body.updateFromGameObject();
         this.addPrizeAbove(platform);
         this.addSlimeAbove(platform);
-        this.addPowerUp()
+        this.addPowerUp();
       }
     });
 
@@ -461,25 +465,26 @@ export default class Game extends Phaser.Scene {
     //this hides the prize from display and disables the physics
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
-    if (this.poweredUp){ this.prizesCollected ++ }
-    this.prizesCollected++
+    if (this.poweredUp) {
+      this.prizesCollected++;
+    }
+    this.prizesCollected++;
     this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
 
   addSlimeAbove(sprite) {
     if (this.prizesCollected >= 5) {
+      let xPlus = Phaser.Math.Between(500, 1500);
 
-      let xPlus = Phaser.Math.Between(500, 1500)
-
-      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {xPlus = Phaser.Math.Between(500, 1000)}
-      if (this.prizesCollected >= 15) {xPlus =  Phaser.Math.Between(500, 750)}
+      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {
+        xPlus = Phaser.Math.Between(500, 1000);
+      }
+      if (this.prizesCollected >= 15) {
+        xPlus = Phaser.Math.Between(500, 750);
+      }
 
       const y = sprite.y - Phaser.Math.Between(300, 700);
-      const slime = this.slime.get(
-        sprite.x + xPlus,
-        y,
-        "slime"
-      );
+      const slime = this.slime.get(sprite.x + xPlus, y, 'slime');
 
       slime.setActive(true);
       slime.setVisible(true);
@@ -491,9 +496,9 @@ export default class Game extends Phaser.Scene {
   }
 
   handleCollectSlime() {
-    this.player.setTexture("slimePlayer");
-    const style = { color: "#fff", fontSize: 80 };
-    this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
+    this.player.setTexture('slimePlayer');
+    const style = { color: '#fff', fontSize: 80 };
+    this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
     this.gameOverAudio.play();
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
@@ -503,34 +508,33 @@ export default class Game extends Phaser.Scene {
   }
 
   addPowerUp() {
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
-      const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
-      powerUp.setActive(true)
-      powerUp.setVisible(true)
-      this.add.existing(powerUp)
-      powerUp.body.setSize(powerUp.width, powerUp.height)
+    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0) {
+      const powerUp = this.powerUp
+        .get(this.player.x + 400, 100, 'powerup')
+        .setScale(1.5);
+      powerUp.setActive(true);
+      powerUp.setVisible(true);
+      this.add.existing(powerUp);
+      powerUp.body.setSize(powerUp.width, powerUp.height);
       //this.physics.world.enable(powerUp)
-      return powerUp
+      return powerUp;
     }
   }
-  
-  handlePowerUp(){
 
+  handlePowerUp() {
     this.poweredUp = true;
-    this.player.setTint(0xffdb22)
-    this.player.setScale(0.45)
+    this.player.setTint(0xffdb22);
+    this.player.setScale(0.45);
 
     function onEvent() {
-      this.poweredUp = false 
-      this.player.setTint(0xFFFFFF) 
-      this.player.setScale(0.25)
+      this.poweredUp = false;
+      this.player.setTint(0xffffff);
+      this.player.setScale(0.25);
     }
 
-    this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this)
+    this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this);
   }
-
 }
-
 
 //this will allow us to have an infinite background
 const createAligned = (scene, totalWidth, texture, scrollFactor) => {

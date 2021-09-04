@@ -1,20 +1,6 @@
 import Phaser from 'phaser';
 import React from 'react';
 
-// class Music extends Phaser.Physics.Arcade.Sprite {
-//   constructor(scene, x, y, texture) {
-//     super(scene, x, y, texture);
-//     this.setScale(0.5);
-//   }
-// }
-
-// class Sounds extends Phaser.Physics.Arcade.Sprite {
-//   constructor(scene, x, y, texture) {
-//     super(scene, x, y, texture);
-//     this.setScale(0.5);
-//   }
-// }
-
 export default class PauseScene extends Phaser.Scene {
   constructor() {
     super('PauseScene');
@@ -30,36 +16,17 @@ export default class PauseScene extends Phaser.Scene {
   preload() {
     //loading button images
     this.load.image('resume-game', 'assets/game-buttons/Resume-Button.png');
-    this.load.image('turn-music-off', 'assets/game-buttons/Music-Off.png');
-    this.load.image('turn-music-on', 'assets/game-buttons/Music-On.png');
-    this.load.image('turn-sound-off', 'assets/game-buttons/Sounds-Off.png');
-    this.load.image('turn-sound-on', 'assets/game-buttons/Sounds-On.png');
-
-    let musicOff = new Image();
-    musicOff.src = 'assets/game-buttons/Resume-Button.png';
-    document.body.appendChild(musicOff);
-    let musicOn = new Image();
-    musicOn.src = 'assets/game-buttons/Music-On.png';
-    document.body.appendChild(musicOn);
-    let soundOff = new Image();
-    soundOff.src = 'assets/game-buttons/Sounds-Off.png';
-    document.body.appendChild(soundOff);
-    let soundOn = new Image();
-    soundOn.src = 'assets/game-buttons/Sounds-On.png';
-    document.body.appendChild(soundOn);
-
-    this.textures.addBase64('music-off', musicOff);
-    this.textures.addBase64('music-on', musicOn);
-    this.textures.addBase64('sound-off', soundOff);
-    this.textures.addBase64('sound-on', soundOn);
+    this.load.image('music-off', 'assets/game-buttons/Music-Off.png');
+    this.load.image('music-on', 'assets/game-buttons/Music-On.png');
+    this.load.image('sound-off', 'assets/game-buttons/Sounds-Off.png');
+    this.load.image('sound-on', 'assets/game-buttons/Sounds-On.png');
   }
 
   create() {
     // Popup box
     this.popup = this.add.graphics();
     this.popup.lineStyle(1, 0x2a275c);
-    // this.popup.fillStyle(0xae8c9b, 0.7);
-    this.popup.fillStyle(0xb2b09b, 0.7);
+    this.popup.fillStyle(0x81B29A, 3);
     this.popup.strokeRect(225, 125, 750, 550);
     this.popup.fillRect(225, 125, 750, 550);
     this.physics.pause();
@@ -67,8 +34,8 @@ export default class PauseScene extends Phaser.Scene {
     // Resume Game Button
 
     this.resumeGameButton = this.add
-      .image(600, 300, 'resume-game')
-      .setScale(0.5)
+      .image(600, 225, 'resume-game')
+      .setScale(0.65)
       .setOrigin(0.5)
       .setInteractive()
       .on('pointerdown', () => {
@@ -98,13 +65,13 @@ export default class PauseScene extends Phaser.Scene {
       return this.sound.get(soundName);
     });
 
-    // if sound effects are NOT muted:
+    // if sound effects are not muted, button says sound is on
     if (this.pickup.mute === false) {
-      this.soundEffectsButton = this.add.image(600, 400, 'turn-sound-off');
+      this.soundEffectsButton = this.add.image(600, 400, 'sound-on');
     }
-    // if sound effects ARE muted:
+    // if sound effects ARE muted,button says sound is off
     else {
-      this.soundEffectsButton = this.add.image(600, 400, 'turn-sound-on');
+      this.soundEffectsButton = this.add.image(600, 400, 'sound-off');
     }
     this.soundEffectsButton
       .setScale(0.5)
@@ -117,11 +84,11 @@ export default class PauseScene extends Phaser.Scene {
     this.spinningOut = this.sound.get('spinningOut');
     // if music is NOT muted:
     if (this.spinningOut.mute === false) {
-      this.musicButton = this.add.image(600, 500, 'turn-music-off');
+      this.musicButton = this.add.image(600, 575, 'music-on');
     }
     // if music IS muted:
     else {
-      this.musicButton = this.add.image(600, 500, 'turn-music-on');
+      this.musicButton = this.add.image(600, 575, 'music-off');
     }
 
     this.musicButton
@@ -142,51 +109,28 @@ export default class PauseScene extends Phaser.Scene {
       this.soundEffects.forEach((soundEffect) => {
         soundEffect.mute = false;
       });
-      this.soundEffectsButton.destroy.image('turn-sound-on');
-      this.soundEffectsButton.add
-        .image(600, 400, 'turn-sound-off')
-        .setScale(0.5)
-        .setOrigin(0.5)
-        .setInteractive()
-        .on('pointerdown', () => this.toggleSound());
+      this.soundEffectsButton.setTexture('sound-on');
     }
     // if sound effects are not muted, toggle back to OFF (turn mute on)
     else {
       this.soundEffects.forEach((soundEffect) => {
         soundEffect.mute = true;
       });
-      this.soundEffectsButton.destroy.image('turn-sound-off');
-      this.soundEffectsButton.add
-        .image(600, 400, 'turn-sound-on')
-        .setScale(0.5)
-        .setOrigin(0.5)
-        .setInteractive()
-        .on('pointerdown', () => this.toggleSound());
+
+      this.soundEffectsButton.setTexture('sound-off');
     }
   }
 
   toggleMusic() {
-    // if music is muted
+    // if music is not muted, toggle back to OFF (turn mute on)
     if (this.spinningOut.mute === false) {
       this.spinningOut.mute = true;
-      this.musicButton = this.add
-        .image(600, 500, 'turn-music-off')
-        .setScale(0.5)
-        .setOrigin(0.5)
-        .setInteractive()
-        .on('pointerdown', () => this.toggleMusic());
-      this.musicButton = this.image.destroy('turn-music-on');
+      this.musicButton.setTexture('music-off');
     }
-    // if music is not muted
+    // if music is muted, toggle back to ON (turn mute off)
     else {
       this.spinningOut.mute = false;
-      this.musicButton = this.image.destroy('turn-music-off');
-      this.musicButton = this.add
-        .image(600, 500, 'turn-music-on')
-        .setScale(0.5)
-        .setOrigin(0.5)
-        .setInteractive()
-        .on('pointerdown', () => this.toggleMusic());
+      this.musicButton.setTexture('music-on');
     }
   }
 

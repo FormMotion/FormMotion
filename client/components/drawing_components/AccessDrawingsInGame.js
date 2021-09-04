@@ -35,6 +35,16 @@ const AccessDrawingsInGame = (props) => {
         alignItems="flex-start"
         spacing={2}
       >
+       <Grid Item>
+          <a href='/play' id='gamescreenlink' style={{ textDecoration: 'none' }}>
+        <Button
+          style={{ backgroundColor: '#d9e6a1', margin: 5 }}
+          variant='contained'
+        >
+          Draw a new character!
+        </Button>
+      </a>
+      </Grid>
         <Grid Item>
           <Button
             style={{ backgroundColor: '#d9e6a1', margin: 5 }}
@@ -59,24 +69,7 @@ const AccessDrawingsInGame = (props) => {
             Download prize
           </Button>
         </Grid>
-        {/* <Grid Item>
-          <Button
-            style={{ backgroundColor: 'teal', margin: 5 }}
-            onClick={() => props.history.push('./play')}
-          >
-            Draw a new character
-          </Button>
-        </Grid> */}
-        <Grid Item></Grid>
       </Grid>
-      {/* <Grid Item>
-        <Button
-          style={{ backgroundColor: 'orange', margin: 5 }}
-          onClick={}
-        >
-          Pause game
-        </Button>
-      </Grid> */}
     </Grid>
   );
 };

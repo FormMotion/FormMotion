@@ -48,17 +48,22 @@ export default class Game extends Phaser.Scene {
     this.directionAudio;
     this.downNoise;
 
-    //Movement and Misc. 
+    //Movement and Misc.
     this.justLanded;
     this.justJumped = 0;
     this.spaceBar;
     this.alreadyPlaying;
+    this.pauseButton;
   }
 
   // find out if music/sounds are already playing from a previous game
   init(data) {
     if (data) {
       this.alreadyPlaying = data.alreadyPlaying;
+      if(data.alreadyPlaying) {
+        this.prizesCollected = 0;
+        this.poweredUp = false;
+      }
     }
   }
 
@@ -77,6 +82,9 @@ export default class Game extends Phaser.Scene {
       this.load.image('bg-1', bg1);
 
       this.load.image('slime', 'assets/single_slime.png');
+
+      //loading button images
+      this.load.image('pause-button', 'assets/game-buttons/Pause-Button.png');
 
       //Loaded from localStorage - user drawn images
       let drawnCharacter = localStorage.getItem('playerDrawnCharacter');
@@ -119,12 +127,10 @@ export default class Game extends Phaser.Scene {
         const slimeAvatar = new Image();
         slimeAvatar.src = slimed;
         this.textures.addBase64('slimePlayer', slimed, slimeAvatar);
-      } else {
-        this.load.image('defaultCharacter', 'assets/eyeChar.png');
       }
 
       //powerUp
-      this.load.image('powerup', 'assets/powerup_basic.png')
+      this.load.image('powerup', 'assets/powerup_basic.png');
 
       // PLATFORM DRAWN
       const platformData = new Image();
@@ -138,6 +144,18 @@ export default class Game extends Phaser.Scene {
       prizeData.src = drawnPrize;
       this.textures.addBase64('prize', drawnPrize, prizeData);
 
+       //Background Music
+      this.load.audio('spinningOut', 'assets/music/spinningOut.wav');
+    // }
+
+    // if (this.alreadyPlaying) {
+    //   this.sound.removeByKey('pickup');
+    //   this.sound.removeByKey('jump');
+    //   this.sound.removeByKey('land');
+    //   this.sound.removeByKey('gameOver');
+    //   this.sound.removeByKey('down');
+    //   this.sound.removeByKey('direction');
+    // }
       // Sounds
       this.load.audio('pickup', 'assets/sounds/kalimba_chime.mp3');
       this.load.audio('jump', 'assets/sounds/jump-3.wav');
@@ -145,13 +163,11 @@ export default class Game extends Phaser.Scene {
       this.load.audio('gameOver', 'assets/sounds/lose-5.wav');
       this.load.audio('down', 'assets/sounds/bonk-1.wav');
       this.load.audio('direction', 'assets/sounds/bonk-5.wav');
-
-      //Background Music
-      this.load.audio('spinningOut', 'assets/music/spinningOut.wav');
     }
+
   }
 
-  create() {
+   create() {
     //Opening Scene launch pop-up
     this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
@@ -278,7 +294,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setLerp(1, 0);
 
-    if (!this.alreadyPlaying) {
+ if (!this.alreadyPlaying) {
       //Sounds
       this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
       this.jumpNoise = this.sound.add('jump', { volume: 1, loop: false });
@@ -292,6 +308,7 @@ export default class Game extends Phaser.Scene {
         loop: false,
       });
       this.downNoise = this.sound.add('down', { volume: 1, loop: false });
+
 
       //Background Music
       this.spinningOut = this.sound.add('spinningOut', {
@@ -312,26 +329,17 @@ export default class Game extends Phaser.Scene {
       }
     }
 
-    //Pause Button
-    this.button1 = this.add
-      .graphics()
-      .lineStyle(1, 0x2a275c)
-      .fillStyle(0xd9e6a1, 1)
-      .strokeRect(2, 700, 200, 60)
-      .fillRect(2, 700, 200, 60);
+    // pause button
 
     this.pauseButton = this.add
-      .text(615, 650, 'Resume Game', {
-        fill: '#473A3F',
-        fontSize: '26px',
-        fontFamily: 'arial',
-      })
-      .setOrigin(2.0, 1.25);
-    this.pauseButton.setInteractive();
-    this.pauseButton.on('pointerdown', () => {
-      this.scene.pause();
-      this.scene.launch('pauseScene');
-    });
+      .image(40, 50, 'pause-button')
+      .setScrollFactor(0)
+      .setScale(0.55)
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.scene.pause();
+        this.scene.launch('PauseScene');
+      });
   }
 
   update() {
@@ -360,7 +368,6 @@ export default class Game extends Phaser.Scene {
       this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture('landingPlayer');
-      this.justJumped = 0;
       this.justLanded = this.player.y;
     } else if (!touchingDown & (this.player.y < this.justLanded - 5)) {
       this.player.setTexture('standingPlayer');
@@ -370,17 +377,17 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(-450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = true; // Avatar facing left
-      if (upCursor.isDown && this.justJumped === 0) {
+      if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
     } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
       this.player.setVelocityX(450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = false; // Avatar facing right
-      if (upCursor.isDown && this.justJumped === 0) {
+      if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
-    } else if (upCursor.isDown && this.justJumped === 0) {
+    } else if (upCursor.isDown) {
       this.player.setTexture('jumpingPlayer');
     } else {
       this.player.setVelocityX(0);
@@ -398,10 +405,9 @@ export default class Game extends Phaser.Scene {
 
     //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
-    if (didPressJump && this.player.y > -350 && this.player.y < 400 && this.justJumped <= 2) {
+    if (didPressJump && this.player.y > -350 && this.player.y < 400) {
       this.jumpNoise.play();
-      this.justJumped++;
-      this.player.setVelocityY(-500);
+      this.player.setVelocityY(-400);
     }
 
     //For jumping down
@@ -502,40 +508,29 @@ export default class Game extends Phaser.Scene {
   }
 
   handleCollectSlime() {
-
-    function immuneToSlimeEvent() {
-      const style = { color: '#fff', fontSize: 80 };
-      this.add.text(100, 400, 'You are currently immune to slime!', style).setScrollFactor(0);
-    }
-
-    if (!this.poweredUp){
-      this.player.setTexture("slimePlayer");
-    const style = { color: "#fff", fontSize: 25 };
+    this.player.setTexture("slimePlayer");
+    const style = { color: "#fff", fontSize: 80 };
     this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
-    this.prizesCollected = 0
     this.gameOverAudio.play();
     this.registry.destroy(); // destroy registry
     this.events.off(); // disable all active events
     this.scene.restart({
       alreadyPlaying: true,
-    })
-  } else {
-      this.poweredUpTimer = this.time.delayedCall(3000, immuneToSlimeEvent, [], this)
-    }
+    });
   }
 
   addPowerUp() {
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 && this.poweredUp === false) {
+    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
       const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
       powerUp.setActive(true)
       powerUp.setVisible(true)
       this.add.existing(powerUp)
       powerUp.body.setSize(powerUp.width, powerUp.height)
-      this.physics.world.enable(powerUp)
+      //this.physics.world.enable(powerUp)
       return powerUp
     }
   }
-  
+
   handlePowerUp(){
 
     this.poweredUp = true;
@@ -543,8 +538,8 @@ export default class Game extends Phaser.Scene {
     this.player.setScale(0.45)
 
     function onEvent() {
-      this.poweredUp = false 
-      this.player.setTint(0xFFFFFF) 
+      this.poweredUp = false
+      this.player.setTint(0xFFFFFF)
       this.player.setScale(0.25)
     }
 

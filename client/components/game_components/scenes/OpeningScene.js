@@ -7,7 +7,7 @@ export default class OpeningScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('instructions', 'assets/openingInstructions.png');
+    this.load.image('instructions', 'assets/game-buttons/OpeningInstructions.png');
   }
 
   create() {

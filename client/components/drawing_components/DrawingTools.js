@@ -45,6 +45,19 @@ const DrawingTools = (props) => {
   const [advancedChecked, setAdvancedChecked] = React.useState(false);
   const [allDefault, setAllDefault] = useState('0');
 
+  const templates = {
+    head: `url(images/head_template.png)`,
+  torso: `url(images/torso_template.png)`,
+  rightUpperArm: `url(images/right_upper_arm_template.png)`,
+  leftUpperArm: `url(images/left_upper_arm_template.png)`,
+  rightLowerArm: `url(images/right_lower_arm_template.png)`,
+  leftLowerArm: `url(images/left_lower_arm_template.png)`,
+  rightUpperLeg: `url(images/right_upper_leg_template.png)`,
+  leftUpperLeg: `url(images/left_upper_leg_template.png)`,
+  rightLowerLeg: `url(images/right_lower_leg_template.png)`,
+  leftLowerLeg: `url(images/left_lower_leg_template.png)`,
+}
+
   // for advanced options toggle
   const advancedToggleChecked = () => {
     setAdvancedChecked((prev) => !prev);
@@ -69,10 +82,6 @@ const DrawingTools = (props) => {
     e.preventDefault();
     Object.keys(canvases).forEach((canvas) => {
       canvases[canvas].clear();
-      // canvases[canvas].mode = 'draw';
-      // canvases[
-      //   canvas
-      // ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
     });
   }
 
@@ -102,7 +111,7 @@ const DrawingTools = (props) => {
         canvases[canvas].mode = 'draw';
         canvases[
           canvas
-        ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
+        ].canvas.style.backgroundImage = type === 'character' ? templates[canvas] : `url(assets/graph-paper.png)`
         setDefaultChoices((prevDefault) => {
           return { ...prevDefault, [canvas]: '0' };
         });
@@ -149,7 +158,7 @@ const DrawingTools = (props) => {
       canvases[canvas].mode = 'draw';
       canvases[
         canvas
-      ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
+      ].canvas.style.backgroundImage = type === 'character' ? templates[canvas] : `url(assets/graph-paper.png)`
     }
     // if the user chooses to use a default character, set the default,
     // disable the drawing and clear the sketchpad, and set the
@@ -288,13 +297,13 @@ const DrawingTools = (props) => {
               justifyContent="center"
               alignItems="flex-start"
             >
-              <Grid Item>
+              <Grid>
                 <Typography align="center" style={{ fontWeight: 500 }}>
                   Choose one of our pre-drawn platforms and prizes:
                 </Typography>
               </Grid>
               {Object.keys(canvases).map((canvas, index) => (
-                <Grid Item key={index}>
+                <Grid key={index}>
                   <FormControl>
                     <FormControl className={classes.formControl}>
                       <NativeSelect
@@ -344,7 +353,7 @@ const DrawingTools = (props) => {
                 alignItems='center'
               >
                 {Object.keys(canvases).map((canvas, index) => (
-                  <Grid Item key={index}>
+                  <Grid key={index}>
                     <FormControl>
                       <FormControl className={classes.formControl}>
                         <NativeSelect
@@ -379,7 +388,7 @@ const DrawingTools = (props) => {
               borderRadius={16}
               style={{ backgroundColor: '#f5f5f5' }}
             >
-              <Grid Item>
+              <Grid>
                 <Typography align="center" style={{ fontWeight: 500 }}>
                   Choose one of our pre-drawn avatars:
                 </Typography>
@@ -407,7 +416,7 @@ const DrawingTools = (props) => {
             borderRadius={16}
             style={{ backgroundColor: '#f5f5f5' }}
           >
-            <Grid Item>
+            <Grid>
               {type === 'character' ? (
                 <Typography align="center" style={{ fontWeight: 500 }}>
                   Or draw your own avatar!
@@ -418,14 +427,14 @@ const DrawingTools = (props) => {
                 </Typography>
               )}
             </Grid>
-            <Grid Item>
+            <Grid>
               <Grid
                 container
                 direction="row"
                 justifyContent="space-evenly"
                 alignItems="flex-start"
               >
-                <Grid Item>
+                <Grid>
                   <Typography
                     style={{ margin: 15, fontWeight: 500 }}
                     align="center"
@@ -439,14 +448,14 @@ const DrawingTools = (props) => {
                     onChange={setColor}
                   />
                 </Grid>
-                <Grid Item>
+                <Grid>
                   <Grid
                     container
                     direction="column"
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Grid Item>
+                    <Grid>
                       <Typography
                         id="non-linear-slider"
                         className={classes.specialTypography}
@@ -465,7 +474,7 @@ const DrawingTools = (props) => {
                         step={0.1}
                       />
                     </Grid>
-                    <Grid Item>
+                    <Grid>
                       <Typography
                         className={classes.specialTypography}
                         style={{ fontWeight: 500 }}
@@ -497,14 +506,14 @@ const DrawingTools = (props) => {
           </Box>
         </div>
       )}
-      <Grid Item>
+      <Grid>
         <Grid
           container
           direction="row"
           justifyContent="space-evenly"
           alignItems="flex-start"
         >
-          <Grid Item>
+          <Grid>
             <Button
               style={{ backgroundColor: '#D9E6A1', margin: 10 }}
               variant='contained'
@@ -513,7 +522,7 @@ const DrawingTools = (props) => {
               Next
             </Button>
           </Grid>
-          <Grid Item>
+          <Grid>
             <Button
               style={{ backgroundColor: '#eb6069', margin: 10 }}
               variant="contained"
@@ -522,7 +531,7 @@ const DrawingTools = (props) => {
               Clear
             </Button>
           </Grid>
-          <Grid Item>
+          <Grid>
             {type === 'character' ? (
               <DrawingCharacterModal />
             ) : (
@@ -532,7 +541,7 @@ const DrawingTools = (props) => {
         </Grid>
       </Grid>
       {type === 'character' && (
-        <Grid Item>
+        <Grid>
           <Grid
             container
             direction="row"
@@ -545,7 +554,7 @@ const DrawingTools = (props) => {
               borderRadius={16}
               style={{ backgroundColor: '#f5f5f5' }}
             >
-              <Grid Item>
+              <Grid>
                 {(allDefault === '0' || allDefault === 0) && (
                   <div>
                     <FormControlLabel

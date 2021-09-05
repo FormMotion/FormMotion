@@ -35,7 +35,7 @@ const AccessDrawingsInGame = (props) => {
         alignItems="flex-start"
         spacing={2}
       >
-       <Grid Item>
+       <Grid>
           <a href='/play' id='gamescreenlink' style={{ textDecoration: 'none' }}>
         <Button
           style={{ backgroundColor: '#d9e6a1', margin: 5 }}
@@ -45,7 +45,7 @@ const AccessDrawingsInGame = (props) => {
         </Button>
       </a>
       </Grid>
-        <Grid Item>
+        <Grid>
           <Button
             style={{ backgroundColor: '#d9e6a1', margin: 5 }}
             onClick={() => downloadImage('Character')}
@@ -53,7 +53,7 @@ const AccessDrawingsInGame = (props) => {
             Download character
           </Button>
         </Grid>
-        <Grid Item>
+        <Grid>
           <Button
             style={{ backgroundColor: '#d9e6a1', margin: 5 }}
             onClick={() => downloadImage('Platform')}
@@ -61,7 +61,7 @@ const AccessDrawingsInGame = (props) => {
             Download platform
           </Button>
         </Grid>
-        <Grid Item>
+        <Grid>
           <Button
             style={{ backgroundColor: '#d9e6a1', margin: 5 }}
             onClick={() => downloadImage('Prize')}

@@ -269,7 +269,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.slime,
-      this.handleCollectSlime,
+      this.handleSlime,
       undefined,
       this
     );
@@ -365,6 +365,7 @@ export default class Game extends Phaser.Scene {
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
+      this.justJumped = 0
       this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture('landingPlayer');
@@ -377,7 +378,7 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(-450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = true; // Avatar facing left
-      if (upCursor.isDown) {
+      if (upCursor.isDown && this.justJumped <=2) {
         this.player.setTexture('jumpingPlayer');
       }
     } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
@@ -387,7 +388,7 @@ export default class Game extends Phaser.Scene {
       if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
-    } else if (upCursor.isDown) {
+    } else if (upCursor.isDown && this.justJumped <=2) {
       this.player.setTexture('jumpingPlayer');
     } else {
       this.player.setVelocityX(0);
@@ -398,14 +399,16 @@ export default class Game extends Phaser.Scene {
       pointer1.isDown &&
       pointer2.isDown &&
       this.player.y > -350 &&
-      this.player.y < 400
+      this.player.y < 400 &&
+      this.justJumped <= 2
     ) {
       this.player.setVelocityY(-400);
     }
 
     //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
-    if (didPressJump && this.player.y > -350 && this.player.y < 400) {
+    if (didPressJump && this.player.y > -350 && this.player.y < 400 && this.justJumped <=2) {
+      this.justJumped++
       this.jumpNoise.play();
       this.player.setVelocityY(-400);
     }
@@ -507,7 +510,8 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  handleCollectSlime() {
+  handleSlime() {
+    if (!this.poweredUp){
     this.player.setTexture("slimePlayer");
     const style = { color: "#fff", fontSize: 80 };
     this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
@@ -516,17 +520,16 @@ export default class Game extends Phaser.Scene {
     this.events.off(); // disable all active events
     this.scene.restart({
       alreadyPlaying: true,
-    });
+    });}
   }
 
   addPowerUp() {
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
+    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 && !this.poweredUp) {
       const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
       powerUp.setActive(true)
       powerUp.setVisible(true)
       this.add.existing(powerUp)
       powerUp.body.setSize(powerUp.width, powerUp.height)
-      //this.physics.world.enable(powerUp)
       return powerUp
     }
   }

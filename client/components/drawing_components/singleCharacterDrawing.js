@@ -33,7 +33,7 @@ const singleCharacterDrawing = (props) => {
       alignItems="flex-start"
       spacing={4}
     >
-      <Grid Item>
+      <Grid>
         <canvas
           id="character"
           width="500"

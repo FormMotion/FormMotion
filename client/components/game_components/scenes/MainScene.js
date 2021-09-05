@@ -312,7 +312,7 @@ export default class Game extends Phaser.Scene {
 
       //Background Music
       this.spinningOut = this.sound.add('spinningOut', {
-        volume: 0.5,
+        volume: 0.1,
         loop: true,
       });
     }

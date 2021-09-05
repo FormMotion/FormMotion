@@ -48,7 +48,7 @@ const DrawPlatform = (props) => {
         justifyContent="space-evenly"
         alignItems="flex-start"
       >
-        <Grid Item>
+        <Grid>
           <Grid
             container
             direction="column"
@@ -56,14 +56,14 @@ const DrawPlatform = (props) => {
             alignItems="center"
           >
             <Box mt={12}>
-              <Grid Item>
+              <Grid>
                 <Typography align='center' style={{ fontWeight: 500 }}>
                   Your platform
                 </Typography>
               </Grid>
             </Box>
             <Box mt={3}>
-              <Grid Item>
+              <Grid>
                 <canvas
                   id="platform"
                   width="250"
@@ -80,14 +80,14 @@ const DrawPlatform = (props) => {
               </Grid>
             </Box>
             <Box mt={12}>
-              <Grid Item>
+              <Grid>
                 <Typography align='center' style={{ fontWeight: 500 }}>
                   Your prize
                 </Typography>
               </Grid>
             </Box>
             <Box m={3}>
-              <Grid Item>
+              <Grid>
                 <canvas
                   id="prize"
                   width="100"
@@ -105,7 +105,7 @@ const DrawPlatform = (props) => {
             </Box>
           </Grid>
         </Grid>
-        <Grid Item>
+        <Grid>
           <DrawingTools
             canvases={canvases}
             names={names}

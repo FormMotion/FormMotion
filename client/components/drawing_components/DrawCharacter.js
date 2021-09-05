@@ -33,8 +33,6 @@ let leftUpperLeg = null
 let rightLowerLeg = null
 let leftLowerLeg = null
 
-let canvas_image = 'assets/graph-paper.png'
-
 const canvases = {
   head,
   torso,

@@ -17,7 +17,7 @@ const Welcome = props => {
 
   return (
     <>
-      <div>
+      <div
         className={classes.heroContent}
         maxWidth="100%"
         justifyContent="center"

@@ -45,6 +45,19 @@ const DrawingTools = (props) => {
   const [advancedChecked, setAdvancedChecked] = React.useState(false);
   const [allDefault, setAllDefault] = useState('0');
 
+  const templates = {
+    head: `url(images/head_template.png)`,
+  torso: `url(images/torso_template.png)`,
+  rightUpperArm: `url(images/right_upper_arm_template.png)`,
+  leftUpperArm: `url(images/left_upper_arm_template.png)`,
+  rightLowerArm: `url(images/right_lower_arm_template.png)`,
+  leftLowerArm: `url(images/left_lower_arm_template.png)`,
+  rightUpperLeg: `url(images/right_upper_leg_template.png)`,
+  leftUpperLeg: `url(images/left_upper_leg_template.png)`,
+  rightLowerLeg: `url(images/right_lower_leg_template.png)`,
+  leftLowerLeg: `url(images/left_lower_leg_template.png)`,
+}
+
   // for advanced options toggle
   const advancedToggleChecked = () => {
     setAdvancedChecked((prev) => !prev);
@@ -69,10 +82,6 @@ const DrawingTools = (props) => {
     e.preventDefault();
     Object.keys(canvases).forEach((canvas) => {
       canvases[canvas].clear();
-      // canvases[canvas].mode = 'draw';
-      // canvases[
-      //   canvas
-      // ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
     });
   }
 
@@ -102,7 +111,7 @@ const DrawingTools = (props) => {
         canvases[canvas].mode = 'draw';
         canvases[
           canvas
-        ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
+        ].canvas.style.backgroundImage = type === 'character' ? templates[canvas] : `url(assets/graph-paper.png)`
         setDefaultChoices((prevDefault) => {
           return { ...prevDefault, [canvas]: '0' };
         });
@@ -149,7 +158,7 @@ const DrawingTools = (props) => {
       canvases[canvas].mode = 'draw';
       canvases[
         canvas
-      ].canvas.style.backgroundImage = `url(assets/graph-paper.png)`;
+      ].canvas.style.backgroundImage = type === 'character' ? templates[canvas] : `url(assets/graph-paper.png)`
     }
     // if the user chooses to use a default character, set the default,
     // disable the drawing and clear the sketchpad, and set the

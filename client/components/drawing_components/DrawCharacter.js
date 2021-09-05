@@ -33,8 +33,6 @@ let leftUpperLeg = null
 let rightLowerLeg = null
 let leftLowerLeg = null
 
-let canvas_image = 'assets/graph-paper.png'
-
 const canvases = {
   head,
   torso,
@@ -114,7 +112,7 @@ const DrawCharacter = (props) => {
         justifyContent='space-evenly'
         alignItems='stretch'
       >
-        <Grid>
+        <Grid Item>
           <div className='container'>
             <Box
               className='head'
@@ -578,14 +576,14 @@ const DrawCharacter = (props) => {
             </Box>
           </div>
         </Grid>
-        <Grid>
+        <Grid Item>
           <Grid
             container
             direction='column'
             justifyContent='center'
             alignItems='center'
           >
-            <Grid>
+            <Grid Item>
               <DrawingTools
                 canvases={canvases}
                 history={props.history}
@@ -593,7 +591,7 @@ const DrawCharacter = (props) => {
                 type='character'
               />
             </Grid>
-            <Grid>
+            <Grid Item>
               <Box
                 p={1}
                 m={1}

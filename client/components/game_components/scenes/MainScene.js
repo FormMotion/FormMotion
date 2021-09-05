@@ -5,6 +5,7 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
     this.setScale(0.7);
+    
   }
 }
 
@@ -20,7 +21,7 @@ class PowerUp extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture);
     this.setScale(0.5);
   }
-}
+}  
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -185,12 +186,12 @@ export default class Game extends Phaser.Scene {
     createAligned(this, totalWidth, 'bg-9', 0.2, bgscale);
     createAligned(this, totalWidth, 'bg-8', 0.4, bgscale);
     createAligned(this, totalWidth, 'bg-7', 0.6, bgscale),
-      createAligned(this, totalWidth, 'bg-6', 0.8, bgscale);
+    createAligned(this, totalWidth, 'bg-6', 0.8, bgscale);
     createAligned(this, totalWidth, 'bg-5', 1, bgscale);
     createAligned(this, totalWidth, 'bg-4', 1.2, bgscale);
     createAligned(this, totalWidth, 'bg-3', 1.4, bgscale);
     createAligned(this, totalWidth, 'bg-2', 1.6, bgscale),
-      createAligned(this, totalWidth, 'bg-1', 1.8, bgscale);
+    createAligned(this, totalWidth, 'bg-1', 1.8, bgscale);
 
     //Platforms
 
@@ -205,6 +206,7 @@ export default class Game extends Phaser.Scene {
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, 'platform');
+      platform.setSize(250, 75, true)
 
       const tweenY = 375;
       const tweenX = Phaser.Math.Between(100, 400);
@@ -228,12 +230,14 @@ export default class Game extends Phaser.Scene {
     //Avatar / Player Character
     this.player = this.physics.add
       .sprite(450, 0, 'standingPlayer')
-      .setScale(0.25);
+      .setScale(0.25)
+      .setSize(250, 745, true)
 
     //Prize
     this.prizes = this.physics.add.group({
       classType: Prize,
     });
+
     const style = { color: '#D35400', fontSize: 30 };
     this.prizesText = this.add
       .text(600, 10, ' ', style)
@@ -402,6 +406,8 @@ export default class Game extends Phaser.Scene {
       this.player.y < 400 &&
       this.justJumped <= 2
     ) {
+      this.justJumped++
+      this.jumpNoise.play();
       this.player.setVelocityY(-400);
     }
 
@@ -469,7 +475,7 @@ export default class Game extends Phaser.Scene {
     prize.setVisible(true);
     this.add.existing(prize);
     //sets the physics body size
-    prize.body.setSize(prize.width, prize.height);
+    prize.body.setSize(90, 90);
     //Makes sure the physics are enabled
     this.physics.world.enable(prize);
     return prize;
@@ -504,7 +510,7 @@ export default class Game extends Phaser.Scene {
       slime.setActive(true);
       slime.setVisible(true);
       this.add.existing(slime);
-      slime.body.setSize(slime.width, slime.height);
+      slime.body.setSize(60, 60);
       this.physics.world.enable(slime);
       return slime;
     }
@@ -529,7 +535,7 @@ export default class Game extends Phaser.Scene {
       powerUp.setActive(true)
       powerUp.setVisible(true)
       this.add.existing(powerUp)
-      powerUp.body.setSize(powerUp.width, powerUp.height)
+      powerUp.body.setSize(90, 90)
       return powerUp
     }
   }

@@ -59,7 +59,10 @@ const About = props => {
                   <h3>Play Your Game!</h3>
                   <li>Press start or the space bar to start the game!</li>
                   <li>Collect your prizes to win points, and avoid the slime.</li>
+                  <li>Keep an eye out for PowerUps - they increase your prize points and make you immune to slime.</li>
                   <li>Get the highest score you can!</li>
+
+
                   <h5>If using your keyboard: </h5>
                     <li>Use the left arrow to move left</li>
                     <li>Use the right arrow to move right</li>

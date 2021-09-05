@@ -8,6 +8,10 @@ export default class OpeningScene extends Phaser.Scene {
 
   preload() {
     this.load.image('instructions', 'assets/game-buttons/OpeningInstructions.png');
+    this.load.image('start_button', 'assets/game-buttons/start-button.png');
+    this.load.image('start_arrow', 'assets/game-buttons/start_arrow.png');
+    this.load.image('other_arrow', 'assets/game-buttons/other_arrow.png');
+    this.load.image('press_pause', 'assets/game-buttons/or_press_pause.png');
   }
 
   create() {
@@ -31,16 +35,19 @@ export default class OpeningScene extends Phaser.Scene {
     //add image
     this.add.image(600, 400, 'instructions').setScale(0.6);
 
-    this.add.text(300, 700, 'Hint: PowerUps increase prize points and make you immune to slime!')
+    this.add.text(200, 700, 'Hint: PowerUps increase prize points and make you immune to slime!')
+
+    this.add.image(400, 400, 'start_arrow')
+
+    this.add.image(400, 500, 'other_arrow')
+
+    this.add.image(400, 450, 'press_pause')
 
     //Start Button
     this.startButton = this.add
-      .text(400, 570, 'Start', {
-        fill: '#251E20',
-        fontSize: '30px',
-        fontFamily: 'arial',
-      })
-      .setOrigin(0.5);
+      .image(400, 570, 'start_button')
+      .setOrigin(0.5)
+      .setScale(0.5);
 
     this.startButton.setInteractive();
     this.startButton.on(

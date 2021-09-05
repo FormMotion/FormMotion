@@ -42,23 +42,37 @@ const DrawPlatform = (props) => {
   });
 
 
-  const [desertMountainButtonColor, setdesertMountainButtonColor] = useState('#D3D3D3')
-  const [mysteriousForestButtonColor, setmysteriousForestButtonColor] = useState('#D3D3D3')
+  const [desertMountainButtonColor, setDesertMountainButtonColor] = useState('#D3D3D3')
+  const [mysteriousForestButtonColor, setMysteriousForestButtonColor] = useState('#D3D3D3')
+  const [snowCoveredMountainsButtonColor, setsnowCoveredMountainsButtonColor] = useState('#D3D3D3')
 
 
   const addPurpleMountains = () => {
     localStorage.setItem('purpleMountains', 'true')
     localStorage.setItem('mysteriousForest', 'false')
-    setdesertMountainButtonColor('#D9E6A1')
-    setmysteriousForestButtonColor('#D3D3D3')
+    localStorage.setItem('snowCoveredMountains', 'false')
+    setDesertMountainButtonColor('#D9E6A1')
+    setMysteriousForestButtonColor('#D3D3D3')
+    setsnowCoveredMountainsButtonColor('#D3D3D3')
 
   }
 
   const addMysteriousForest = () => {
-    localStorage.setItem('purpleMountains', 'false')
     localStorage.setItem('mysteriousForest', 'true')
-    setmysteriousForestButtonColor('#D9E6A1')
-    setdesertMountainButtonColor('#D3D3D3')
+    localStorage.setItem('purpleMountains', 'false')
+    localStorage.setItem('snowCoveredMountains', 'false')
+    setMysteriousForestButtonColor('#D9E6A1')
+    setDesertMountainButtonColor('#D3D3D3')
+    setsnowCoveredMountainsButtonColor('#D3D3D3')
+  }
+
+  const addSnowCoveredMountains = () => {
+    localStorage.setItem('snowCoveredMountains', 'true')
+    localStorage.setItem('mysteriousForest', 'false')
+    localStorage.setItem('purpleMountains', 'false')
+    setsnowCoveredMountainsButtonColor('#D9E6A1')
+    setDesertMountainButtonColor('#D3D3D3')
+    setMysteriousForestButtonColor('#D3D3D3')
   }
 
   return (
@@ -147,6 +161,14 @@ const DrawPlatform = (props) => {
               onClick={addMysteriousForest}
             >
               Mysterious Forest
+            </Button>
+
+            <Button
+              style={{ backgroundColor: snowCoveredMountainsButtonColor, margin: 10 }}
+              variant='contained'
+              onClick={addSnowCoveredMountains}
+            >
+              Snow Covered Mountains
             </Button>
 
             </Box>

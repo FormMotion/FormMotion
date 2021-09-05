@@ -269,7 +269,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.overlap(
       this.player,
       this.slime,
-      this.handleCollectSlime,
+      this.handleSlime,
       undefined,
       this
     );
@@ -507,7 +507,8 @@ export default class Game extends Phaser.Scene {
     }
   }
 
-  handleCollectSlime() {
+  handleSlime() {
+    if (!this.poweredUp){
     this.player.setTexture("slimePlayer");
     const style = { color: "#fff", fontSize: 80 };
     this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
@@ -516,17 +517,16 @@ export default class Game extends Phaser.Scene {
     this.events.off(); // disable all active events
     this.scene.restart({
       alreadyPlaying: true,
-    });
+    });}
   }
 
   addPowerUp() {
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 ) {
+    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 && !this.poweredUp) {
       const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
       powerUp.setActive(true)
       powerUp.setVisible(true)
       this.add.existing(powerUp)
       powerUp.body.setSize(powerUp.width, powerUp.height)
-      //this.physics.world.enable(powerUp)
       return powerUp
     }
   }

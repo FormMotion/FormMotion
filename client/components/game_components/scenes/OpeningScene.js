@@ -31,6 +31,8 @@ export default class OpeningScene extends Phaser.Scene {
     //add image
     this.add.image(600, 400, 'instructions').setScale(0.6);
 
+    this.add.text(300, 700, 'Hint: PowerUps increase prize points and make you immune to slime!')
+
     //Start Button
     this.startButton = this.add
       .text(400, 570, 'Start', {
@@ -56,7 +58,6 @@ export default class OpeningScene extends Phaser.Scene {
     const spaceBarPressed = this.spaceBar.isDown;
 
     if (spaceBarPressed) {
-      console.log('SpaceBar was pressed - inside MainScene');
       this.scene.resume('MainScene');
       this.scene.stop();
     }

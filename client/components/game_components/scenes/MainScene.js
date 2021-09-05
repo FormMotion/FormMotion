@@ -1,6 +1,67 @@
 import Phaser from 'phaser';
 import React from 'react';
 
+//////////**********BACKGROUNDS**********//////////
+
+const purpleMountains = localStorage.getItem('purpleMountains')
+const mysteriousForest = localStorage.getItem('mysteriousForest')
+
+console.log('purple mountains', purpleMountains)
+console.log('mysterious forest', mysteriousForest)
+
+let bg10 = "assets/backgrounds/Snow/Snow Layer 01.png";
+let bg9 =
+  "assets/backgrounds/Snow/Snow Layer 02.png";
+let bg8 =
+  "assets/backgrounds/Snow/Snow Layer 03.png";
+let bg7 =
+  "assets/backgrounds/Snow/Snow Layer 04.png";
+let bg6 = "assets/backgrounds/Snow/Snow Layer 05.png";
+let bg5 = "assets/backgrounds/Snow/Snow Layer 06.png";
+let bg4 = "assets/backgrounds/Snow/Snow Layer 07.png";
+let bg3 = "assets/transparent_background_500_x_800.png";
+let bg2 = "assets/transparent_background_500_x_800.png";
+let bg1 = "assets/transparent_background_500_x_800.png";
+let bgscale = 4
+
+///////Purple Desert Mountains////////////////////
+if (purpleMountains === 'true' && mysteriousForest === 'false'){
+bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
+bg9 =
+  "assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png";
+bg8 =
+  "assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png";
+bg7 =
+  "assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png";
+bg6 = "assets/backgrounds/parallax_mountains/parallax-mountain-trees.png";
+bg5 = "assets/transparent_background_500_x_800.png";
+bg4 = "assets/transparent_background_500_x_800.png";
+bg3 = "assets/transparent_background_500_x_800.png";
+bg2 = "assets/transparent_background_500_x_800.png";
+bg1 = "assets/transparent_background_500_x_800.png";
+bgscale = 5
+}
+
+///////Mysterious Forest////////////////////
+if (mysteriousForest === 'true' && purpleMountains === 'false'){
+bg10 = "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 01.png";
+bg9 =
+  "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 02.png";
+bg8 =
+  "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 03.png";
+bg7 =
+  "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 04.png";
+bg6 = "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 05.png";
+bg5 = "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 06.png";
+bg4 = "assets/transparent_background_500_x_800.png";
+bg3 = "assets/transparent_background_500_x_800.png";
+bg2 = "assets/transparent_background_500_x_800.png";
+bg1 = "assets/transparent_background_500_x_800.png";
+bgscale = 4
+}
+
+
+
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
@@ -82,6 +143,7 @@ export default class Game extends Phaser.Scene {
       this.load.image('bg-2', bg2);
       this.load.image('bg-1', bg1);
 
+
       this.load.image('slime', 'assets/single_slime.png');
 
       //loading button images
@@ -147,16 +209,7 @@ export default class Game extends Phaser.Scene {
 
        //Background Music
       this.load.audio('spinningOut', 'assets/music/spinningOut.wav');
-    // }
 
-    // if (this.alreadyPlaying) {
-    //   this.sound.removeByKey('pickup');
-    //   this.sound.removeByKey('jump');
-    //   this.sound.removeByKey('land');
-    //   this.sound.removeByKey('gameOver');
-    //   this.sound.removeByKey('down');
-    //   this.sound.removeByKey('direction');
-    // }
       // Sounds
       this.load.audio('pickup', 'assets/sounds/kalimba_chime.mp3');
       this.load.audio('jump', 'assets/sounds/jump-3.wav');
@@ -182,7 +235,7 @@ export default class Game extends Phaser.Scene {
     this.add
       .image(width * 0.5, height * 0.5, 'bg-10')
       .setScrollFactor(0)
-      .setScale(6);
+      .setScale(5);
     createAligned(this, totalWidth, 'bg-9', 0.2, bgscale);
     createAligned(this, totalWidth, 'bg-8', 0.4, bgscale);
     createAligned(this, totalWidth, 'bg-7', 0.6, bgscale),
@@ -559,49 +612,18 @@ export default class Game extends Phaser.Scene {
 
 
 //this will allow us to have an infinite background
-const createAligned = (scene, totalWidth, texture, scrollFactor) => {
+const createAligned = (scene, totalWidth, texture, scrollFactor, bgscale) => {
   //Let's look at this to figure out why the background disappears
   const w = scene.textures.get(texture).getSourceImage().width;
   const count = Math.ceil(totalWidth / w) * scrollFactor;
-  let x = 0;
+  let x = 500;
   for (let i = 0; i < count; i++) {
     const m = scene.add
       .image(x, scene.scale.height, texture)
       .setOrigin(1, 1)
       .setScrollFactor(scrollFactor)
-      .setScale(4);
+      .setScale(bgscale);
     x += m.width;
   }
 };
 
-//////////**********BACKGROUNDS**********//////////
-//Eventually, the player will be able to choose which background they want. Right now, the dev should just comment them in and out as desired. :)
-
-////////Snow Covered Mountains/////////////////
-const bg10 = 'assets/backgrounds/Snow/Snow Layer 01.png';
-const bg9 = 'assets/backgrounds/Snow/Snow Layer 02.png';
-const bg8 = 'assets/backgrounds/Snow/Snow Layer 03.png';
-const bg7 = 'assets/backgrounds/Snow/Snow Layer 04.png';
-const bg6 = 'assets/backgrounds/Snow/Snow Layer 05.png';
-const bg5 = 'assets/backgrounds/Snow/Snow Layer 06.png';
-const bg4 = 'assets/transparent_background_500_x_800.png';
-const bg3 = 'assets/transparent_background_500_x_800.png';
-const bg2 = 'assets/transparent_background_500_x_800.png';
-const bg1 = 'assets/transparent_background_500_x_800.png';
-const bgscale = 3;
-
-///////Purple Desert Mountains////////////////////
-// const bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
-// const bg9 =
-//   "assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png";
-// const bg8 =
-//   "assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png";
-// const bg7 =
-//   "assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png";
-// const bg6 = "assets/backgrounds/parallax_mountains/parallax-mountain-trees.png";
-// const bg5 = "assets/transparent_background_500_x_800.png";
-// const bg4 = "assets/transparent_background_500_x_800.png";
-// const bg3 = "assets/transparent_background_500_x_800.png";
-// const bg2 = "assets/transparent_background_500_x_800.png";
-// const bg1 = "assets/transparent_background_500_x_800.png";
-// const bgscale = 3;

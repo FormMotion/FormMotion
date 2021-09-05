@@ -13,6 +13,8 @@ import Slime from '../merge_components/Slime';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button';
+
 
 let canvas_image = 'assets/graph-paper.png';
 
@@ -38,6 +40,26 @@ const DrawPlatform = (props) => {
       }
     });
   });
+
+
+  const [desertMountainButtonColor, setdesertMountainButtonColor] = useState('#D3D3D3')
+  const [mysteriousForestButtonColor, setmysteriousForestButtonColor] = useState('#D3D3D3')
+
+
+  const addPurpleMountains = () => {
+    localStorage.setItem('purpleMountains', 'true')
+    localStorage.setItem('mysteriousForest', 'false')
+    setdesertMountainButtonColor('#D9E6A1')
+    setmysteriousForestButtonColor('#D3D3D3')
+
+  }
+
+  const addMysteriousForest = () => {
+    localStorage.setItem('purpleMountains', 'false')
+    localStorage.setItem('mysteriousForest', 'true')
+    setmysteriousForestButtonColor('#D9E6A1')
+    setdesertMountainButtonColor('#D3D3D3')
+  }
 
   return (
     <div>
@@ -103,6 +125,37 @@ const DrawPlatform = (props) => {
                 ></canvas>
               </Grid>
             </Box>
+            {/* ////////////Background Selection Testing///////////// */}
+            <Box mt={12}>
+              <Grid>
+                <Typography align='center' style={{ fontWeight: 500 }}>
+                  Choose Your Background
+                </Typography>
+              </Grid>
+              
+              <Button
+              style={{ backgroundColor: desertMountainButtonColor, margin: 10 }}
+              variant='contained'
+              onClick={addPurpleMountains}
+            >
+              Purple Desert Mountains
+            </Button>
+
+            <Button
+              style={{ backgroundColor: mysteriousForestButtonColor, margin: 10 }}
+              variant='contained'
+              onClick={addMysteriousForest}
+            >
+              Mysterious Forest
+            </Button>
+
+            </Box>
+            <Box m={3}>
+              <Grid>
+                
+              </Grid>
+            </Box>
+            {/* ///////////////////////////// */}
           </Grid>
         </Grid>
         <Grid>

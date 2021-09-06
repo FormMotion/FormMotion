@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import React, { Fragment, useEffect, useState  } from 'react';
+import { Route, Switch, withRouter, useLocation} from 'react-router-dom';
 
 import About from './components/About';
 import Welcome from './components/Welcome';
@@ -9,11 +9,24 @@ import DrawPlatform from './components/drawing_components/DrawPlatform.js';
 import Merge from './components/merge_components/ForwardMovement';
 import DrawCharacter from './components/drawing_components/DrawCharacter';
 
-class Routes extends Component {
-  constructor() {
-    super();
-  }
-  render() {
+const Routes = () =>  {
+
+  const [pageStack, setPageStack] = useState([])
+  let location = useLocation();
+
+  useEffect(() => {
+    let mounted = true;
+    setPageStack([...pageStack, location.pathname]);
+    if(pageStack.includes('/game') && location.pathname !== '/game') {
+      if (mounted) {
+      console.log('i got this far')
+      window.location.reload();
+      setPagestack([]);
+      }
+    }
+    return () => mounted = false;
+  }, [location])
+
     return (
       <div>
         <Switch>
@@ -27,7 +40,6 @@ class Routes extends Component {
         </Switch>
       </div>
     );
-  }
 }
 
 export default withRouter(Routes);

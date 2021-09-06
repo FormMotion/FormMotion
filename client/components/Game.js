@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import PhaserGame from './game_components/index.js'
 import Welcome from '../components/Welcome'
@@ -7,6 +7,7 @@ import AccessDrawingsInGame from './drawing_components/AccessDrawingsInGame'
 import Button from '@material-ui/core/Button'
 
 export default function Game(props) {
+
   return (
     <div id='phaser-app'>
       <PhaserGame />

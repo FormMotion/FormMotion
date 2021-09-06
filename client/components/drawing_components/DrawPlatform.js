@@ -33,13 +33,19 @@ const names = {
 
 const DrawPlatform = (props) => {
   useEffect(() => {
+    console.log(props)
+  //  console.log(props.history.location.history)
+    // if(props.history.action === "POP" && props.history.) {
+    //   // window.location.reload();
+    //   // props.history.push('/platform')
+    // }
     Object.keys(canvases).forEach((canvas) => {
       if (canvases[canvas] === null) {
         let currentCanvas = document.querySelector(`#${canvas}`);
         canvases[canvas] = new Atrament(currentCanvas);
       }
     });
-  });
+  }, []);
 
 
   const [desertMountainButtonColor, setdesertMountainButtonColor] = useState('#D3D3D3')
@@ -132,7 +138,7 @@ const DrawPlatform = (props) => {
                   Choose Your Background
                 </Typography>
               </Grid>
-              
+
               <Button
               style={{ backgroundColor: desertMountainButtonColor, margin: 10 }}
               variant='contained'
@@ -152,7 +158,7 @@ const DrawPlatform = (props) => {
             </Box>
             <Box m={3}>
               <Grid>
-                
+
               </Grid>
             </Box>
             {/* ///////////////////////////// */}

@@ -33,12 +33,6 @@ const names = {
 
 const DrawPlatform = (props) => {
   useEffect(() => {
-    console.log(props)
-  //  console.log(props.history.location.history)
-    // if(props.history.action === "POP" && props.history.) {
-    //   // window.location.reload();
-    //   // props.history.push('/platform')
-    // }
     Object.keys(canvases).forEach((canvas) => {
       if (canvases[canvas] === null) {
         let currentCanvas = document.querySelector(`#${canvas}`);

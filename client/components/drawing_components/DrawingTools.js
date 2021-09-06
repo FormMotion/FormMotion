@@ -215,7 +215,6 @@ const DrawingTools = (props) => {
     let choice;
     // for each of the canvases,
     Object.keys(canvases).forEach((canvas) => {
-      console.log(canvas, 'canvas');
       if (
         (defaultChoices[canvas] === '0' && !canvases[canvas].isDirty()) ||
         defaultChoices[canvas] === '4'

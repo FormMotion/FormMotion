@@ -6,9 +6,6 @@ import React from 'react';
 const purpleMountains = localStorage.getItem('purpleMountains')
 const mysteriousForest = localStorage.getItem('mysteriousForest')
 
-console.log('purple mountains', purpleMountains)
-console.log('mysterious forest', mysteriousForest)
-
 let bg10 = "assets/backgrounds/Snow/Snow Layer 01.png";
 let bg9 =
   "assets/backgrounds/Snow/Snow Layer 02.png";
@@ -66,7 +63,7 @@ class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
     this.setScale(0.7);
-    
+
   }
 }
 
@@ -82,7 +79,7 @@ class PowerUp extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture);
     this.setScale(0.5);
   }
-}  
+}
 
 export default class Game extends Phaser.Scene {
   constructor() {

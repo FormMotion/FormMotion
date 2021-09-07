@@ -1,23 +1,23 @@
-import Phaser from 'phaser';
-import React, { useEffect } from 'react';
-import MainScene from './scenes/MainScene';
-import OpeningScene from './scenes/OpeningScene';
-import PauseScene from './scenes/PauseScene';
+import Phaser from "phaser";
+import React, { useEffect } from "react";
+import MainScene from "./scenes/MainScene";
+import OpeningScene from "./scenes/OpeningScene";
+import PauseScene from "./scenes/PauseScene";
 
 const config = {
   type: Phaser.AUTO,
   width: 1200,
   height: 800,
-  className: 'canvas',
+  className: "canvas",
   physics: {
-    default: 'arcade',
+    default: "arcade",
     arcade: {
       gravity: { y: 700 },
       debug: false,
     },
   },
   scale: {
-    parent: 'game-container',
+    parent: "game-container",
     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
   },
   scene: [MainScene, OpeningScene, PauseScene],
@@ -26,25 +26,25 @@ const config = {
 const Game = () => {
   useEffect(() => {
     function resize() {
-      const canvas = document.querySelector('canvas');
+      const canvas = document.querySelector("canvas");
       const width = window.innerWidth - 30;
       const height = window.innerHeight - 30;
       const wratio = width / height;
       const ratio = Number(config.width) / Number(config.height);
       if (wratio < ratio) {
-        canvas.style.width = width + 'px';
-        canvas.style.height = width / ratio + 'px';
+        canvas.style.width = width + "px";
+        canvas.style.height = width / ratio + "px";
       } else {
-        canvas.style.width = height * ratio + 'px';
-        canvas.style.height = height + 'px';
+        canvas.style.width = height * ratio + "px";
+        canvas.style.height = height + "px";
       }
     }
     new Phaser.Game(config);
     resize();
-    window.addEventListener('resize', resize, false);
+    window.addEventListener("resize", resize, false);
 
     return () => {
-      window.removeEventListener('resize', resize, false);
+      window.removeEventListener("resize", resize, false);
     };
   }, []);
 

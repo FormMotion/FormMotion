@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-const Atrament = require('atrament');
-import DrawingTools from './DrawingTools';
+import React, { useState, useEffect } from "react";
+const Atrament = require("atrament");
+import DrawingTools from "./DrawingTools";
 
 // material-ui
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
 let character = null;
-let canvas_image = 'assets/graph-paper.png';
+let canvas_image = "assets/graph-paper.png";
 
 const canvases = {
   character,
 };
 
 const names = {
-  character: 'character',
+  character: "character",
 };
-const singleCharacterDrawing = (props) => {
+const singleCharacterDrawing = props => {
   useEffect(() => {
-    Object.keys(canvases).forEach((canvas) => {
+    Object.keys(canvases).forEach(canvas => {
       if (canvases[canvas] === null) {
         let currentCanvas = document.querySelector(`#${canvas}`);
         canvases[canvas] = new Atrament(currentCanvas);
@@ -39,12 +39,12 @@ const singleCharacterDrawing = (props) => {
           width="500"
           height="800"
           style={{
-            borderStyle: 'solid',
-            borderColor: 'black',
+            borderStyle: "solid",
+            borderColor: "black",
             backgroundImage: `url(${canvas_image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
         ></canvas>
       </Grid>

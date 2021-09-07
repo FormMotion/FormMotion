@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 // material-ui
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
-const AccessDrawingsInGame = (props) => {
+const AccessDrawingsInGame = props => {
   function downloadImage(item) {
     let image =
-      item === 'Character'
-        ? localStorage.getItem('standingAvatar')
-        : item === 'Prize'
-        ? localStorage.getItem('playerDrawnPrize')
-        : localStorage.getItem('playerDrawnPlatform');
-    const link = document.createElement('a');
+      item === "Character"
+        ? localStorage.getItem("standingAvatar")
+        : item === "Prize"
+        ? localStorage.getItem("playerDrawnPrize")
+        : localStorage.getItem("playerDrawnPlatform");
+    const link = document.createElement("a");
     link.download = `My_${item}.png`;
     link.href = image;
     document.body.appendChild(link);
@@ -35,36 +35,40 @@ const AccessDrawingsInGame = (props) => {
         alignItems="flex-start"
         spacing={2}
       >
-       <Grid>
-          <a href='/play' id='gamescreenlink' style={{ textDecoration: 'none' }}>
-        <Button
-          style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-          variant='contained'
-        >
-          Draw a new character!
-        </Button>
-      </a>
-      </Grid>
+        <Grid>
+          <a
+            href="/play"
+            id="gamescreenlink"
+            style={{ textDecoration: "none" }}
+          >
+            <Button
+              style={{ backgroundColor: "#d9e6a1", margin: 5 }}
+              variant="contained"
+            >
+              Draw a new character!
+            </Button>
+          </a>
+        </Grid>
         <Grid>
           <Button
-            style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-            onClick={() => downloadImage('Character')}
+            style={{ backgroundColor: "#d9e6a1", margin: 5 }}
+            onClick={() => downloadImage("Character")}
           >
             Download character
           </Button>
         </Grid>
         <Grid>
           <Button
-            style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-            onClick={() => downloadImage('Platform')}
+            style={{ backgroundColor: "#d9e6a1", margin: 5 }}
+            onClick={() => downloadImage("Platform")}
           >
             Download platform
           </Button>
         </Grid>
         <Grid>
           <Button
-            style={{ backgroundColor: '#d9e6a1', margin: 5 }}
-            onClick={() => downloadImage('Prize')}
+            style={{ backgroundColor: "#d9e6a1", margin: 5 }}
+            onClick={() => downloadImage("Prize")}
           >
             Download prize
           </Button>

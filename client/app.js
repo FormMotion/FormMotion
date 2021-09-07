@@ -12,7 +12,6 @@ class App extends Component {
     return (
       <div>
         <Routes />
-        {/* <Footer /> */}
       </div>
     );
   }
@@ -20,8 +19,8 @@ class App extends Component {
 
 ReactDOM.render(
   <BrowserRouter>
-      <App />
-    </BrowserRouter>,
+    <App />
+  </BrowserRouter>,
   document.getElementById("app")
 );
 

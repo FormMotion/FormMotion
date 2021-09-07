@@ -85,7 +85,6 @@ export default function ForwardMovement() {
     ]).then(res => setAvatar(res));
   }
 
-
   if (avatar) {
     localStorage.setItem("forwardMovementAvatar", avatar);
   }

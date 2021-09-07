@@ -1,69 +1,9 @@
 import Phaser from 'phaser';
 import React from 'react';
-
-//////////**********BACKGROUNDS**********//////////
-
-const purpleMountains = localStorage.getItem('purpleMountains')
-const mysteriousForest = localStorage.getItem('mysteriousForest')
-
-let bg10 = "assets/backgrounds/Snow/Snow Layer 01.png";
-let bg9 =
-  "assets/backgrounds/Snow/Snow Layer 02.png";
-let bg8 =
-  "assets/backgrounds/Snow/Snow Layer 03.png";
-let bg7 =
-  "assets/backgrounds/Snow/Snow Layer 04.png";
-let bg6 = "assets/backgrounds/Snow/Snow Layer 05.png";
-let bg5 = "assets/backgrounds/Snow/Snow Layer 06.png";
-let bg4 = "assets/backgrounds/Snow/Snow Layer 07.png";
-let bg3 = "assets/transparent_background_500_x_800.png";
-let bg2 = "assets/transparent_background_500_x_800.png";
-let bg1 = "assets/transparent_background_500_x_800.png";
-let bgscale = 4
-
-///////Purple Desert Mountains////////////////////
-if (purpleMountains === 'true' && mysteriousForest === 'false'){
-bg10 = "assets/backgrounds/parallax_mountains/parallax-mountain-bg.png";
-bg9 =
-  "assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png";
-bg8 =
-  "assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png";
-bg7 =
-  "assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png";
-bg6 = "assets/backgrounds/parallax_mountains/parallax-mountain-trees.png";
-bg5 = "assets/transparent_background_500_x_800.png";
-bg4 = "assets/transparent_background_500_x_800.png";
-bg3 = "assets/transparent_background_500_x_800.png";
-bg2 = "assets/transparent_background_500_x_800.png";
-bg1 = "assets/transparent_background_500_x_800.png";
-bgscale = 5
-}
-
-///////Mysterious Forest////////////////////
-if (mysteriousForest === 'true' && purpleMountains === 'false'){
-bg10 = "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 01.png";
-bg9 =
-  "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 02.png";
-bg8 =
-  "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 03.png";
-bg7 =
-  "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 04.png";
-bg6 = "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 05.png";
-bg5 = "assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 06.png";
-bg4 = "assets/transparent_background_500_x_800.png";
-bg3 = "assets/transparent_background_500_x_800.png";
-bg2 = "assets/transparent_background_500_x_800.png";
-bg1 = "assets/transparent_background_500_x_800.png";
-bgscale = 4
-}
-
-
-
 class Prize extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, texture) {
     super(scene, x, y, texture);
     this.setScale(0.7);
-
   }
 }
 
@@ -89,6 +29,7 @@ export default class Game extends Phaser.Scene {
     this.player;
     this.cursors;
     this.platforms;
+    this.bgscale;
 
     //Interactive Items - prizes, enemies, power ups
     this.prizes;
@@ -119,7 +60,7 @@ export default class Game extends Phaser.Scene {
   init(data) {
     if (data) {
       this.alreadyPlaying = data.alreadyPlaying;
-      if(data.alreadyPlaying) {
+      if (data.alreadyPlaying) {
         this.prizesCollected = 0;
         this.poweredUp = false;
       }
@@ -127,6 +68,65 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
+    //////////**********BACKGROUNDS**********//////////
+
+    const purpleMountains = localStorage.getItem('purpleMountains');
+    const mysteriousForest = localStorage.getItem('mysteriousForest');
+
+    console.log('purple mountains', purpleMountains);
+    console.log('mysterious forest', mysteriousForest);
+
+    let bg10 = 'assets/backgrounds/Snow/Snow Layer 01.png';
+    let bg9 = 'assets/backgrounds/Snow/Snow Layer 02.png';
+    let bg8 = 'assets/backgrounds/Snow/Snow Layer 03.png';
+    let bg7 = 'assets/backgrounds/Snow/Snow Layer 04.png';
+    let bg6 = 'assets/backgrounds/Snow/Snow Layer 05.png';
+    let bg5 = 'assets/backgrounds/Snow/Snow Layer 06.png';
+    let bg4 = 'assets/backgrounds/Snow/Snow Layer 07.png';
+    let bg3 = 'assets/transparent_background_500_x_800.png';
+    let bg2 = 'assets/transparent_background_500_x_800.png';
+    let bg1 = 'assets/transparent_background_500_x_800.png';
+    this.bgscale = 4;
+
+    ///////Purple Desert Mountains////////////////////
+    if (purpleMountains === 'true' && mysteriousForest === 'false') {
+      bg10 = 'assets/backgrounds/parallax_mountains/parallax-mountain-bg.png';
+      bg9 =
+        'assets/backgrounds/parallax_mountains/parallax-mountain-foreground-trees.png';
+      bg8 =
+        'assets/backgrounds/parallax_mountains/parallax-mountain-montain-far.png';
+      bg7 =
+        'assets/backgrounds/parallax_mountains/parallax-mountain-mountains.png';
+      bg6 = 'assets/backgrounds/parallax_mountains/parallax-mountain-trees.png';
+      bg5 = 'assets/transparent_background_500_x_800.png';
+      bg4 = 'assets/transparent_background_500_x_800.png';
+      bg3 = 'assets/transparent_background_500_x_800.png';
+      bg2 = 'assets/transparent_background_500_x_800.png';
+      bg1 = 'assets/transparent_background_500_x_800.png';
+      this.bgscale = 5;
+    }
+
+    ///////Mysterious Forest////////////////////
+    if (mysteriousForest === 'true' && purpleMountains === 'false') {
+      bg10 =
+        'assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 01.png';
+      bg9 =
+        'assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 02.png';
+      bg8 =
+        'assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 03.png';
+      bg7 =
+        'assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 04.png';
+      bg6 =
+        'assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 05.png';
+      bg5 =
+        'assets/backgrounds/Mysterious Forest (update 3.0)/Mysterious Layer 06.png';
+      bg4 = 'assets/transparent_background_500_x_800.png';
+      bg3 = 'assets/transparent_background_500_x_800.png';
+      bg2 = 'assets/transparent_background_500_x_800.png';
+      bg1 = 'assets/transparent_background_500_x_800.png';
+      this.bgscale = 4;
+    }
+
     if (!this.alreadyPlaying) {
       //Static images hosted within assets folder
       this.load.image('bg-10', bg10);
@@ -139,7 +139,6 @@ export default class Game extends Phaser.Scene {
       this.load.image('bg-3', bg3);
       this.load.image('bg-2', bg2);
       this.load.image('bg-1', bg1);
-
 
       this.load.image('slime', 'assets/single_slime.png');
 
@@ -204,7 +203,7 @@ export default class Game extends Phaser.Scene {
       prizeData.src = drawnPrize;
       this.textures.addBase64('prize', drawnPrize, prizeData);
 
-       //Background Music
+      //Background Music
       this.load.audio('spinningOut', 'assets/music/spinningOut.wav');
 
       // Sounds
@@ -215,10 +214,9 @@ export default class Game extends Phaser.Scene {
       this.load.audio('down', 'assets/sounds/bonk-1.wav');
       this.load.audio('direction', 'assets/sounds/bonk-5.wav');
     }
-
   }
 
-   create() {
+  create() {
     //Opening Scene launch pop-up
     this.scene.launch('OpeningScene');
     this.scene.pause('MainScene');
@@ -233,15 +231,15 @@ export default class Game extends Phaser.Scene {
       .image(width * 0.5, height * 0.5, 'bg-10')
       .setScrollFactor(0)
       .setScale(5);
-    createAligned(this, totalWidth, 'bg-9', 0.2, bgscale);
-    createAligned(this, totalWidth, 'bg-8', 0.4, bgscale);
-    createAligned(this, totalWidth, 'bg-7', 0.6, bgscale),
-    createAligned(this, totalWidth, 'bg-6', 0.8, bgscale);
-    createAligned(this, totalWidth, 'bg-5', 1, bgscale);
-    createAligned(this, totalWidth, 'bg-4', 1.2, bgscale);
-    createAligned(this, totalWidth, 'bg-3', 1.4, bgscale);
-    createAligned(this, totalWidth, 'bg-2', 1.6, bgscale),
-    createAligned(this, totalWidth, 'bg-1', 1.8, bgscale);
+    createAligned(this, totalWidth, 'bg-9', 0.2, this.bgscale);
+    createAligned(this, totalWidth, 'bg-8', 0.4, this.bgscale);
+    createAligned(this, totalWidth, 'bg-7', 0.6, this.bgscale),
+      createAligned(this, totalWidth, 'bg-6', 0.8, this.bgscale);
+    createAligned(this, totalWidth, 'bg-5', 1, this.bgscale);
+    createAligned(this, totalWidth, 'bg-4', 1.2, this.bgscale);
+    createAligned(this, totalWidth, 'bg-3', 1.4, this.bgscale);
+    createAligned(this, totalWidth, 'bg-2', 1.6, this.bgscale),
+      createAligned(this, totalWidth, 'bg-1', 1.8, this.bgscale);
 
     //Platforms
 
@@ -256,7 +254,7 @@ export default class Game extends Phaser.Scene {
       //shouldn't go higher than 450 for y-axis or the bottom of the background shows
 
       const platform = this.platforms.create(x, y, 'platform');
-      platform.setSize(250, 75, true)
+      platform.setSize(250, 75, true);
 
       const tweenY = 375;
       const tweenX = Phaser.Math.Between(100, 400);
@@ -281,7 +279,7 @@ export default class Game extends Phaser.Scene {
     this.player = this.physics.add
       .sprite(450, 0, 'standingPlayer')
       .setScale(0.25)
-      .setSize(250, 745, true)
+      .setSize(250, 745, true);
 
     //Prize
     this.prizes = this.physics.add.group({
@@ -301,15 +299,14 @@ export default class Game extends Phaser.Scene {
 
     //Power Up
     this.powerUp = this.physics.add.group({
-      classType: PowerUp
+      classType: PowerUp,
     });
-
 
     //Colliders
     this.physics.add.collider(this.platforms, this.prizes);
     this.physics.add.collider(this.platforms, this.slime);
     this.physics.add.collider(this.platforms, this.player);
-    this.physics.add.collider(this.platforms, this.powerUp)
+    this.physics.add.collider(this.platforms, this.powerUp);
 
     this.physics.add.overlap(
       this.player,
@@ -333,7 +330,7 @@ export default class Game extends Phaser.Scene {
       this.handlePowerUp,
       undefined,
       this
-    )
+    );
 
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
@@ -347,7 +344,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setLerp(1, 0);
 
- if (!this.alreadyPlaying) {
+    if (!this.alreadyPlaying) {
       //Sounds
       this.pickupPrize = this.sound.add('pickup', { volume: 0.5, loop: false });
       this.jumpNoise = this.sound.add('jump', { volume: 1, loop: false });
@@ -361,7 +358,6 @@ export default class Game extends Phaser.Scene {
         loop: false,
       });
       this.downNoise = this.sound.add('down', { volume: 1, loop: false });
-
 
       //Background Music
       this.spinningOut = this.sound.add('spinningOut', {
@@ -418,7 +414,7 @@ export default class Game extends Phaser.Scene {
     const touchingDown = this.player.body.touching.down;
 
     if (touchingDown) {
-      this.justJumped = 0
+      this.justJumped = 0;
       this.landNoise.play();
       this.player.setVelocityY(-500);
       this.player.setTexture('landingPlayer');
@@ -431,7 +427,7 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(-450);
       this.player.setTexture('forwardPlayer');
       this.player.flipX = true; // Avatar facing left
-      if (upCursor.isDown && this.justJumped <=2) {
+      if (upCursor.isDown && this.justJumped <= 2) {
         this.player.setTexture('jumpingPlayer');
       }
     } else if (rightCursor.isDown || (pointer1.isDown && pointer1.x > 700)) {
@@ -441,7 +437,7 @@ export default class Game extends Phaser.Scene {
       if (upCursor.isDown) {
         this.player.setTexture('jumpingPlayer');
       }
-    } else if (upCursor.isDown && this.justJumped <=2) {
+    } else if (upCursor.isDown && this.justJumped <= 2) {
       this.player.setTexture('jumpingPlayer');
     } else {
       this.player.setVelocityX(0);
@@ -455,15 +451,20 @@ export default class Game extends Phaser.Scene {
       this.player.y < 400 &&
       this.justJumped <= 2
     ) {
-      this.justJumped++
+      this.justJumped++;
       this.jumpNoise.play();
       this.player.setVelocityY(-400);
     }
 
     //For jumping up
     const didPressJump = Phaser.Input.Keyboard.JustDown(upCursor);
-    if (didPressJump && this.player.y > -350 && this.player.y < 400 && this.justJumped <=2) {
-      this.justJumped++
+    if (
+      didPressJump &&
+      this.player.y > -350 &&
+      this.player.y < 400 &&
+      this.justJumped <= 2
+    ) {
+      this.justJumped++;
       this.jumpNoise.play();
       this.player.setVelocityY(-400);
     }
@@ -494,14 +495,18 @@ export default class Game extends Phaser.Scene {
         platform.body.updateFromGameObject();
         this.addPrizeAbove(platform);
         this.addSlimeAbove(platform);
-        this.addPowerUp()
+        this.addPowerUp();
       }
     });
 
     //Ends game if player falls below bottom of screen
     if (this.player.y > 800) {
       const style = { color: '#fff', fontSize: 80 };
-      this.add.text(600, 400, 'GAME OVER', style).setScrollFactor(0);
+      this.add.text(400, 400, 'GAME OVER', style).setScrollFactor(0);
+      this.add
+        .text(400, 500, `Final Score: ${this.prizesCollected}`, style)
+        .setScrollFactor(0);
+
       this.gameOverAudio.play();
       this.registry.destroy(); // destroy registry
       this.events.off(); // disable all active events
@@ -536,25 +541,26 @@ export default class Game extends Phaser.Scene {
     //this hides the prize from display and disables the physics
     this.prizes.killAndHide(prize);
     this.physics.world.disableBody(prize.body);
-    if (this.poweredUp){ this.prizesCollected ++ }
-    this.prizesCollected++
+    if (this.poweredUp) {
+      this.prizesCollected++;
+    }
+    this.prizesCollected++;
     this.prizesText.text = `Score: ${this.prizesCollected}`;
   }
 
   addSlimeAbove(sprite) {
     if (this.prizesCollected >= 5) {
+      let xPlus = Phaser.Math.Between(500, 1500);
 
-      let xPlus = Phaser.Math.Between(500, 1500)
-
-      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {xPlus = Phaser.Math.Between(500, 1000)}
-      if (this.prizesCollected >= 15) {xPlus =  Phaser.Math.Between(500, 750)}
+      if (this.prizesCollected >= 10 && this.prizesCollected < 15) {
+        xPlus = Phaser.Math.Between(500, 1000);
+      }
+      if (this.prizesCollected >= 15) {
+        xPlus = Phaser.Math.Between(500, 750);
+      }
 
       const y = sprite.y - Phaser.Math.Between(300, 700);
-      const slime = this.slime.get(
-        sprite.x + xPlus,
-        y,
-        "slime"
-      );
+      const slime = this.slime.get(sprite.x + xPlus, y, 'slime');
 
       slime.setActive(true);
       slime.setVisible(true);
@@ -566,46 +572,54 @@ export default class Game extends Phaser.Scene {
   }
 
   handleSlime() {
-    if (!this.poweredUp){
-    this.player.setTexture("slimePlayer");
-    const style = { color: "#fff", fontSize: 80 };
-    this.add.text(600, 400, "GAME OVER", style).setScrollFactor(0);
-    this.gameOverAudio.play();
-    this.registry.destroy(); // destroy registry
-    this.events.off(); // disable all active events
-    this.scene.restart({
-      alreadyPlaying: true,
-    });}
+    if (!this.poweredUp) {
+      this.player.setTexture('slimePlayer');
+      const style = { color: '#fff', fontSize: 80 };
+      this.add.text(400, 400, 'GAME OVER', style).setScrollFactor(0);
+      this.add
+        .text(400, 500, `Final Score: ${this.prizesCollected}`, style)
+        .setScrollFactor(0);
+
+      this.gameOverAudio.play();
+      this.registry.destroy(); // destroy registry
+      this.events.off(); // disable all active events
+      this.scene.restart({
+        alreadyPlaying: true,
+      });
+    }
   }
 
   addPowerUp() {
-    if (this.prizesCollected > 1 && this.prizesCollected % 10 === 0 && !this.poweredUp) {
-      const powerUp = this.powerUp.get(this.player.x + 400, 100, "powerup").setScale(1.5)
-      powerUp.setActive(true)
-      powerUp.setVisible(true)
-      this.add.existing(powerUp)
-      powerUp.body.setSize(90, 90)
-      return powerUp
+    if (
+      this.prizesCollected > 1 &&
+      this.prizesCollected % 10 === 0 &&
+      !this.poweredUp
+    ) {
+      const powerUp = this.powerUp
+        .get(this.player.x + 400, 100, 'powerup')
+        .setScale(1.5);
+      powerUp.setActive(true);
+      powerUp.setVisible(true);
+      this.add.existing(powerUp);
+      powerUp.body.setSize(90, 90);
+      return powerUp;
     }
   }
 
-  handlePowerUp(){
-
+  handlePowerUp() {
     this.poweredUp = true;
-    this.player.setTint(0xffdb22)
-    this.player.setScale(0.45)
+    this.player.setTint(0xffdb22);
+    this.player.setScale(0.45);
 
     function onEvent() {
-      this.poweredUp = false
-      this.player.setTint(0xFFFFFF)
-      this.player.setScale(0.25)
+      this.poweredUp = false;
+      this.player.setTint(0xffffff);
+      this.player.setScale(0.25);
     }
 
-    this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this)
+    this.poweredUpTimer = this.time.delayedCall(10000, onEvent, [], this);
   }
-
 }
-
 
 //this will allow us to have an infinite background
 const createAligned = (scene, totalWidth, texture, scrollFactor, bgscale) => {
@@ -622,4 +636,3 @@ const createAligned = (scene, totalWidth, texture, scrollFactor, bgscale) => {
     x += m.width;
   }
 };
-

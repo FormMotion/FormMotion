@@ -1,18 +1,18 @@
-import mergeImages from 'merge-images';
-import React, { Component, useState } from 'react';
+import mergeImages from "merge-images";
+import React, { Component, useState } from "react";
 
 //Landing (landing on platform)
 export default function Landing() {
-  const head = localStorage.getItem('playerDrawnHead');
-  const torso = localStorage.getItem('playerDrawnTorso');
-  const armRightUpper = localStorage.getItem('playerDrawnRightUpperArm');
-  const armRightLower = localStorage.getItem('playerDrawnRightLowerArm');
-  const armLeftUpper = localStorage.getItem('playerDrawnLeftUpperArm');
-  const armLeftLower = localStorage.getItem('playerDrawnLeftLowerArm');
-  const legRightUpper = localStorage.getItem('playerDrawnRightUpperLeg');
-  const legRightLower = localStorage.getItem('playerDrawnRightLowerLeg');
-  const legLeftUpper = localStorage.getItem('playerDrawnLeftUpperLeg');
-  const legLeftLower = localStorage.getItem('playerDrawnLeftLowerLeg');
+  const head = localStorage.getItem("playerDrawnHead");
+  const torso = localStorage.getItem("playerDrawnTorso");
+  const armRightUpper = localStorage.getItem("playerDrawnRightUpperArm");
+  const armRightLower = localStorage.getItem("playerDrawnRightLowerArm");
+  const armLeftUpper = localStorage.getItem("playerDrawnLeftUpperArm");
+  const armLeftLower = localStorage.getItem("playerDrawnLeftLowerArm");
+  const legRightUpper = localStorage.getItem("playerDrawnRightUpperLeg");
+  const legRightLower = localStorage.getItem("playerDrawnRightLowerLeg");
+  const legLeftUpper = localStorage.getItem("playerDrawnLeftUpperLeg");
+  const legLeftLower = localStorage.getItem("playerDrawnLeftLowerLeg");
 
   //avatar is final merged image
   const [avatar, setAvatar] = useState(null);
@@ -26,8 +26,8 @@ export default function Landing() {
   const [rotatedLegLeftLower, setRotatedLegLeftLower] = useState(false);
 
   const rotate = (base64info, degrees, callback) => {
-    const canvas = document.createElement('canvas');
-    let ctx = canvas.getContext('2d');
+    const canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
     let image = new Image();
 
     image.src = base64info;
@@ -80,7 +80,7 @@ export default function Landing() {
   ) {
     mergeImages([
       //BACKGROUND
-      { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
+      { src: "assets/transparent_background_600_x_800.png", x: 0, y: 0 },
       //HEAD
       { src: head, x: 140, y: 50 },
       //TORSO
@@ -97,11 +97,11 @@ export default function Landing() {
       //Right ARM (from user perspective)
       { src: armRightUpper, x: 380, y: 220 },
       { src: rotatedArmRightLower, x: 310, y: 360 },
-    ]).then((res) => setAvatar(res));
+    ]).then(res => setAvatar(res));
   }
 
   if (avatar) {
-    localStorage.setItem('landingAvatar', avatar);
+    localStorage.setItem("landingAvatar", avatar);
   }
 
   return <div></div>;

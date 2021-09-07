@@ -1,24 +1,24 @@
 /* eslint-disable no-unused-vars */
-import mergeImages from 'merge-images';
-import React, { Component, useState } from 'react';
+import mergeImages from "merge-images";
+import React, { Component, useState } from "react";
 
 export default function StandingAvatar() {
-  const head = localStorage.getItem('playerDrawnHead');
-  const torso = localStorage.getItem('playerDrawnTorso');
-  const armRightUpper = localStorage.getItem('playerDrawnRightUpperArm');
-  const armRightLower = localStorage.getItem('playerDrawnRightLowerArm');
-  const armLeftUpper = localStorage.getItem('playerDrawnLeftUpperArm');
-  const armLeftLower = localStorage.getItem('playerDrawnLeftLowerArm');
-  const legRightUpper = localStorage.getItem('playerDrawnRightUpperLeg');
-  const legRightLower = localStorage.getItem('playerDrawnRightLowerLeg');
-  const legLeftUpper = localStorage.getItem('playerDrawnLeftUpperLeg');
-  const legLeftLower = localStorage.getItem('playerDrawnLeftLowerLeg');
+  const head = localStorage.getItem("playerDrawnHead");
+  const torso = localStorage.getItem("playerDrawnTorso");
+  const armRightUpper = localStorage.getItem("playerDrawnRightUpperArm");
+  const armRightLower = localStorage.getItem("playerDrawnRightLowerArm");
+  const armLeftUpper = localStorage.getItem("playerDrawnLeftUpperArm");
+  const armLeftLower = localStorage.getItem("playerDrawnLeftLowerArm");
+  const legRightUpper = localStorage.getItem("playerDrawnRightUpperLeg");
+  const legRightLower = localStorage.getItem("playerDrawnRightLowerLeg");
+  const legLeftUpper = localStorage.getItem("playerDrawnLeftUpperLeg");
+  const legLeftLower = localStorage.getItem("playerDrawnLeftLowerLeg");
 
   const [avatar, setAvatar] = useState(null);
 
   mergeImages([
     //BACKGROUND
-    { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
+    { src: "assets/transparent_background_600_x_800.png", x: 0, y: 0 },
     //HEAD
     { src: head, x: 140, y: 60 },
     //TORSO
@@ -35,10 +35,10 @@ export default function StandingAvatar() {
     //Right ARM (from user perspective)
     { src: armRightUpper, x: 380, y: 220 },
     { src: armRightLower, x: 380, y: 380 },
-  ]).then((res) => setAvatar(res));
+  ]).then(res => setAvatar(res));
 
   if (avatar) {
-    localStorage.setItem('standingAvatar', avatar);
+    localStorage.setItem("standingAvatar", avatar);
   }
 
   return <div></div>;
@@ -76,7 +76,7 @@ export default function StandingAvatar() {
 //   const [rotatedLegLeftLower, setRotatedLegLeftLower] = useState(false);
 
 //   const rotate = (base64info, degrees, callback) => {
-const canvas = document.createElement('canvas');
+//    const canvas = document.createElement("canvas");
 //     let ctx = canvas.getContext('2d');
 //     let image = new Image();
 

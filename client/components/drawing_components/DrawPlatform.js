@@ -39,7 +39,7 @@ const DrawPlatform = (props) => {
         canvases[canvas] = new Atrament(currentCanvas);
       }
     });
-  });
+  }, []);
 
 
   const [desertMountainButtonColor, setDesertMountainButtonColor] = useState('#D3D3D3')
@@ -139,14 +139,13 @@ const DrawPlatform = (props) => {
                 ></canvas>
               </Grid>
             </Box>
-            {/* ////////////Background Selection Testing///////////// */}
             <Box mt={12}>
               <Grid>
                 <Typography align='center' style={{ fontWeight: 500 }}>
                   Choose Your Background
                 </Typography>
               </Grid>
-              
+
               <Button
               style={{ backgroundColor: desertMountainButtonColor, margin: 10 }}
               variant='contained'
@@ -174,10 +173,9 @@ const DrawPlatform = (props) => {
             </Box>
             <Box m={3}>
               <Grid>
-                
+
               </Grid>
             </Box>
-            {/* ///////////////////////////// */}
           </Grid>
         </Grid>
         <Grid>

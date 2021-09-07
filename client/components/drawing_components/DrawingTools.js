@@ -21,8 +21,6 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Grid from '@material-ui/core/Grid';
 
-// start changes
-
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
@@ -162,7 +160,7 @@ const DrawingTools = (props) => {
     }
     // if the user chooses to use a default character, set the default,
     // disable the drawing and clear the sketchpad, and set the
-    // appropraite image as the canvas image (random is a surprise box image)
+    // appropriate image as the canvas image (random is a surprise box image)
     else {
       canvases[canvas].clear();
       canvases[canvas].mode = 'disabled';
@@ -215,7 +213,6 @@ const DrawingTools = (props) => {
     let choice;
     // for each of the canvases,
     Object.keys(canvases).forEach((canvas) => {
-      console.log(canvas, 'canvas');
       if (
         (defaultChoices[canvas] === '0' && !canvases[canvas].isDirty()) ||
         defaultChoices[canvas] === '4'
@@ -489,12 +486,10 @@ const DrawingTools = (props) => {
                           name="age"
                           className={classes.selectEmpty}
                           style={{ margin: 5 }}
-                        // inputProps={{ 'aria-label': 'age' }}
                         >
                           <option value={'draw'}>Draw</option>
                           <option value={'fill'}>Fill</option>
                           <option value={'erase'}>Erase</option>
-                          {/* <option value={'disable'}>Disabled</option> */}
                         </NativeSelect>
                         <FormHelperText>Draw, fill or erase</FormHelperText>
                       </FormControl>

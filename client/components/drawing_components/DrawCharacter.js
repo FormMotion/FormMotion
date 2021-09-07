@@ -72,7 +72,7 @@ const DrawCharacter = (props) => {
         fitToContainer(canvases[canvas], parent)
       }
     })
-  })
+  }, [])
 
   function fitToContainer(canvas, parent) {
     canvas.width = parent.offsetWidth

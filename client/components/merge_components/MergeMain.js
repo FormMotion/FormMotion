@@ -2,14 +2,6 @@
 import mergeImages from 'merge-images';
 import React, { Component, useState } from 'react';
 
-
-//POSES NEEDED: 
-//Standing Avatar (Default, no pose, merges as drawn, for when avatar is jumping in place on the platform)
-//DONE - Landing (landing on platform)
-//Jumping (with X movement, so it's not the static standing avatar while moving through the game)
-//DONE - ForwardMovement (moving along X-axis, negative Y-axis movement - moving upwards)
-//DownwardMovement (moving along X-axis, positive Y-axis movement - moving downwards)
-
 export default function StandingAvatar() {
 
 
@@ -62,7 +54,7 @@ export default function StandingAvatar() {
 
 
 ////////Template for other poses if needed
-////////Commented out intentionally and preserved for future use 
+////////Commented out intentionally and preserved for future use
 
 // export function TEMPLATE_FOR_OTHER_POSES() {
 
@@ -77,7 +69,7 @@ export default function StandingAvatar() {
 // const legLeftUpper = localStorage.getItem('playerDrawnLeftUpperLeg');
 // const legLeftLower = localStorage.getItem('playerDrawnLeftLowerLeg');
 
-//   //avatar is final merged image 
+//   //avatar is final merged image
 //   const [avatar, setAvatar] = useState(null);
 
 //   //delete line if not using
@@ -94,21 +86,21 @@ export default function StandingAvatar() {
 
 
 //   const rotate = (base64info, degrees, callback) => {
-//     const canvas = document.createElement('canvas');
+     const canvas = document.createElement('canvas');
 //     let ctx = canvas.getContext('2d');
 //     let image = new Image();
 
 //     image.src = base64info;
 
 //     image.onload = function () {
-//       canvas.width = degrees % 180 === 0 ? image.width + 50 : image.height + 50; 
-//       canvas.height = degrees % 180 === 0 ? image.height + 50 : image.width + 50; 
+//       canvas.width = degrees % 180 === 0 ? image.width + 50 : image.height + 50;
+//       canvas.height = degrees % 180 === 0 ? image.height + 50 : image.width + 50;
 
-//       ctx.translate(canvas.width / 2, canvas.height / 2); 
-//       ctx.rotate((degrees * Math.PI) / 180); 
-//       ctx.drawImage(image, image.width / -2, image.height / -2); 
+//       ctx.translate(canvas.width / 2, canvas.height / 2);
+//       ctx.rotate((degrees * Math.PI) / 180);
+//       ctx.drawImage(image, image.width / -2, image.height / -2);
 
-//       //exports base64 
+//       //exports base64
 //       callback(canvas.toDataURL());
 //     };
 //   };

@@ -59,9 +59,7 @@ export default class PauseScene extends Phaser.Scene {
     this.direction = this.sound.get('direction');
     this.down = this.sound.get('down');
 
-  //  this.soundEffects = [this.pickup, this.jump, this.land, this.gameOver, this.direction, this.down]
-
-   // 'pickup' is one sound effect. If one is muted, they're all muted, so we name
+    // 'pickup' is one sound effect. If one is muted, they're all muted, so we name
     // this one so we can check if sound effects are muted before we decide if the button
     // says to turn sound effects off or on
 

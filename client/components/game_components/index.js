@@ -17,7 +17,6 @@ const config = {
     },
   },
   scale: {
-    // mode: Phaser.Scale.FIT,
     parent: 'game-container',
     autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
   },
@@ -48,12 +47,6 @@ const Game = () => {
       window.removeEventListener('resize', resize, false);
     };
   }, []);
-
-  // window.onload = function () {
-  //   new Phaser.Game(config);
-  //   resize();
-  //   window.addEventListener('resize', resize, false);
-  // };
 
   return <div id="phaser-game" />;
 };

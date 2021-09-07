@@ -125,7 +125,6 @@ const DrawPlatform = (props) => {
                 ></canvas>
               </Grid>
             </Box>
-            {/* ////////////Background Selection Testing///////////// */}
             <Box mt={12}>
               <Grid>
                 <Typography align='center' style={{ fontWeight: 500 }}>
@@ -155,7 +154,6 @@ const DrawPlatform = (props) => {
 
               </Grid>
             </Box>
-            {/* ///////////////////////////// */}
           </Grid>
         </Grid>
         <Grid>

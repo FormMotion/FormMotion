@@ -3,8 +3,6 @@ import mergeImages from 'merge-images';
 import React, { Component, useState } from 'react';
 
 export default function StandingAvatar() {
-
-
   const head = localStorage.getItem('playerDrawnHead');
   const torso = localStorage.getItem('playerDrawnTorso');
   const armRightUpper = localStorage.getItem('playerDrawnRightUpperArm');
@@ -16,42 +14,35 @@ export default function StandingAvatar() {
   const legLeftUpper = localStorage.getItem('playerDrawnLeftUpperLeg');
   const legLeftLower = localStorage.getItem('playerDrawnLeftLowerLeg');
 
-
   const [avatar, setAvatar] = useState(null);
 
-    mergeImages([
+  mergeImages([
+    //BACKGROUND
+    { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
+    //HEAD
+    { src: head, x: 140, y: 60 },
+    //TORSO
+    { src: torso, x: 140, y: 220 },
+    //Left LEG (from user perspective)
+    { src: legLeftUpper, x: 150, y: 420 },
+    { src: legLeftLower, x: 150, y: 580 },
+    //Right LEG (from user perspective)
+    { src: legRightUpper, x: 270, y: 420 },
+    { src: legRightLower, x: 270, y: 580 },
+    //Left ARM (from user perspective)
+    { src: armLeftUpper, x: 20, y: 225 },
+    { src: armLeftLower, x: 25, y: 385 },
+    //Right ARM (from user perspective)
+    { src: armRightUpper, x: 380, y: 220 },
+    { src: armRightLower, x: 380, y: 380 },
+  ]).then((res) => setAvatar(res));
 
-      //BACKGROUND
-      { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
-      //HEAD
-      { src: head, x: 140, y: 60 },
-      //TORSO
-      { src: torso, x: 140, y: 220 },
-      //Left LEG (from user perspective)
-      { src: legLeftUpper, x: 150, y: 420 },
-      { src: legLeftLower, x: 150, y: 580 },
-      //Right LEG (from user perspective)
-      { src: legRightUpper, x: 270, y: 420 },
-      { src: legRightLower, x: 270, y: 580 },
-      //Left ARM (from user perspective)
-      { src: armLeftUpper, x: 20, y: 225 },
-      { src: armLeftLower, x: 25, y: 385 },
-      //Right ARM (from user perspective)
-      { src: armRightUpper, x: 380, y: 220 },
-      { src: armRightLower, x: 380, y: 380 },
-    ]).then((res) => setAvatar(res));
-
-
-    if (avatar){
-      localStorage.setItem('standingAvatar', avatar)
-    }
-
+  if (avatar) {
+    localStorage.setItem('standingAvatar', avatar);
+  }
 
   return <div></div>;
 }
-
-
-
 
 ////////Template for other poses if needed
 ////////Commented out intentionally and preserved for future use
@@ -84,9 +75,8 @@ export default function StandingAvatar() {
 //   const [rotatedLegLeftUpper, setRotatedLegLeftUpper] = useState(false);
 //   const [rotatedLegLeftLower, setRotatedLegLeftLower] = useState(false);
 
-
 //   const rotate = (base64info, degrees, callback) => {
-     const canvas = document.createElement('canvas');
+const canvas = document.createElement('canvas');
 //     let ctx = canvas.getContext('2d');
 //     let image = new Image();
 
@@ -135,4 +125,3 @@ export default function StandingAvatar() {
 
 //   return <div></div>;
 // }
-

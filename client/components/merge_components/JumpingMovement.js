@@ -1,36 +1,29 @@
-import mergeImages from "merge-images";
-import React, { Component, useState } from "react";
+import mergeImages from 'merge-images';
+import React, { Component, useState } from 'react';
 
 export default function JumpingMovement() {
-  const head = localStorage.getItem("playerDrawnHead");
-  const torso = localStorage.getItem("playerDrawnTorso");
-  const armRightUpper = localStorage.getItem("playerDrawnRightUpperArm");
-  const armRightLower = localStorage.getItem("playerDrawnRightLowerArm");
-  const armLeftUpper = localStorage.getItem("playerDrawnLeftUpperArm");
-  const armLeftLower = localStorage.getItem("playerDrawnLeftLowerArm");
-  const legRightUpper = localStorage.getItem("playerDrawnRightUpperLeg");
-  const legRightLower = localStorage.getItem("playerDrawnRightLowerLeg");
-  const legLeftUpper = localStorage.getItem("playerDrawnLeftUpperLeg");
-  const legLeftLower = localStorage.getItem("playerDrawnLeftLowerLeg");
+  const head = localStorage.getItem('playerDrawnHead');
+  const torso = localStorage.getItem('playerDrawnTorso');
+  const armRightUpper = localStorage.getItem('playerDrawnRightUpperArm');
+  const armRightLower = localStorage.getItem('playerDrawnRightLowerArm');
+  const armLeftUpper = localStorage.getItem('playerDrawnLeftUpperArm');
+  const armLeftLower = localStorage.getItem('playerDrawnLeftLowerArm');
+  const legRightUpper = localStorage.getItem('playerDrawnRightUpperLeg');
+  const legRightLower = localStorage.getItem('playerDrawnRightLowerLeg');
+  const legLeftUpper = localStorage.getItem('playerDrawnLeftUpperLeg');
+  const legLeftLower = localStorage.getItem('playerDrawnLeftLowerLeg');
 
   //avatar is final merged image
   const [avatar, setAvatar] = useState(null);
 
-  //delete line if not using
-  const [rotatedHead, setRotatedHead] = useState(false);
-  const [rotatedTorso, setRotatedTorso] = useState(false);
   const [rotatedArmRightUpper, setRotatedArmRightUpper] = useState(false);
   const [rotatedArmRightLower, setRotatedArmRightLower] = useState(false);
-  const [rotatedArmLeftUpper, setRotatedArmLeftUpper] = useState(false);
-  const [rotatedArmLeftLower, setRotatedHeadArmLeftLower] = useState(false);
   const [rotatedLegRightUpper, setRotatedLegRightUpper] = useState(false);
-  const [rotatedLegRightLower, setRotatedLegRightLower] = useState(false);
-  const [rotatedLegLeftUpper, setRotatedLegLeftUpper] = useState(false);
   const [rotatedLegLeftLower, setRotatedLegLeftLower] = useState(false);
 
   const rotate = (base64info, degrees, callback) => {
-    const canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
+    const canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
     let image = new Image();
 
     image.src = base64info;
@@ -73,7 +66,7 @@ export default function JumpingMovement() {
   ) {
     mergeImages([
       //BACKGROUND
-      { src: "assets/transparent_background_600_x_800.png", x: 0, y: 0 },
+      { src: 'assets/transparent_background_600_x_800.png', x: 0, y: 0 },
       //HEAD
       { src: head, x: 140, y: 50 },
       //TORSO
@@ -90,11 +83,11 @@ export default function JumpingMovement() {
       //Right ARM (from user perspective)
       { src: rotatedArmRightUpper, x: 300, y: 180 },
       { src: rotatedArmRightLower, x: 340, y: 100 },
-    ]).then(res => setAvatar(res));
+    ]).then((res) => setAvatar(res));
   }
 
   if (avatar) {
-    localStorage.setItem("jumpingMovementAvatar", avatar);
+    localStorage.setItem('jumpingMovementAvatar', avatar);
   }
 
   return <div></div>;
